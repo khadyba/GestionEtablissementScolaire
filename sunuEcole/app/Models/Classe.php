@@ -28,5 +28,4 @@ public function eleves()
     {
         return $this->hasMany(Eleves::class);
     }
-
 }

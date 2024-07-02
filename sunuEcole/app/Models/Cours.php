@@ -16,4 +16,9 @@ class Cours extends Model
         'heure_fin',
         'fichier_cours'
     ];
+    public function eleves()
+    {
+        return $this->belongsToMany(Eleves::class, 'eleves_cours')->withTimestamps();
+    }
+
 }
