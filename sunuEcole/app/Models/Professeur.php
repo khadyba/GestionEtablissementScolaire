@@ -17,9 +17,14 @@ class Professeur extends Model
     ];
 
     public function classes()
-{
-    return $this->belongsToMany(Classe::class, 'nouveau_nom_table_pivot')
-                ->withPivot('jour', 'heure_debut', 'heure_fin')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Classe::class, 'nouveau_nom_table_pivot')
+                    ->withPivot('jour', 'heure_debut', 'heure_fin')
+                    ->withTimestamps();
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluations::class);
+    }
 }
