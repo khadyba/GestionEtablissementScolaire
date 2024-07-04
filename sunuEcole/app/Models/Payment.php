@@ -13,6 +13,7 @@ class Payment extends Model
         'montant',
         'date' ,
         'status' ,
+        'eleves_id'
     ];
 
     public function eleve()

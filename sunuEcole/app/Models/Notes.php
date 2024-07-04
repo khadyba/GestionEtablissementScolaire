@@ -12,6 +12,8 @@ class Notes extends Model
     protected $fillable = [
         'valeur',
         'appreciations' ,
+        'evaluation_id' ,
+        'eleves_id'
     ];
 
 

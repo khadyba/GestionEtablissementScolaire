@@ -14,7 +14,7 @@ class ElevesController extends Controller
      */
     public function index()
     {
-        //
+        return view('elevesdashboard');
     }
 
     /**

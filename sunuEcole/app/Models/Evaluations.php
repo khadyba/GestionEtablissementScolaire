@@ -12,6 +12,7 @@ class Evaluations extends Model
     protected $fillable = [
         'nom',
         'type' ,
+        'professeur_id',
     ];
 
     public function notes()

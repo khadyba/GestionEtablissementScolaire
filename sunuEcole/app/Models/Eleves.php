@@ -13,6 +13,7 @@ class Eleves extends Model
         'prenoms',
         'adresse',
         'dateDeNaissance',
+        'classes_id'
     ];
 
     public function classe()

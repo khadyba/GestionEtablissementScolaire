@@ -9,6 +9,8 @@ class ElevesCours extends Model
 {
     use HasFactory;
 
+    
+
     public function salleDeClasse()
     {
         return $this->belongsTo(SalleDeClasse::class);

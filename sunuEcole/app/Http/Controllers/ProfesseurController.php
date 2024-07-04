@@ -14,7 +14,7 @@ class ProfesseurController extends Controller
      */
     public function index()
     {
-        //
+        return view('profdashboard');
     }
 
     /**

@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('etablissements', function (Blueprint $table) {
+        Schema::create('administrateurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('directeur');
+            $table->string('prenoms');
             $table->string('adresse');
-            $table->string('telephone');
-            $table->string('email');
-            $table->enum('type',['privé', 'public']);
-            $table->unsignedBigInteger('administrateur_id');
-           $table->foreign('administrateur_id')->references('id')->on('administrateurs')->onDelete('cascade');
+            $table->integer('telephone');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etablissements');
+        Schema::dropIfExists('administrateurs');
     }
 };

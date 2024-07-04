@@ -14,7 +14,9 @@ class Etablissement extends Model
         'adresse',
         'telephone',
         'email',
-        'type'
+        'type',
+        'administrateur_id',
+
     ];
     public function users()
     {
@@ -23,6 +25,11 @@ class Etablissement extends Model
     public function classes()
     {
         return $this->hasMany(Classe::class);
+    }
+
+    public function administrateur()
+    {
+        return $this->belongsTo(Classe::class);
     }
 
 }
