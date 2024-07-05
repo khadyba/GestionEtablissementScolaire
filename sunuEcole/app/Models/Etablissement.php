@@ -32,4 +32,9 @@ class Etablissement extends Model
         return $this->belongsTo(Classe::class);
     }
 
+
+    public function eleves()
+    {
+        return $this->hasMany(Eleves::class, 'etablissement_id');
+    }
 }

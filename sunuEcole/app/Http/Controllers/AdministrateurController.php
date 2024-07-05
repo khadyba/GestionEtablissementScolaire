@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Etablissement;
 use App\Models\Administrateur;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -122,52 +124,72 @@ class AdministrateurController extends Controller
     {
         //
     }
-
+      public function formulaire()
+      {
+        $etablissements = Etablissement::all(); 
+        return view('formulaireAjouProf', compact('etablissements'));
+      }
 
     public function ajouterProfesseur(Request $request)
     {
-                          
-        // Validation des données du formulaire
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'etablissement_id' => 'required|exists:etablissements,id', 
-            'typecompte' => 'required|string|in:professeurs,eleves,parents',
+        
+
+     // Validation des données du formulaire
+     $validatedData = $request->validate([
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'nullable|string|min:8', 
+        'etablissement_id' => 'required|exists:etablissements,id',
+        'typecompte' => 'required|string|in:professeurs,eleves,parents',
+    ]);
+
+    // Génération d'un mot de passe si non fourni
+    if (empty($validatedData['password'])) {
+        $validatedData['password'] = Str::random(8);
+    }
+
+    // Hachage du mot de passe
+    $hashedPassword = Hash::make($validatedData['password']);
+
+    // Création d'un nouvel utilisateur avec les données validées
+    $user = User::create([
+        'email' => $validatedData['email'],
+        'password' => $hashedPassword,
+        'etablissement_id' => $validatedData['etablissement_id'],
+    ]);
+
+    // Déterminer l'ID du rôle basé sur le type de compte
+    $roleId = null;
+    switch ($request->typecompte) {
+        case 'professeurs':
+            $roleId = 1;
+            break;
+        case 'eleves':
+            $roleId = 2;
+            break;
+        case 'parents':
+            $roleId = 3;
+            break;
+    }
+
+    // Vérifier que l'ID du rôle est défini
+    if ($roleId) {
+        // Insérer les informations dans la table pivot usersroles
+        DB::table('usersroles')->insert([
+            'user_id' => $user->id,
+            'role_id' => $roleId,
         ]);
-    
-        // Hachage du mot de passe
-        $validatedData['password'] = Hash::make($validatedData['password']);
-    
-        // Création d'un nouvel utilisateur avec les données validées
-        $user = User::create($validatedData);
-    
-        // Déterminer l'ID du rôle basé sur le type de compte
-        $roleId = null;
-        switch ($request->typecompte) {
-            case 'professeurs':
-                $roleId = 1;
-                break;
-            case 'eleves':
-                $roleId = 2;
-                break;
-            case 'parents':
-                $roleId = 3;
-                break;
-        }
-    
-        // Vérifier que l'ID du rôle est défini
-        if ($roleId) {
-            // Insérer les informations dans la table pivot usersrole
-            DB::table('usersroles')->insert([
-                'user_id' => $user->id,
-                'role_id' => $roleId,
-            ]);
-        }
-    
-        // Redirection avec un message de succès
-        return redirect()->route('users.login')->with('success', 'Utilisateur créé avec succès.');
-    }
-    
-
     }
 
+    // Retourner les identifiants pour l'administrateur
+    $identifiants = [
+        'email' => $validatedData['email'],
+        'password' => $validatedData['password'],
+    ];
+
+    // Redirection avec un message de succès et les identifiants
+    return redirect()->route('list.index')->with([
+        'success' => 'Utilisateur créé avec succès.',
+        'identifiants' => $identifiants,
+    ]);
+}
+}

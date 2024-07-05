@@ -23,6 +23,9 @@ return new class extends Migration
             $table->enum('type',['privé', 'public']);
             $table->unsignedBigInteger('administrateur_id');
            $table->foreign('administrateur_id')->references('id')->on('administrateurs')->onDelete('cascade');
+           $table->unsignedBigInteger('etablissement_id')->nullable();
+
+           $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('set null');
             $table->timestamps();
         });
     }

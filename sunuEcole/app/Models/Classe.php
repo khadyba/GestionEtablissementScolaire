@@ -20,12 +20,18 @@ class Classe extends Model
         return $this->belongsTo(Etablissement::class);
     }
 
-    public function professeurs()
-  {
-    return $this->belongsToMany(Professeur::class, 'nouveau_nom_table_pivot')
-                ->withPivot('jour', 'heure_debut', 'heure_fin')
-                ->withTimestamps();
-  }
+    
+//     public function professeurs()
+// {
+//     return $this->belongsToMany(User::class, 'cours', 'classe_id', 'professeur_id')
+//                 ->withPivot('jour', 'heure_debut', 'heure_fin')
+//                 ->withTimestamps();
+// }
+
+public function professeurs()
+{
+    return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');
+}
 
 
     public function eleves()

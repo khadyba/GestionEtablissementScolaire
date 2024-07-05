@@ -16,7 +16,9 @@ class EmploisDuTempsController extends Controller
     {
         // Récupérer tous les fichiers d'emploi du temps depuis la base de données
         $emploisDuTemps = EmploisDuTemps::all();
-        return view('emplois-du-temps.index', compact('emploisDuTemps'));
+    
+        // Retourner la vue avec les données nécessaires
+        return view('listeEmploisDuTemps', compact('emploisDuTemps'));
     }
     
 
@@ -45,7 +47,7 @@ class EmploisDuTempsController extends Controller
         $filePath = $request->file('schedule_file')->store('schedules', 'public');
 
         EmploisDuTemps::create([
-            'file_path' => $filePath,
+            'emplois_du_temps' => $filePath,
             'administrateur_id' => auth('admin')->id(),
         ]);
 
@@ -86,6 +88,26 @@ class EmploisDuTempsController extends Controller
     {
         //
     }
+    public function download($id)
+    {
+        $emploiDuTemps = EmploisDuTemps::findOrFail($id);
+    
+        // Récupérez le chemin du fichier
+        $filePath = storage_path('app/public/' . $emploiDuTemps->emplois_du_temps);
+    
+        // Récupérez le nom du fichier sans le chemin
+        $fileName = basename($emploiDuTemps->emplois_du_temps);
+    
+        // Vérifiez si le fichier existe
+        if (file_exists($filePath)) {
+            // Téléchargez le fichier
+            return response()->download($filePath, $fileName);
+        } else {
+            // Gérez l'erreur si le fichier n'existe pas
+            abort(404, "Le fichier d'emploi du temps n'existe pas.");
+        }
+    }
+    
 
     /**
      * Remove the specified resource from storage.

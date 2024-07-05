@@ -22,18 +22,25 @@ class AdminLoginController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials)) {
             // apres je vais changer cette et mettre la route qui ,méne au dashbord des admin
-            return redirect()->route('classes.create'); 
+            return redirect()->route('etablissement.formulaire'); 
         }
         return back()->withErrors(['email' => 'Email ou mot de passe incorrect.']);
     }
 
 
 
-
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('/admin/login');
     }
+    // public function logout()
+    // {
+    //     Auth::guard('admin')->logout();
+
+    //     return redirect('/admin/login');
+    // }
 }

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->text('appreciations');
             $table->string('semestre')->nullable();
             $table->unsignedBigInteger('evaluation_id');
-            $table->unsignedBigInteger('eleves_id');
+            $table->unsignedBigInteger('eleve_id');
             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');
-            $table->foreign('eleves_id')->references('id')->on('eleves')->onDelete('cascade');
+            $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -46,9 +46,9 @@ public function LoginForm(Request $request)
         if ($role) {
             switch ($role->role_id) {
                 case 1:
-                    return redirect()->route('/prof/dashboard');
+                    return redirect()->route('prof.dashboard');
                 case 2:
-                    return redirect()->route('/eleve/dashboard');
+                    return redirect()->route('eleve.dashboard');
                 case 3:
                     return redirect()->route('/parent/dashboard');
                 default:

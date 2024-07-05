@@ -1,7 +1,7 @@
 
 
 
-    <h1>Uploader un emploi du temps</h1>
+    <h1>Importer  un fichiers d'emplois du temps</h1>
     @if (session('success'))
         <div>{{ session('success') }}</div>
     @endif

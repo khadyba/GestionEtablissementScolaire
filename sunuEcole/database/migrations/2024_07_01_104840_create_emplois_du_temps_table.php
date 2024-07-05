@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('emplois_du_temps', function (Blueprint $table) {
             $table->id();
-            $table->string('file_path');
+            $table->string('emplois_du_temps');
             $table->unsignedBigInteger('administrateur_id');
             $table->foreign('administrateur_id')->references('id')->on('administrateurs')->onDelete('cascade');
             $table->timestamps();

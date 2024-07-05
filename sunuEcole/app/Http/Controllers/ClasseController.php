@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Classe;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
@@ -143,5 +145,55 @@ public function update(Request $request, $id)
 
     return redirect()->route('classes.index')->with('success', 'Classe supprimée avec succès.');
 }
+
+public function assignTeachers($id)
+{
+    // Récupérer la classe par ID
+    $classe = Classe::findOrFail($id);
+
+    // Récupérer l'établissement associé à la classe
+    $etablissementId = $classe->etablissement_id;
+
+    // Récupérer les professeurs associés à cet établissement
+    $roleProfesseur = Role::where('nom', 'professeurs')->first();
+    $professeurs = User::where('etablissement_id', $etablissementId)
+        ->whereHas('roles', function($query) use ($roleProfesseur) {
+            $query->where('role_id', $roleProfesseur->id);
+        })
+        ->with('professeur') 
+        ->get();
+
+    // Retourner une vue avec les données nécessaires
+    return view('assign-professeurs', compact('classe', 'professeurs'));
+}
+
+public function storeAssignedTeacher(Request $request, $id)
+{
+    // Valider les données du formulaire
+    $validatedData = $request->validate([
+        'professeur_id' => 'required|exists:professeurs,id',
+    ]);
+
+    // Récupérer la classe par ID
+    $classe = Classe::findOrFail($id);
+
+    // Assigner le professeur à la classe
+    $classe->professeurs()->sync([$validatedData['professeur_id']]);
+
+    // Redirection vers la liste des classes avec un message de succès
+    return redirect()->route('classes.index')->with('success', 'Professeur assigné avec succès à la classe.');
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

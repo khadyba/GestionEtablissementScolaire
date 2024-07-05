@@ -37,12 +37,22 @@ class User extends Authenticatable
         
         public function roles()
         {
-            return $this->belongsToMany(Role::class, 'usersrole', 'user_id', 'role_id');
+            return $this->belongsToMany(Role::class, 'usersroles', 'user_id', 'role_id');
         }
        
         public function etablissement()
         {
             return $this->belongsTo(Etablissement::class);
+        }
+
+        public function professeur()
+        {
+            return $this->hasOne(Professeur::class, 'user_id');
+        }
+        
+        public function eleves()
+        {
+            return $this->hasOne(Eleves::class, 'user_id');
         }
 
     /**
@@ -65,46 +75,10 @@ class User extends Authenticatable
     ];
 
 
-    // Méthode pour attribuer le rôle en fonction du type de compte
-    public function assignRole()
-    {
-        $roleName = '';
-
-        switch ($this->typecompte) {
-            case 'professeurs':
-                $roleName = 'Professeur';
-                break;
-            case 'eleves':
-                $roleName = 'Élève';
-                break;
-            case 'parents':
-                $roleName = 'Parent';
-                break;
-           
-        }
-
-        if ($roleName) {
-            $role = Role::where('nom', $roleName)->first();
-
-            if ($role) {
-                $this->roles()->sync($role);
-            }
-        }
-    }
+   
 
 
 
-    protected function redirectToDashboard($user)
-{
-    if ($user->hasRole('professeurs')) {
-        return redirect()->route('prof.dashboard');
-    } elseif ($user->hasRole('eleves')) {
-        return redirect()->route('eleve.dashboard');
-    } elseif ($user->hasRole('parents')) {
-        return redirect()->route('parent.dashboard');
-    } else {
-        return redirect()->route('home'); 
-    }
-}
+ 
 
 }

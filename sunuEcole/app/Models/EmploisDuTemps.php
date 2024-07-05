@@ -9,7 +9,7 @@ class EmploisDuTemps extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'file_path',
+        'emplois_du_temps',
         'administrateur_id',
     ];
 
