@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('montant');
             $table->boolean('statut')->default(0);
+            $table->date('date');
             $table->unsignedBigInteger('eleve_id');
             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');
             $table->timestamps();

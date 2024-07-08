@@ -12,8 +12,8 @@ class Payment extends Model
     protected $fillable = [
         'montant',
         'date' ,
-        'status' ,
-        'eleves_id'
+        'statut' ,
+        'eleve_id'
     ];
 
     public function eleve()

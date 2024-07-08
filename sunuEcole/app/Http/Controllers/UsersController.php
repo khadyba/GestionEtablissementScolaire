@@ -50,7 +50,7 @@ public function LoginForm(Request $request)
                 case 2:
                     return redirect()->route('eleve.dashboard');
                 case 3:
-                    return redirect()->route('/parent/dashboard');
+                    return redirect()->route('parent.dashboard');
                 default:
                     return redirect()->route('home'); 
             }
