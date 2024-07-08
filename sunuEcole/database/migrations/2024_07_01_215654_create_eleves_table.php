@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('prenoms');
             $table->string('adresse');
             $table->date('dateDeNaissance');
-            $table->unsignedBigInteger('classes_id')->nullable();
-            $table->foreign('classes_id')->references('id')->on('classes')->onDelete('cascade');
-        
+            $table->unsignedBigInteger('classe_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

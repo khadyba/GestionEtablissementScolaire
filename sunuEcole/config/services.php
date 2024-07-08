@@ -31,4 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'paydunya' => [
+    'base_url' => env('PAYDUNYA_BASE_URL', 'https://app.paydunya.com/sandbox-api/v1'),
+    'master_key' => env('PAYDUNYA_MASTER_KEY', 'y8cMxeJI-XX5N-NROr-gXqY-HTz2zZrQDfR4'),
+    'public_key' => env('PAYDUNYA_PUBLIC_KEY','test_public_5Fg1Dfrqisxc7NSyvZ6KuCmpmVT'),
+    'private_key' => env('PAYDUNYA_PRIVATE_KEY','test_private_X6hPYCZRwsuT8qP2YwWMlDfMGQl'),
+    'token' => env('PAYDUNYA_TOKEN','KOGFbt62Pei91jTfOakr'),
+],
+
+
+
 ];

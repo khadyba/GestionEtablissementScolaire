@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('nom');
             $table->string('niveau');
             $table->unsignedBigInteger('etablissement_id');
+            $table->unsignedBigInteger('administrateur_id');
             $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('cascade');
+            $table->foreign('administrateur_id')->references('id')->on('administrateurs')->onDelete('cascade');
 
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }

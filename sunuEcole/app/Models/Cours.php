@@ -14,7 +14,10 @@ class Cours extends Model
         'jours',
         'heure_debut',
         'heure_fin',
-        'fichier_cours'
+        'fichier_cours',
+        'professeurs_id',
+        'classes_id',
+
     ];
     public function eleves()
     {

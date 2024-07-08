@@ -13,6 +13,7 @@ class Eleves extends Model
         'prenoms',
         'adresse',
         'dateDeNaissance',
+        'classes_id'
     ];
 
     public function classe()
@@ -59,4 +60,12 @@ class Eleves extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function etablissement()
+    {
+        return $this->belongsTo(Etablissement::class, 'etablissement_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

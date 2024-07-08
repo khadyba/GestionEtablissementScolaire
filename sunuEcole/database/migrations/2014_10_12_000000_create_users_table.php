@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('etablissement_id');
             $table->foreign('etablissement_id')->references('id')->on('etablissements');
-            $table->enum('typecompte', ['administrations', 'professeurs', 'eleves', 'parents']);
+            $table->enum('typecompte', ['professeurs', 'eleves', 'parents']);
             $table->rememberToken();
 
             $table->timestamps();

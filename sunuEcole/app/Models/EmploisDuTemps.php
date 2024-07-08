@@ -9,11 +9,12 @@ class EmploisDuTemps extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'file_path'
+        'emplois_du_temps',
+        'administrateur_id',
     ];
 
-    public function user()
+    public function administrateur()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Administrateur::class);
     }
 }

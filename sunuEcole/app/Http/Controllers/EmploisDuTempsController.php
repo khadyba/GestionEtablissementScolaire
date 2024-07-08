@@ -14,8 +14,13 @@ class EmploisDuTempsController extends Controller
      */
     public function index()
     {
-        //
+        // Récupérer tous les fichiers d'emploi du temps depuis la base de données
+        $emploisDuTemps = EmploisDuTemps::all();
+    
+        // Retourner la vue avec les données nécessaires
+        return view('listeEmploisDuTemps', compact('emploisDuTemps'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +29,7 @@ class EmploisDuTempsController extends Controller
      */
     public function create()
     {
-        //
+        return view('uploadEmploiDuTemps');
     }
 
     /**
@@ -35,8 +40,20 @@ class EmploisDuTempsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'schedule_file' => 'required|file|mimes:pdf,doc,docx,xlsx',
+        ]);
+
+        $filePath = $request->file('schedule_file')->store('schedules', 'public');
+
+        EmploisDuTemps::create([
+            'emplois_du_temps' => $filePath,
+            'administrateur_id' => auth('admin')->id(),
+        ]);
+
+        return redirect()->route('emplois_du_temps.index')->with('success', 'Emploi du temps uploadé avec succès.');
     }
+    
 
     /**
      * Display the specified resource.
@@ -71,6 +88,26 @@ class EmploisDuTempsController extends Controller
     {
         //
     }
+    public function download($id)
+    {
+        $emploiDuTemps = EmploisDuTemps::findOrFail($id);
+    
+        // Récupérez le chemin du fichier
+        $filePath = storage_path('app/public/' . $emploiDuTemps->emplois_du_temps);
+    
+        // Récupérez le nom du fichier sans le chemin
+        $fileName = basename($emploiDuTemps->emplois_du_temps);
+    
+        // Vérifiez si le fichier existe
+        if (file_exists($filePath)) {
+            // Téléchargez le fichier
+            return response()->download($filePath, $fileName);
+        } else {
+            // Gérez l'erreur si le fichier n'existe pas
+            abort(404, "Le fichier d'emploi du temps n'existe pas.");
+        }
+    }
+    
 
     /**
      * Remove the specified resource from storage.

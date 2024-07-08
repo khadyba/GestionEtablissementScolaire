@@ -18,15 +18,16 @@ return new class extends Migration
             $table->string('titre');
             $table->longText('descriptions');
             $table->date('jours');
-            $table->dateTime('heure_debut');
-            $table->date('heure_fin');
-            $table->string('file_path');
-            $table->unsignedBigInteger('professeurs_id');
-            $table->unsignedBigInteger('classes_id');
-            $table->foreign('professeurs_id')->references('id')->on('cours')->onDelete('cascade');
-            $table->foreign('classes_id')->references('id')->on('cours')->onDelete('cascade');
+            $table->time('heure_debut');
+            $table->time('heure_fin'); 
+            $table->string('fichier_cours');
+            $table->unsignedBigInteger('professeur_id'); 
+            $table->unsignedBigInteger('classe_id'); 
+            $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade'); 
+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade'); 
             $table->timestamps();
         });
+        
     }
 
     /**
