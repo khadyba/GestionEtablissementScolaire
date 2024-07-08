@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Eleves;
+use Paydunya\Checkout\Store as PaydunyaStore;
+use Paydunya\Checkout\CheckoutInvoice;
 use App\Models\Payment;
+
 use Illuminate\Http\Request;
-use App\Services\PayDunyaService;
+
+use Paydunya\Setup as PaydunyaSetup;
 
 class PaymentController extends Controller
 {
 
-
-
-
     protected $payDunyaService;
 
-    public function __construct(PayDunyaService $payDunyaService)
-    {
-        $this->payDunyaService = $payDunyaService;
-    }
+    // public function __construct(PayDunyaService $payDunyaService)
+    // {
+    //     $this->payDunyaService = $payDunyaService;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -27,51 +29,49 @@ class PaymentController extends Controller
     {
         //
     }
+    public function __construct()
+    {
+        PaydunyaSetup::setMasterKey(config('paydunya.master_key'));
+        PaydunyaSetup::setPublicKey(config('paydunya.public_key'));
+        PaydunyaSetup::setPrivateKey(config('paydunya.private_key'));
+        PaydunyaSetup::setMode(config('paydunya.mode'));
+        PaydunyaSetup::setToken(config('paydunya.token'));
+
+        // Configurer les informations de la boutique
+        PaydunyaStore::setName("SunuLycee"); // Seul le nom est requis
+        PaydunyaStore::setTagline("Payer n'importe ou n'importe comment!");
+        PaydunyaStore::setPhoneNumber("773611172");
+        PaydunyaStore::setPostalAddress("Dakar, Sénégal");
+        PaydunyaStore::setWebsiteUrl("http://127.0.0.1:8000");
+        // PaydunyaStore::setLogoUrl("http://localhost/logo.png");
+    }
     public function redirectToPayment()
     {
-        $eleve = auth()->user();
+        $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
         $etablissement = auth()->user()->etablissement; 
-    
-        //  les données de la facture avec les informations de l'établissement
-        $invoiceData = [
-            'invoice' => [
-                'items' => [
-                    [
-                        'name' => 'Frais d\'inscription',
-                        'quantity' => 1,
-                        'unit_price' => 30000,
-                        'total_price' => 30000,
-                        'description' => 'Frais d\'inscription pour l\'année scolaire'
-                    ]
-                ],
-                'total_amount' => 30000,
-                'description' => 'Paiement des frais d\'inscription'
-            ],
-            'store' => [
-                'name' => $etablissement->nom, 
-                'tagline' => 'Une École d\'Excellence',
-                'postal_address' => $etablissement->adresse,
-                'phone' => $etablissement->telephone,
-            ],
-            'custom_data' => [
-                'student_id' => $eleve->id
-            ],
-            'actions' => [
-                'cancel_url' => route('payment.cancel'),
-                'return_url' => route('payment.success'),
-                'callback_url' => route('payment.callback')
-            ]
-        ];
-    
-        // Créer la facture via l'API PayDunya
-        $response = $this->payDunyaService->createInvoice($invoiceData);
-    
-        if ($response['status'] === 'success') {
-            return redirect($response['response_text']);
+
+        $co = new CheckoutInvoice();
+
+          // Ajouter les détails de l'article à l'invoice
+          $co->addItem(
+            "Frais de scolarité pour " . $eleve->nom,
+            "Frais de scolarité pour l'établissement " . $etablissement->nom,
+            1,
+            30000, // Prix de l'article
+            0,
+            30000 // Prix total
+        );
+
+        $co->setTotalAmount(30000); // Montant total de la facture
+
+        if ($co->create()) {
+            return redirect($co->getInvoiceUrl()); // Redirection vers l'URL de la facture
         } else {
-            return redirect()->back()->with('error', 'Erreur lors de la création de la facture PayDunya.');
+            return response()->json(['error' => $co->response_text], 500); // Retourner une erreur JSON en cas d'échec
         }
     }
+    
+
     
 
 public function success()
