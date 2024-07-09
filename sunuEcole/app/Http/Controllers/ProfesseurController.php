@@ -15,7 +15,7 @@ class ProfesseurController extends Controller
      */
     public function index()
     {
-        return view('complete-profile');
+        return view('profdashboard');
     }
 
 
@@ -47,7 +47,7 @@ class ProfesseurController extends Controller
         $professeur->save();
     
         // Redirection avec un message de succès
-        return redirect()->route('professeurs.complete-profile')->with('success', 'Profil complété avec succès.');
+        return redirect()->route('prof.dashboard')->with('success', 'Profil complété avec succès.');
     }
     
     /**

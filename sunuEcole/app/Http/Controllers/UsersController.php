@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 
-
-
-
-
-
 class UsersController extends Controller
 {
 
@@ -118,4 +113,14 @@ public function LoginForm(Request $request)
     }
     
     
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('users.login')->with('success', 'Utilisateur créé avec succès.');
+       
+        // return redirect('users.login');
+    }
 }

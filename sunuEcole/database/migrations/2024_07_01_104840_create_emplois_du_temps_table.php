@@ -17,7 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('emplois_du_temps');
             $table->unsignedBigInteger('administrateur_id');
+            $table->unsignedBigInteger('classe_id');
             $table->foreign('administrateur_id')->references('id')->on('administrateurs')->onDelete('cascade');
+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

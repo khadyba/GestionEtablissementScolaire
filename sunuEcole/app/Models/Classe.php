@@ -38,10 +38,14 @@ public function professeurs()
     {
         return $this->hasMany(Eleves::class);
     }
+    
     public function administrateur()
     {
         return $this->belongsTo(Administrateur::class);
     }
-
+    public function emploisDuTemps()
+    {
+        return $this->hasMany(EmploisDuTemps::class);
+    }
    
 }

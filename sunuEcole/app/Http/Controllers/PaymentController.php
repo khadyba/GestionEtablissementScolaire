@@ -7,8 +7,10 @@ use App\Models\Eleves;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
-use Paydunya\Setup as PaydunyaSetup;
+use App\Mail\PaymentReceived;
 
+use Illuminate\Support\Facades\Mail;
+use Paydunya\Setup as PaydunyaSetup;
 use Paydunya\Checkout\CheckoutInvoice;
 use Paydunya\Checkout\Store as PaydunyaStore;
 
@@ -51,30 +53,35 @@ class PaymentController extends Controller
     public function redirectToPayment()
     {
         $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
-        $etablissement = auth()->user()->etablissement; 
-    
+      // Récupérer l'établissement associé à l'élève
+        $etablissement = $eleve->user->etablissement; 
+        
         $co = new CheckoutInvoice();
-    
+        
         // Ajouter les détails de l'article à l'invoice
         $co->addItem(
             "Frais de scolarité pour " . $eleve->prenoms . " " . $eleve->nom,
             "Frais de scolarité pour l'établissement " . $etablissement->nom,
             1,
-            30000, // Prix de l'article
-            30000 // Prix total
+            30000, 
+            30000 
         );
+        // dd( $etablissement->nom);
     
-        $co->setTotalAmount(30000); // Montant total de la facture
+        $co->setTotalAmount(30000); 
     
         // Créer la facture via PayDunya
         if ($co->create()) {
-            // Insérer dans la table payments si le paiement est réussi
             Payment::create([
                 'montant' => 30000, 
                 'statut' => 1, 
+                'date' => now(),
                 'eleve_id' => $eleve->id
             ]);
-    
+
+        if (!empty($eleve->email_tuteur)) {
+            Mail::to($eleve->email_tuteur)->send( new \App\Mail\PaymentReceived($eleve,$etablissement,30000));
+        }
             // Redirection vers l'URL de la facture générée par PayDunya
             return redirect($co->getInvoiceUrl());
         } else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Classe;
+use App\Models\Eleves;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Models\Administrateur;
@@ -78,10 +79,13 @@ class ClasseController extends Controller
      * @param  \App\Models\Classe  $classe
      * @return \Illuminate\Http\Response
      */
-    public function show(Classe $classe)
+    public function show($id)
     {
-        //
+        $classe = Classe::with(['eleves', 'professeurs'])->findOrFail($id);
+    
+        return view('classesDetail', compact('classe'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -185,10 +189,47 @@ public function storeAssignedTeacher(Request $request, $id)
 }
 
 
+public function assignStudents($id)
+{
+    // Récupérer la classe par ID
+    $classe = Classe::findOrFail($id);
+
+    // Récupérer l'établissement associé à la classe
+    $etablissementId = $classe->etablissement_id;
+
+    // Récupérer les élèves associés à cet établissement
+    $roleEleves = Role::where('nom', 'eleves')->first(); 
+    $eleves = User::where('etablissement_id', $etablissementId)
+        ->whereHas('roles', function($query) use ($roleEleves) {
+            $query->where('role_id', $roleEleves->id);
+        })
+        ->with('eleves') 
+        ->get();
+
+    // Retourner une vue avec les données nécessaires
+    return view('assign-eleves', compact('classe', 'eleves'));
+}
 
 
 
 
+public function storeAssignedStudents(Request $request, $id)
+{
+    $classe = Classe::findOrFail($id);
+    $request->validate([
+        'eleves' => 'required|array',
+        'eleves.*' => 'exists:eleves,id'
+    ]);
+
+    // Affecter les élèves à la classe
+    foreach ($request->eleves as $eleveId) {
+        $eleve = Eleves::findOrFail($eleveId);
+        $eleve->classe_id = $classe->id;
+        $eleve->save();
+    }
+    // dd( $eleve);
+    return redirect()->route('classes.show', $classe->id)->with('success', 'Les élèves ont été affectés avec succès.');
+}
 
 
 

@@ -11,10 +11,17 @@ class EmploisDuTemps extends Model
     protected $fillable = [
         'emplois_du_temps',
         'administrateur_id',
+        'classe_id',
+
     ];
 
     public function administrateur()
     {
         return $this->belongsTo(Administrateur::class);
+    }
+
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class);
     }
 }

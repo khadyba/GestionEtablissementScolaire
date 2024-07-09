@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Classe;
+use App\Models\Payment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Models\Administrateur;
+use App\Models\EmploisDuTemps;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,11 +23,19 @@ class AdministrateurController extends Controller
      */
     public function index()
     {
-        // ici nous allons récuperer la liste de tout les professeur que l'administration a ajouter pour l'affectation
-        // au niveau des classe 
-        return view('ListeProfAjouter');
+        $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
+        $emploisDuTemps = EmploisDuTemps::all();
+        $classeId = Classe::first();
+        $classeId = $classeId ? $classeId->id : null;
+        return view('admindashboard',compact('elevesInscrits','emploisDuTemps','classeId'));
     }
 
+    public function listeElevesInscrits()
+    {
+        $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
+
+        return view('admindashboard', compact('elevesInscrits'));
+    }
     /**
      * Show the form for creating a new resource.
      *
