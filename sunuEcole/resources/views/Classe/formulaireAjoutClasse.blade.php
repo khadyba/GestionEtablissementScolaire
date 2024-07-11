@@ -26,7 +26,6 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
             <div class="form-group">
                 <label for="etablissement_id">Établissement :</label>
                 <select name="etablissement_id" id="etablissement_id" class="form-control" required>

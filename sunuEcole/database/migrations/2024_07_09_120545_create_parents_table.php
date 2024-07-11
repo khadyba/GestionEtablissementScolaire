@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->integer('montant');
-            $table->boolean('statut')->default(0);
-            $table->date('date');
-            $table->unsignedBigInteger('eleve_id');
-            $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');
+            $table->string('nom');
+            $table->string('prenoms');
+            $table->string('non_de_votre_éléve');
+            $table->string('telephone')->nullable();
+            $table->boolean('is_completed')->default(false); 
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('parents');
     }
 };

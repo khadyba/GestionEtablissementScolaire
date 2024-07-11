@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Classe;
+use App\Models\Cours;
 use App\Models\Eleves;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\returnSelf;
 
 class ElevesController extends Controller
 {
@@ -17,7 +21,10 @@ class ElevesController extends Controller
     public function index()
     {
         $classes = Classe::all();
-        return view('elevesdashboard', compact('classes'));
+        $parents = User::whereHas('roles', function ($query) {
+            $query->where('role_id', 3);
+        })->get();
+        return view('elevesdashboard', compact('classes', 'parents','cours'));
     }
 
     /**
@@ -27,7 +34,7 @@ class ElevesController extends Controller
      */
     public function create()
     {
-        //
+    //    
     }
 
     /**
@@ -37,26 +44,35 @@ class ElevesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'dateDeNaissance' => 'required|date',
-            'classe_id' => 'nullable|exists:classes,id',
-        ]);
+{
+    $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenoms' => 'required|string|max:255',
+        'adresse' => 'required|string|max:255',
+        'email_tuteur' => 'required|string|max:255',
+        'non_de_votre_tuteur' => 'required|string|max:255',
+        'dateDeNaissance' => 'required|date',
+        'classe_id' => 'nullable|exists:classes,id',
+        'parent_id' => 'nullable|exists:parents,id', 
+    ]);
+    $user = Auth::user();
+   
+    $eleve = new Eleves();
+    $eleve->nom = $request->input('nom');
+    $eleve->prenoms = $request->input('prenoms');
+    $eleve->adresse = $request->input('adresse');
+    $eleve->non_de_votre_tuteur = $request->input('non_de_votre_tuteur');
+    $eleve->email_tuteur = $request->input('email_tuteur');
+    $eleve->dateDeNaissance = $request->input('dateDeNaissance');
+    $eleve->classe_id = $request->input('classe_id');
+    $eleve->parent_id = $request->input('parent_id'); 
+    $eleve->user_id = Auth::id(); 
+    $eleve->is_completed = true;
+    $eleve->save();
 
-        $eleve = new Eleves();
-        $eleve->nom = $request->input('nom');
-        $eleve->prenoms = $request->input('prenoms');
-        $eleve->adresse = $request->input('adresse');
-        $eleve->dateDeNaissance = $request->input('dateDeNaissance');
-        $eleve->classe_id = $request->input('classe_id');
-        $eleve->user_id = Auth::id(); 
-        $eleve->save();
+    return redirect()->route('eleve.dashboard')->with('success', 'Profil complété avec succès.');
+}
 
-        return redirect()->route('eleve.dashboard')->with('success', 'Profil complété avec succès.');
-    }
     
 
     /**
@@ -65,9 +81,10 @@ class ElevesController extends Controller
      * @param  \App\Models\Eleves  $eleves
      * @return \Illuminate\Http\Response
      */
-    public function show(Eleves $eleves)
+    public function show(Cours $cours)
     {
-        //
+        $cours=Cours::FindOrfail();
+        return view('Cours.coursDetail');
     }
 
     /**

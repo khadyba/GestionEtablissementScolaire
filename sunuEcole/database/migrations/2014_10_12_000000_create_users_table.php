@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('etablissement_id');
+            $table->boolean('is_completed')->default(false);
             $table->foreign('etablissement_id')->references('id')->on('etablissements');
             $table->enum('typecompte', ['professeurs', 'eleves', 'parents']);
             $table->rememberToken();

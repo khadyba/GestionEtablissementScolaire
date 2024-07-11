@@ -14,16 +14,9 @@ class Professeur extends Model
         'spécialiter',
         'adresse',
         'telephone',
-         'user_id'
+        'user_id',
+        'is_completed'
     ];
-
-    // public function classes()
-    // {
-    //     return $this->belongsToMany(Classe::class, 'nouveau_nom_table_pivot')
-    //                 ->withPivot('jour', 'heure_debut', 'heure_fin')
-    //                 ->withTimestamps();
-    // }
-
     public function classes()
     {
         return $this->belongsToMany(Classe::class, 'classe_professeur', 'professeur_id', 'classe_id');
@@ -36,6 +29,6 @@ class Professeur extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 }

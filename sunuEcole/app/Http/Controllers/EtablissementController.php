@@ -61,7 +61,7 @@ class EtablissementController extends Controller
         
         
         
-        return back();
+        return redirect()->route('admin.dashboard')->with('success', 'Établissement ajouté avec succès.');
     }
     
 

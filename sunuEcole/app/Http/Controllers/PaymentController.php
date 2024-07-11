@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classe;
 use App\Models\Eleves;
-use Paydunya\Checkout\Store as PaydunyaStore;
-use Paydunya\Checkout\CheckoutInvoice;
 use App\Models\Payment;
-
 use Illuminate\Http\Request;
 
+use App\Mail\PaymentReceived;
+
+use Illuminate\Support\Facades\Mail;
 use Paydunya\Setup as PaydunyaSetup;
+use Paydunya\Checkout\CheckoutInvoice;
+use Paydunya\Checkout\Store as PaydunyaStore;
 
 class PaymentController extends Controller
 {
@@ -43,34 +46,51 @@ class PaymentController extends Controller
         PaydunyaStore::setPhoneNumber("773611172");
         PaydunyaStore::setPostalAddress("Dakar, Sénégal");
         PaydunyaStore::setWebsiteUrl("http://127.0.0.1:8000");
-        // PaydunyaStore::setLogoUrl("http://localhost/logo.png");
+    
+       
+        
     }
     public function redirectToPayment()
     {
         $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
-        $etablissement = auth()->user()->etablissement; 
-
-        $co = new CheckoutInvoice();
-
-          // Ajouter les détails de l'article à l'invoice
-          $co->addItem(
-            "Frais de scolarité pour " . $eleve->nom,
-            "Frais de scolarité pour l'établissement " . $etablissement->nom,
-            1,
-            30000, // Prix de l'article
-            0,
-            30000 // Prix total
-        );
-
-        $co->setTotalAmount(30000); // Montant total de la facture
-
-        if ($co->create()) {
-            return redirect($co->getInvoiceUrl()); // Redirection vers l'URL de la facture
-        } else {
-            return response()->json(['error' => $co->response_text], 500); // Retourner une erreur JSON en cas d'échec
-        }
-    }
     
+    // Récupérer l'établissement associé à l'élève
+    $etablissement = $eleve->user->etablissement; 
+
+    $co = new CheckoutInvoice();
+    
+    // Ajouter les détails de l'article à l'invoice
+    $co->addItem(
+        "Frais de scolarité pour " . $eleve->prenoms . " " . $eleve->nom,
+        "Frais de scolarité pour l'établissement " . $etablissement->nom,
+        1,
+        30000, 
+        30000 
+    );
+
+    $co->setTotalAmount(30000); 
+
+    // Créer la facture via PayDunya
+    if ($co->create()) {
+        Payment::create([
+            'montant' => 30000, 
+            'statut' => 1, 
+            'date' => now(),
+            'eleve_id' => $eleve->id
+        ]);
+
+        if (!empty($eleve->email_tuteur)) {
+            Mail::to($eleve->email_tuteur)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
+        }
+
+        // Redirection vers l'URL de la facture générée par PayDunya
+        return redirect($co->getInvoiceUrl());
+    } else {
+        // Retourner une erreur JSON en cas d'échec de la création de la facture
+        return response()->json(['error' => $co->response_text], 500);
+    }
+    }
+       
 
     
 
@@ -81,33 +101,39 @@ public function success()
 
 public function cancel()
 {
-    return view('payment.cancel');
+    $classes = Classe::all();
+    return view('elevesdashboard', compact('classes'));
 }
 
 
 public function callback(Request $request)
 {
-    // Vérifier si le paiement a réussi (par exemple en vérifiant le statut de la réponse de PayDunya)
-    $status = $request->input('status'); // Assurez-vous d'adapter cette ligne à votre logique exacte
+     // Vérifier que la méthode de la requête est POST
+     if ($request->isMethod('post')) {
+        $data = $request->all();
 
-    if ($status === 'success') {
-        // Récupérer l'ID de l'élève depuis les données personnalisées (adapté à votre logique de création de facture)
-        $studentId = $request->input('custom_data.student_id');
+        if ($data['status'] == 'completed') {
+            $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
 
-        // Enregistrer le paiement dans la base de données
-        $montant = $request->input('invoice.total_amount'); // Adapter cette ligne selon votre structure de données
-        $payment = new Payment([
-            'montant' => $montant,
-            'statut' => true, // Paiement réussi
-            'eleve_id' => $studentId,
-        ]);
-        $payment->save();
+            Payment::create([
+                'montant' => $data['total_amount'],
+                'date' => now(),
+                'status' => $data['status'],
+                'eleves_id' => $eleve->id
+            ]);
 
-        return redirect()->route('payment.success')->with('success', 'Paiement effectué avec succès.');
+            return response()->json(['status' => 'success'], 200);
+        } else {
+            return response()->json(['status' => 'failure', 'message' => 'Payment not completed'], 400);
+        }
     } else {
-        return redirect()->route('payment.cancel')->with('error', 'Échec du paiement.');
+        // Retourner une erreur si la méthode de la requête n'est pas POST
+        return response()->json(['error' => 'Method not allowed'], 405);
     }
 }
+
+
+
 
 // ...
     /**

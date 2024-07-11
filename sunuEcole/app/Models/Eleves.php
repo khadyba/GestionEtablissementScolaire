@@ -12,8 +12,12 @@ class Eleves extends Model
         'nom',
         'prenoms',
         'adresse',
+        'non_de_votre_tuteur',
+        'email_tuteur',
         'dateDeNaissance',
-        'classes_id'
+        'classes_id',
+        'parent_id',
+        'is_completed'
     ];
 
     public function classe()
@@ -68,4 +72,10 @@ class Eleves extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function parent()
+{
+    return $this->belongsTo(Parent::class);
+}
+
 }
