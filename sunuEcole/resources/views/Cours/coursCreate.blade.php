@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Créer un nouveau cours</h1>
 
-    <form action="{{ route('cours.store') }}" method="POST">
+    <form action="{{ route('professeurs.cours.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="titre">Titre :</label>
@@ -24,9 +24,9 @@
             <input type="time" name="heure_fin" id="heure_fin" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="fichier_cours">Fichier du cours :</label>
-            <input type="text" name="fichier_cours" id="fichier_cours" class="form-control" required>
-        </div>
+        <label for="fichier_cours">Fichier du cours :</label>
+        <input type="file" name="fichier_cours" id="fichier_cours" class="form-control" required>
+    </div>
         <div class="form-group">
             <label for="classe">Sélectionner une classe :</label>
             <select name="classe_id" id="classe" class="form-control">

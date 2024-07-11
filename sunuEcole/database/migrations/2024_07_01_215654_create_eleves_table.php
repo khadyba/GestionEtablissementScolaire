@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email_tuteur');
             $table->date('dateDeNaissance');
             $table->unsignedBigInteger('classe_id')->nullable();
+            $table->boolean('is_completed')->default(false); 
             $table->unsignedBigInteger('user_id');
             $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

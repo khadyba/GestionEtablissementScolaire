@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('spécialiter');
             $table->string('adresse');
             $table->string('telephone');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_completed')->default(false); 
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

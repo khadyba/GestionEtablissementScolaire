@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Models\Administrateur;
 use App\Models\EmploisDuTemps;
+use App\Mail\NouveauCompteMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdministrateurController extends Controller
 {
@@ -33,7 +35,7 @@ class AdministrateurController extends Controller
     public function listeElevesInscrits()
     {
         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
-
+        // $emploisDuTemps = EmploisDuTemps::all();
         return view('admindashboard', compact('elevesInscrits'));
     }
     /**
@@ -197,6 +199,7 @@ class AdministrateurController extends Controller
         'password' => $validatedData['password'],
     ];
 
+    Mail::to($validatedData['email'])->send(new NouveauCompteMail($identifiants));
     // Redirection avec un message de succès et les identifiants
     return redirect()->route('list.index')->with([
         'success' => 'Utilisateur créé avec succès.',

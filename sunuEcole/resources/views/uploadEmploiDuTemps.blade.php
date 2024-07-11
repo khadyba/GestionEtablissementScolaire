@@ -25,7 +25,7 @@
 
     <div class="form-group">
         <label for="file">Sélectionner un fichier </label>
-        <input type="file" name="file" id="file" class="form-control-file" required>
+        <input type="file" name="emplois_du_temps" id="emplois_du_temps" class="form-control-file" required>
     </div>
 
     <button type="submit" class="btn btn-primary">Sélectionner</button>

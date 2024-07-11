@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('prenoms');
             $table->string('non_de_votre_éléve');
             $table->string('telephone')->nullable();
+            $table->boolean('is_completed')->default(false); 
             $table->timestamps();
         });
     }

@@ -1,8 +1,3 @@
-<!-- resources/views/assign-eleves.blade.php -->
-
-
-
-
 <div class="container">
     <h1>Affectation des élèves à la classe {{ $classe->nom }}</h1>
 
@@ -23,23 +18,18 @@
             {{ session('success') }}
         </div>
     @endif
-
-   <!-- Formulaire pour affecter des élèves à la classe -->
-   <form action="{{ route('assign.eleves.store', $classe->id) }}" method="POST">
+    {{-- @dd($eleves) --}}
+    <form action="{{ route('assign.eleves.store', $classe->id) }}" method="POST">
         @csrf
-
         <div class="form-group">
-            <label for="eleves">Sélectionner les élèves à affecter</label>
-            <select name="eleves[]" id="eleves" class="form-control" multiple>
-                @foreach ($eleves as $user)
-                    @if ($user->eleves) <!-- Vérifier si la relation eleves existe -->
-                        <option value="{{ $user->eleves->id }}">{{ $user->eleves->nom }} {{ $user->eleves->prenoms }}</option>
-                    @endif
+            <label for="eleve_ids">Sélectionner un ou plusieurs élèves :</label>
+            <select name="eleve_ids[]" id="eleve_ids" class="form-control"  style="height: auto; overflow-y: auto;">
+                @foreach($eleves as $eleve)
+                    <option value="{{ $eleve->id }}">{{ $eleve->prenoms }} {{ $eleve->nom }}</option>
                 @endforeach
             </select>
+         
         </div>
-
-        <button type="submit" class="btn btn-primary">Affecter les élèves</button>
+        <button type="submit" class="btn btn-primary">Assigner</button>
     </form>
 </div>
-

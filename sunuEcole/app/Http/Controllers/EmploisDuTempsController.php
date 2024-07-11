@@ -28,10 +28,11 @@ class EmploisDuTempsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Classe $classe)
-    {
-        return view('uploadEmploiDuTemps', compact('classe'));
-    }
+    public function create($classeId)
+{
+    $classe = Classe::findOrFail($classeId);
+    return view('uploadEmploiDuTemps', compact('classe'));
+}
     
 
     /**
@@ -40,22 +41,24 @@ class EmploisDuTempsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$classeId)
     {
         $request->validate([
             'emplois_du_temps' => 'required|file|mimes:pdf,doc,docx,xlsx',
-            'classe_id' => 'required|exists:classes,id',
         ]);
 
-        $filePath = $request->file('emplois_du_temps')->store('schedules', 'public');
+        $file = $request->file('emplois_du_temps');
+       $filePath = $file->store('schedules', 'public');
+       $originalFileName = $file->getClientOriginalName();
 
         EmploisDuTemps::create([
             'emplois_du_temps' => $filePath,
+            'nom_original' => $originalFileName,
             'administrateur_id' => auth('admin')->id(),
-            'classe_id' => $request->classe_id,
+            'classe_id' => $classeId,
         ]);
 
-        return redirect()->route('emplois_du_temps.index')->with('success', 'Emploi du temps uploadé avec succès.');
+        return redirect()->route('emplois_du_temps.index')->with('success', 'Emploi du temps importer avec succès.');
     }
     
 

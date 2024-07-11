@@ -53,41 +53,42 @@ class PaymentController extends Controller
     public function redirectToPayment()
     {
         $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
-      // Récupérer l'établissement associé à l'élève
-        $etablissement = $eleve->user->etablissement; 
-        
-        $co = new CheckoutInvoice();
-        
-        // Ajouter les détails de l'article à l'invoice
-        $co->addItem(
-            "Frais de scolarité pour " . $eleve->prenoms . " " . $eleve->nom,
-            "Frais de scolarité pour l'établissement " . $etablissement->nom,
-            1,
-            30000, 
-            30000 
-        );
-        // dd( $etablissement->nom);
     
-        $co->setTotalAmount(30000); 
+    // Récupérer l'établissement associé à l'élève
+    $etablissement = $eleve->user->etablissement; 
+
+    $co = new CheckoutInvoice();
     
-        // Créer la facture via PayDunya
-        if ($co->create()) {
-            Payment::create([
-                'montant' => 30000, 
-                'statut' => 1, 
-                'date' => now(),
-                'eleve_id' => $eleve->id
-            ]);
+    // Ajouter les détails de l'article à l'invoice
+    $co->addItem(
+        "Frais de scolarité pour " . $eleve->prenoms . " " . $eleve->nom,
+        "Frais de scolarité pour l'établissement " . $etablissement->nom,
+        1,
+        30000, 
+        30000 
+    );
+
+    $co->setTotalAmount(30000); 
+
+    // Créer la facture via PayDunya
+    if ($co->create()) {
+        Payment::create([
+            'montant' => 30000, 
+            'statut' => 1, 
+            'date' => now(),
+            'eleve_id' => $eleve->id
+        ]);
 
         if (!empty($eleve->email_tuteur)) {
-            Mail::to($eleve->email_tuteur)->send( new \App\Mail\PaymentReceived($eleve,$etablissement,30000));
+            Mail::to($eleve->email_tuteur)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
         }
-            // Redirection vers l'URL de la facture générée par PayDunya
-            return redirect($co->getInvoiceUrl());
-        } else {
-            // Retourner une erreur JSON en cas d'échec de la création de la facture
-            return response()->json(['error' => $co->response_text], 500);
-        }
+
+        // Redirection vers l'URL de la facture générée par PayDunya
+        return redirect($co->getInvoiceUrl());
+    } else {
+        // Retourner une erreur JSON en cas d'échec de la création de la facture
+        return response()->json(['error' => $co->response_text], 500);
+    }
     }
        
 

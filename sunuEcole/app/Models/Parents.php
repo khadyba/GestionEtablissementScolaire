@@ -13,6 +13,7 @@ class Parents extends Model
         'prenoms',
         'non_de_votre_éléve',
         'telephone',
+        'is_completed'
       
     ];
     public function eleves()

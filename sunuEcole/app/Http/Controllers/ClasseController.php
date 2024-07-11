@@ -6,9 +6,14 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Classe;
 use App\Models\Eleves;
+use App\Models\Professeur;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Models\Administrateur;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProfessorAssignedNotification;
 
 class ClasseController extends Controller
 {
@@ -27,7 +32,7 @@ class ClasseController extends Controller
     public function index()
     {
         $classes = Classe::where('is_delete', false)->get();
-        return view('listDesClasses', compact('classes'));
+        return view('Classe.listDesClasses', compact('classes'));
     }
 
     /**
@@ -40,7 +45,7 @@ class ClasseController extends Controller
         $this->authorize('create', Classe::class);
         $etablissements = Etablissement::all();
 
-        return view('formulaireAjoutClasse', compact('etablissements'));
+        return view('Classe.formulaireAjoutClasse', compact('etablissements'));
     }
 
     /**
@@ -81,10 +86,12 @@ class ClasseController extends Controller
      */
     public function show($id)
     {
-        $classe = Classe::with(['eleves', 'professeurs'])->findOrFail($id);
-    
-        return view('classesDetail', compact('classe'));
+        $classe = Classe::with(['eleves', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $eleves = Eleves::whereNull('classe_id')->get();
+        $professeursAssignes = $classe->professeurs;
+        return view('Classe.classesDetail', compact('classe','professeursAssignes','eleves'));
     }
+    
     
 
     /**
@@ -98,7 +105,7 @@ class ClasseController extends Controller
      {
         $classe = Classe::findOrFail($id);
         $this->authorize('update',  $classe);
-       return view('modifierClasses', compact('classe'));
+       return view('Classe.modifierClasses', compact('classe'));
      }
      
 
@@ -152,41 +159,42 @@ public function update(Request $request, $id)
 
 public function assignTeachers($id)
 {
-    // Récupérer la classe par ID
+
     $classe = Classe::findOrFail($id);
-
-    // Récupérer l'établissement associé à la classe
-    $etablissementId = $classe->etablissement_id;
-
-    // Récupérer les professeurs associés à cet établissement
-    $roleProfesseur = Role::where('nom', 'professeurs')->first();
-    $professeurs = User::where('etablissement_id', $etablissementId)
-        ->whereHas('roles', function($query) use ($roleProfesseur) {
-            $query->where('role_id', $roleProfesseur->id);
-        })
-        ->with('professeur') 
-        ->get();
-
-    // Retourner une vue avec les données nécessaires
+        $professeurs = Professeur::all();
     return view('assign-professeurs', compact('classe', 'professeurs'));
 }
 
 public function storeAssignedTeacher(Request $request, $id)
 {
-    // Valider les données du formulaire
     $validatedData = $request->validate([
-        'professeur_id' => 'required|exists:professeurs,id',
+        'professeur_ids' => 'required|array',
+        'professeur_ids.*' => 'exists:professeurs,id',
     ]);
 
-    // Récupérer la classe par ID
     $classe = Classe::findOrFail($id);
+     // Récupérer le nom de l'établissement associé à la classe
+     $etablissementName = $classe->etablissement->nom;
+    // Attacher les professeurs à la classe
+    foreach ($validatedData['professeur_ids'] as $professeurId) {
+        DB::table('classe_professeur')->insert([
+            'classe_id' => $classe->id,
+            'professeur_id' => $professeurId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
 
-    // Assigner le professeur à la classe
-    $classe->professeurs()->sync([$validatedData['professeur_id']]);
+    $professeur = Auth::user()->professeur;
+    Mail::to($professeur->email)->send(new ProfessorAssignedNotification($classe->nom,$etablissementName));
 
-    // Redirection vers la liste des classes avec un message de succès
-    return redirect()->route('classes.index')->with('success', 'Professeur assigné avec succès à la classe.');
+    return redirect()->route('classes.index')->with('success', 'Professeurs assignés avec succès à la classe.');
 }
+
+
+
+
+
 
 
 public function assignStudents($id)
@@ -203,8 +211,9 @@ public function assignStudents($id)
         ->whereHas('roles', function($query) use ($roleEleves) {
             $query->where('role_id', $roleEleves->id);
         })
-        ->with('eleves') 
+        ->with('eleves') // Assurez-vous que cette relation existe dans le modèle User
         ->get();
+        // dd($eleves);
 
     // Retourner une vue avec les données nécessaires
     return view('assign-eleves', compact('classe', 'eleves'));
@@ -213,28 +222,23 @@ public function assignStudents($id)
 
 
 
+
 public function storeAssignedStudents(Request $request, $id)
 {
+     // Récupérer la classe par ID
     $classe = Classe::findOrFail($id);
-    $request->validate([
-        'eleves' => 'required|array',
-        'eleves.*' => 'exists:eleves,id'
+
+    // Valider les données du formulaire
+    $validatedData = $request->validate([
+        'eleve_ids' => 'required|array',
+        'eleve_ids.*' => 'exists:eleves,id', // Vérifier que tous les IDs d'élèves existent dans la table eleves
     ]);
 
     // Affecter les élèves à la classe
-    foreach ($request->eleves as $eleveId) {
-        $eleve = Eleves::findOrFail($eleveId);
-        $eleve->classe_id = $classe->id;
-        $eleve->save();
-    }
-    // dd( $eleve);
-    return redirect()->route('classes.show', $classe->id)->with('success', 'Les élèves ont été affectés avec succès.');
-}
-
-
-
-
-
-
+    $classe->eleves()->sync($validatedData['eleve_ids']);
+    // Redirection avec un message de succès
+    return redirect()->route('assign.eleves', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
 
 }
+}
+

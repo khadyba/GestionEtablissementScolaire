@@ -17,6 +17,7 @@ class Eleves extends Model
         'dateDeNaissance',
         'classes_id',
         'parent_id',
+        'is_completed'
     ];
 
     public function classe()

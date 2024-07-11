@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Classe;
+use App\Models\Cours;
 use App\Models\Eleves;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ class ElevesController extends Controller
         $parents = User::whereHas('roles', function ($query) {
             $query->where('role_id', 3);
         })->get();
-        return view('elevesdashboard', compact('classes', 'parents'));
+        return view('elevesdashboard', compact('classes', 'parents','cours'));
     }
 
     /**
@@ -54,7 +55,8 @@ class ElevesController extends Controller
         'classe_id' => 'nullable|exists:classes,id',
         'parent_id' => 'nullable|exists:parents,id', 
     ]);
-
+    $user = Auth::user();
+   
     $eleve = new Eleves();
     $eleve->nom = $request->input('nom');
     $eleve->prenoms = $request->input('prenoms');
@@ -65,6 +67,7 @@ class ElevesController extends Controller
     $eleve->classe_id = $request->input('classe_id');
     $eleve->parent_id = $request->input('parent_id'); 
     $eleve->user_id = Auth::id(); 
+    $eleve->is_completed = true;
     $eleve->save();
 
     return redirect()->route('eleve.dashboard')->with('success', 'Profil complété avec succès.');
@@ -78,9 +81,10 @@ class ElevesController extends Controller
      * @param  \App\Models\Eleves  $eleves
      * @return \Illuminate\Http\Response
      */
-    public function show(Eleves $eleves)
+    public function show(Cours $cours)
     {
-        //
+        $cours=Cours::FindOrfail();
+        return view('Cours.coursDetail');
     }
 
     /**

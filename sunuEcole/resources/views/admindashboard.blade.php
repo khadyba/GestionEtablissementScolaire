@@ -17,6 +17,14 @@
 @endif
     <div class="container">
         <h1>Liste des Élèves Inscrits</h1>
+
+        @if (session('identifiants'))
+            <div class="alert alert-info">
+                <strong>Identifiants de connexion :</strong><br>
+                Email : {{ session('identifiants.email') }}<br>
+                Mot de passe : {{ session('identifiants.password') }}
+            </div>
+        @endif
         <table class="table">
             <thead>
                 <tr>
@@ -24,7 +32,6 @@
                     <th>Prénoms</th>
                     <th>Montant Payé</th>
                     <th>Date de Paiement</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,9 +42,9 @@
                             <td>{{ $paiement->eleve->prenoms }}</td>
                             <td>{{ $paiement->montant }}</td>
                             <td>{{ $paiement->created_at->format('d/m/Y H:i') }}</td>
-                            <td>
+                            <!-- <td>
                                 <a href="{{ route('classes.assign.students', $paiement->eleve->id) }}" class="btn btn-primary">Affecter à une Classe</a>
-                            </td>
+                            </td> -->
                         </tr>
                     @endforeach
                 @else
@@ -45,6 +52,7 @@
                         <td colspan="5">Aucun élève inscrit</td>
                     </tr>
                 @endif
+
             </tbody>
         </table>
 
@@ -53,9 +61,7 @@
             <a href="{{ route('classes.create') }}">Ajouter une classe</a>
             <a href="{{ route('affiche.formulaire') }}">Ajouter Professeurs</a>
             <a href="{{ route('classes.index') }}">Voir la liste des classes</a>
-            @if ($classeId)
-                <a href="{{ route('emplois_du_temps.create', $classeId) }}">Importer un emploi du Temps</a>
-            @endif
+
         </div>
     </div>
 
@@ -69,21 +75,22 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($emploisDuTemps->isNotEmpty())
-                    @foreach($emploisDuTemps as $emploiDuTemps)
-                        <tr>
-                            <td>{{ basename($emploiDuTemps->emplois_du_temps) }}</td>
-                            <td>
-                                <a href="{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}" class="btn btn-primary">Télécharger</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="2">Aucun emploi du temps disponible</td>
-                    </tr>
-                @endif
-            </tbody>
+        @if ($emploisDuTemps->isNotEmpty())
+            @foreach($emploisDuTemps as $emploiDuTemps)
+                <tr>
+                    <td>{{ $emploiDuTemps->nom_original }}</td>
+                    <td>
+                        <a href="{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}" class="btn btn-primary">Télécharger</a>
+                    </td>
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="2">Aucun emploi du temps disponible</td>
+            </tr>
+        @endif
+</tbody>
+
         </table>
     </div>
 </body>

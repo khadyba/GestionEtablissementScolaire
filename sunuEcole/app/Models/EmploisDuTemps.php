@@ -10,8 +10,10 @@ class EmploisDuTemps extends Model
     use HasFactory;
     protected $fillable = [
         'emplois_du_temps',
+        'nom_original',
         'administrateur_id',
         'classe_id',
+
 
     ];
 

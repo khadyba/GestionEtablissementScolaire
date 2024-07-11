@@ -18,8 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('cour_id');
             $table->unsignedBigInteger('eleve_id');
             $table->unsignedBigInteger('salle_de_classe_id')->nullable();
-
-            
             $table->foreign('salle_de_classe_id')->references('id')->on('salle_de_classes')->onDelete('cascade');
             $table->foreign('cour_id')->references('id')->on('cours')->onDelete('cascade');
             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');

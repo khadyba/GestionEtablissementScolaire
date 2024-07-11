@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Eleves;
+use App\Models\Professeur;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +30,6 @@ public function LoginForm(Request $request)
 
     // Tenter de connecter l'utilisateur
     if (Auth::attempt($credentials)) {
-        // dd($credentials);
-        // Authentification réussie
         $user = Auth::user();
 
         // Vérifier le rôle de l'utilisateur dans la table pivot
@@ -40,12 +40,27 @@ public function LoginForm(Request $request)
         // Redirection basée sur le rôle
         if ($role) {
             switch ($role->role_id) {
-                case 1:
+                case 1: // Professeur
+                    $professeur = Professeur::where('user_id', $user->id)->first();
+                    if (!$professeur || !$professeur->is_completed) {
+                        return redirect()->route('professeurs.complete-profile');
+                    }
                     return redirect()->route('prof.dashboard');
-                case 2:
+
+                case 2: // Élève
+                    $eleve = Eleves::where('user_id', $user->id)->first();
+                    if (!$eleve || !$eleve->is_completed) {
+                        return redirect()->route('eleves.completeProfileForm');
+                    }
                     return redirect()->route('eleve.dashboard');
-                case 3:
+
+                case 3: // Parent
+                    $parent = Parent::where('user_id', $user->id)->first();
+                    if (!$parent || !$parent->is_completed) {
+                        return redirect()->route('parent.complete_profile');
+                    }
                     return redirect()->route('parent.dashboard');
+
                 default:
                     return redirect()->route('home'); 
             }
@@ -60,6 +75,8 @@ public function LoginForm(Request $request)
         ]);
     }
 }
+
+
 
     
     public function create()

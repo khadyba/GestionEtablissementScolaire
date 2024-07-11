@@ -2,12 +2,15 @@
 
 namespace App\Mail;
 
+use App\Models\Eleves;
+use App\Models\Etablissement;
+use App\Models\Payment;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PaymentReceived extends Mailable
 {
@@ -22,28 +25,26 @@ class PaymentReceived extends Mailable
      * @return void
      */
     
-     public function __construct($eleve, $montant,  $etablissement)
+     public function __construct(Eleves $eleve, $montant, Etablissement $etablissement)
      {
          $this->eleve = $eleve;
          $this->montant = $montant;
          $this->etablissement = $etablissement;
-
-
      }
 
 
      public function build()
-    {
-        return $this->view('payment_reçu')
-                    ->subject('Paiement reçu')
-                    ->with([
-                        'eleveNom' => $this->eleve->nom,
-                        'elevePrenoms' => $this->eleve->prenoms,
-                        'montant' => $this->montant,
-                        'etablissementNom' => $this->etablissement->nom,
-
-                    ]);
-    }
+     {
+         return $this->view('payment_recu')
+         ->subject('Paiement reçu')
+         ->with([
+             'eleveNom' => $this->eleve->nom,
+             'elevePrenoms' => $this->eleve->prenoms,
+             'montant' => $this->montant,
+             'etablissementNom' => $this->etablissement->nom,
+            ]);
+            dd( $this->etablissement->nom);
+        }
     /**
      * Get the message envelope.
      *
