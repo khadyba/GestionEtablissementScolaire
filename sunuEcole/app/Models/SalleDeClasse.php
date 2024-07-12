@@ -13,9 +13,13 @@ class SalleDeClasse extends Model
         'numéro',
         'capaciter' ,
         'statut' ,
+        'is_deleted'
     ];
     public function elevesCours()
     {
         return $this->hasMany(ElevesCours::class);
     }
+
+    
+
 }

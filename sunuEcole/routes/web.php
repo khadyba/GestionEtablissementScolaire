@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfesseurController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
+use App\Http\Controllers\SalleDeClasseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,12 +61,21 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/classes/{id}/edit',[ClasseController::class,'edit'])->name('classes.edit');
     Route::put('/classes/{id}/update',[ClasseController::class,'update'])->name('classes.update');
     Route::delete('/classes/{id}',[ClasseController::class,'destroy'])->name('classes.destroy');
+    // route pour creer les salle de classe
+    Route::get('/admin/salles/create', [SalleDeClasseController::class, 'create'])->name('admin.salles.create');
+    Route::post('/admin/salles/store', [SalleDeClasseController::class, 'store'])->name('admin.salles.store');
+    Route::get('/admin/salles-de-classe', [SalleDeClasseController::class, 'index'])->name('admin.salles-de-classe.index');
+    Route::get('/admin/sallesclasse/{id}/edit', [SalleDeClasseController::class, 'edit'])->name('admin.salles-de-classe.edit');
+    Route::post('/admin/sallesclasse/{id}', [SalleDeClasseController::class, 'update'])->name('admin.salles-de-classe.update');
+    Route::delete('/admin/sallesclasse/{id}', [SalleDeClasseController::class, 'destroy'])->name('admin.salles-de-classe.destroy');
     // route pour les affectations
     Route::get('/classes/{id}/eleves', [ClasseController::class, 'assignStudents'])->name('classes.assign.students');
     Route::get('/admin/eleves-inscrits', [AdministrateurController::class, 'listeElevesInscrits'])->name('admin.eleves.inscrits');
     Route::post('assign-eleves/{id}', [ClasseController::class, 'storeAssignedStudents'])->name('assign.eleves.store');
     Route::get('/classes/{id}/professeurs', [ClasseController::class, 'assignTeachers'])->name('classes.assign.teachers');
     Route::post('/classes/{id}/professeurs', [ClasseController::class, 'storeAssignedTeacher'])->name('classes.assign.teachers.store');
+    Route::delete('/classes/{classeId}/professeurs/{professeurId}', [ClasseController::class, 'detachProfesseurFromClasse'])->name('classes.professeurs.detach');
+    Route::get('/classes/{classeId}/professeurs/manage', [ClasseController::class, 'manageProfessors'])->name('classes.professeurs.manage');
     // route pour la gestion des emplois du temps
     Route::get('/emplois_du_temps', [EmploisDuTempsController::class, 'index'])->name('emplois_du_temps.index');
     Route::get('/emplois_du_temps/create/{classe}', [EmploisDuTempsController::class, 'create'])->name('emplois_du_temps.create');
@@ -94,7 +104,6 @@ Route::middleware(['auth:admin'])->group(function () {
             Route::get('/prof/dashboard', [ProfesseurController::class, 'index'])->name('prof.dashboard');
             Route::get('/eleve/dashboard', [ElevesController::class, 'index'])->name('eleve.dashboard');
             Route::get('/parent/dashboard', [ParentsController::class, 'index'])->name('parent.dashboard');
-
           // route pour permettre au prof d'ajouter des cours au niveau des classes où ils ont été affectés 
             Route::prefix('professeurs')->name('professeurs.')->group(function () {
                 Route::get('/listDesClasses', [ProfesseurController::class, 'index'])->name('classes.index.prof');
@@ -106,11 +115,11 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::get('/cours/{id}/edit', [ProfesseurController::class, 'edit'])->name('cours.edit');
                 Route::put('/cours/{id}', [ProfesseurController::class, 'update'])->name('cours.update');
                 Route::delete('/cours/{id}', [ProfesseurController::class, 'destroy'])->name('cours.destroy');
+                Route::get('/salles/salleDisponible/{id}', [SalleDeClasseController::class, 'afficherSallesDisponibles'])->name('salle.disponible');
+                Route::post('/cours/{coursId}/assign-salle/{salleId}', [SalleDeClasseController::class, 'assignSalle'])->name('cours.assignSalle');
 
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
             });
-
-
             // Routes pour les élèves
             Route::prefix('eleves')->name('eleves.')->group(function () {
                 Route::get('/cours', [ElevesController::class, 'index'])->name('cours.index');

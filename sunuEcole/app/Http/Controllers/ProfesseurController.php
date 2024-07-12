@@ -7,6 +7,7 @@ use App\Models\Classe;
 use App\Models\Eleves;
 use App\Models\Professeur;
 use Illuminate\Http\Request;
+use App\Models\SalleDeClasse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -86,9 +87,9 @@ class ProfesseurController extends Controller
      */
      public function create($classes)
     {
-
+        $sallesDeClasses = SalleDeClasse::all();
         $classes = auth()->user()->professeur->classes;
-        return view('Cours.coursCreate', compact('classes'));
+        return view('Cours.coursCreate', compact('classes','sallesDeClasses'));
     }
 
     /**
@@ -187,9 +188,8 @@ class ProfesseurController extends Controller
         $cours = Cours::find($id);
     
         if (!$cours) {
-            return redirect()->route('professeurs.cours.index')->with('error', 'Le cours demandé n\'existe pas.');
+            return redirect()->route('professeurs.cours.list.prof')->with('error', 'Le cours demandé n\'existe pas.');
         }
-    
         $validatedData = $request->validate([
             'titre' => 'required|string|max:255',
             'descriptions' => 'required|string',
@@ -198,6 +198,7 @@ class ProfesseurController extends Controller
             'heure_fin' => 'required|date_format:H:i',
             'fichier_cours' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx',
         ]);
+        
     
         if ($request->hasFile('fichier_cours')) {
             $filePath = $request->file('fichier_cours')->store('cours_fichiers', 'public');
@@ -211,7 +212,7 @@ class ProfesseurController extends Controller
         $cours->heure_fin = $validatedData['heure_fin'];
         $cours->save();
     
-        return redirect()->route('professeurs.cours.index')->with('success', 'Cours mis à jour avec succès.');
+        return redirect()->route('professeurs.cours.list.prof')->with('success', 'Cours mis à jour avec succès.');
     }
 
     /**
@@ -223,31 +224,35 @@ class ProfesseurController extends Controller
     public function destroy($id)
     {
         $cours = Cours::find($id);
-    
+
         if (!$cours) {
-            return redirect()->route('professeurs.cours.index')->with('error', 'Le cours demandé n\'existe pas.');
+            return redirect()->route('professeurs.cours.list.prof')->with('error', 'Le cours demandé n\'existe pas.');
         }
-    
-        $cours->delete();
-        return redirect()->route('professeurs.cours.index')->with('success', 'Cours supprimé avec succès.');
+
+        $cours->is_deleted = true;
+        $cours->save();
+
+    return redirect()->route('professeurs.cours.list.prof')->with('success', 'Cours supprimé avec succès.');
     }
 
 
     public function listeCours()
     {
-        $cours = Cours::all();
-
+        $cours = Cours::where('is_deleted', false)->get();
         return view('Cours.listCours', compact('cours'));
     }
 
     public function detailCours($id)
     {
        $cours = Cours::find($id);
+       $classe= Classe::find($id);
 
     if (!$cours) {
         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }
-        return  view('Cours.coursDetail',compact('cours'));
+        return  view('Cours.coursDetail',compact('cours','classe'));
     }
     
+
+
 }

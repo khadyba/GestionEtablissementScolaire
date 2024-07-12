@@ -23,8 +23,11 @@ return new class extends Migration
             $table->string('fichier_cours');
             $table->unsignedBigInteger('professeur_id'); 
             $table->unsignedBigInteger('classe_id'); 
+            $table->unsignedBigInteger('salle_de_classe_id')->nullable();
+            $table->foreign('salle_de_classe_id')->references('id')->on('salle_de_classes')->onDelete('cascade');
             $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade'); 
             $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade'); 
+            $table->boolean('is_deleted')->default(false); 
             $table->timestamps();
         });
         
