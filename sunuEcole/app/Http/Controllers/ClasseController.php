@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProfessorAssignedNotification;
+use App\Mail\ProfessorDetachedNotification;
 
 class ClasseController extends Controller
 {
@@ -186,7 +187,14 @@ public function storeAssignedTeacher(Request $request, $id)
     }
 
     $professeur = Auth::user()->professeur;
-    Mail::to($professeur->email)->send(new ProfessorAssignedNotification($classe->nom,$etablissementName));
+
+            if ($professeur && $professeur->email) {
+            Mail::to($professeur->email)->send(new ProfessorAssignedNotification($classe->nom, $etablissementName));
+        } else {
+            // Gérer le cas où le professeur n'a pas d'email
+            return redirect()->route('classes.index')->with('error', 'Le professeur n\'a pas d\'email.');
+        }
+
 
     return redirect()->route('classes.index')->with('success', 'Professeurs assignés avec succès à la classe.');
 }
@@ -240,5 +248,47 @@ public function storeAssignedStudents(Request $request, $id)
     return redirect()->route('assign.eleves', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
 
 }
+
+
+
+
+
+
+public function detachProfesseurFromClasse($classeId, $professeurId)
+{
+    $classe = Classe::find($classeId);
+    $professeur = Professeur::find($professeurId);
+
+    if (!$classe || !$professeur) {
+        return redirect()->route('admin.classes.index')->with('error', 'Classe ou Professeur non trouvé.');
+    }
+
+    $classe->professeurs()->detach($professeur->id);
+
+    $etablissementName = $classe->etablissement->nom ?? 'Nom de l\'établissement par défaut';
+
+    // Envoyer une notification par email au professeur
+    if ($professeur && $professeur->email) {
+        Mail::to($professeur->email)->send(new ProfessorDetachedNotification($classe->nom, $etablissementName));
+    }
+
+    return redirect()->route('classes.index')->with('success', 'Professeur retiré de la classe avec succès.');
+}
+
+
+
+
+
+public function manageProfessors($classeId)
+{
+    $classe = Classe::findOrFail($classeId);
+    $professeurs = $classe->professeurs;
+    
+    return view('classe.manageProfessors', compact('classe', 'professeurs'));
+}
+
+
+
+
 }
 

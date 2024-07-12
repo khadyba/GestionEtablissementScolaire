@@ -1,6 +1,6 @@
 <td><a href="{{ route('prof.dashboard') }}">Retour a votre espace personnel</a></td>
 
-<<h1>Liste des Cours</h1>
+<h1>Liste des Cours</h1>
 <table>
     <thead>
         <tr>
@@ -26,10 +26,10 @@
                     <a href="{{ route('professeurs.cours.detail.prof', $coursItem->id) }}">Voir détails</a>
                     @if ($coursItem->professeur_id == auth()->user()->professeur->id)
                         <a href="{{ route('professeurs.cours.edit', $coursItem->id) }}">Modifier</a>
-                        <form action="{{ route('professeurs.cours.destroy', $coursItem->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('professeurs.cours.destroy', $coursItem->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">Supprimer</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')">Supprimer</button>
                         </form>
                     @endif
                 </td>

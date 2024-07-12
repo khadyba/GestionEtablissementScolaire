@@ -33,6 +33,7 @@
                 <a href="{{ route('emplois_du_temps.create', ['classe' => $classe->id]) }}">Importer un emploi du Temps</a>
                 
                     <a href="{{ route('classes.show', $classe->id) }}">Voir Details </a>
+                    <a href="{{ route('classes.professeurs.manage', $classe->id) }}">Gérer les Professeurs</a>
                 </td>
             </tr>
         @endforeach

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('numéro');
             $table->integer('capaciter');
-            $table->enum('sattut', ['liberer','occuper']);
-
+            $table->enum('statut', ['libre', 'occupée'])->default('libre');
+            $table->boolean('is_deleted')->default(false); 
             $table->timestamps();
         });
     }

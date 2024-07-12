@@ -17,6 +17,7 @@ class Cours extends Model
         'fichier_cours',
         'professeurs_id',
         'classes_id',
+        'is_deleted'
 
     ];
     public function eleves()
@@ -27,6 +28,11 @@ class Cours extends Model
     public function professeur()
 {
     return $this->belongsTo(Professeur::class);
+}
+
+public function salleDeClasse()
+{
+    return $this->belongsTo(SalleDeClasse::class);
 }
 
 }

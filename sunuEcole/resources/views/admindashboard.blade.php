@@ -61,6 +61,8 @@
             <a href="{{ route('classes.create') }}">Ajouter une classe</a>
             <a href="{{ route('affiche.formulaire') }}">Ajouter Professeurs</a>
             <a href="{{ route('classes.index') }}">Voir la liste des classes</a>
+            <a href="{{ route('admin.salles.create') }}">Ajouter Salle de classe</a>
+
 
         </div>
     </div>
