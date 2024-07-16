@@ -17,8 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('type');
+            $table->date('jours');
+            $table->time('heure_debut');
+            $table->time('heure_fin'); 
+            $table->boolean('is_annuler')->default(false);
             $table->unsignedBigInteger('professeur_id');
             $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');
+            $table->unsignedBigInteger('classe_id'); 
+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -2,15 +2,19 @@
     @csrf
     <button type="submit" class="btn btn-danger">Déconnexion</button>
 </form>
-
 <h1>Liste des classes</h1>
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <table>
     <thead>
         <tr>
             <th>Nom</th>
             <th>Niveau</th>
             <th>Établissement</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,12 +24,8 @@
                 <td>{{ $classe->niveau }}</td>
                 <td>{{ $classe->etablissement->nom }}</td>
                 <td>
-                <a href="{{ route('professeurs.cours.create', $classe->id) }}"> Ajouter Cours </a>
-                </td>
-                <td>
-                <a href="{{ route('professeurs.classes.show.prof', $classe->id) }}">Voir Detail</a>
-                <a href="{{ route('professeurs.evaluations.add_notes', $classe->id) }}">Ajouter des Notes</a>
-
+                    <a href="{{ route('classes.show', $classe->id) }}">Voir Details </a>
+                    <a href="{{ route('professeurs.cours.list.prof', $classe->id) }}">Voir Cours</a>
                 </td>
             </tr>
         @endforeach

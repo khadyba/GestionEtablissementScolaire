@@ -20,7 +20,7 @@
     @else
         <p>Le cours demandé n'existe pas ou a été supprimé.</p>
     @endif
-    <a href="{{ route('professeurs.cours.list.prof') }}">Retour à la liste des cours</a>
+    <a href="{{ route('professeurs.cours.list.prof',['id' => $classe->id]) }}">Retour à la liste des cours</a>
     <h2>Actions supplémentaires</h2>
     <ul>
         <li><a href="{{ route('professeurs.salle.disponible', ['id' => $classe->id]) }}">Voir les salles disponibles pour cette classe</a></li>

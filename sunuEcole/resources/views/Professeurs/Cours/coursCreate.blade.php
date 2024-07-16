@@ -1,6 +1,16 @@
 <div class="container">
     <h1>Créer un nouveau cours</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('professeurs.cours.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
@@ -24,17 +34,17 @@
             <input type="time" name="heure_fin" id="heure_fin" class="form-control" required>
         </div>
         <div class="form-group">
-        <label for="fichier_cours">Fichier du cours :</label>
-        <input type="file" name="fichier_cours" id="fichier_cours" class="form-control" required>
-    </div>
-        <div class="form-group">
-            <label for="classe">Sélectionner une classe :</label>
-            <select name="classe_id" id="classe" class="form-control">
-                @foreach($classes as $classe)
-                    <option value="{{ $classe->id }}">{{ $classe->nom }}</option>
-                @endforeach
-            </select>
+            <label for="fichier_cours">Fichier du cours :</label>
+            <input type="file" name="fichier_cours" id="fichier_cours" class="form-control" required>
         </div>
+        <div class="form-group">
+    <label for="classe_id">Sélectionner une classe :</label>
+    <select name="classe_id" id="classe_id" class="form-control" required>
+        <option value="{{ $classe->id }}">{{ $classe->nom }}</option>
+    </select>
+</div>
+
+</div>
         <button type="submit" class="btn btn-primary">Créer</button>
     </form>
 </div>

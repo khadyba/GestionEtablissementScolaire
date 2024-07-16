@@ -3,7 +3,7 @@
     <h1>Tableau de bord Parent</h1>
 
     @if ($emploiDuTemps)
-        <h2>Emploi du temps de {{ $eleve->prenom }} {{ $eleve->nom }}</h2>
+        <h2>Emploi du temps de {{ $eleve->prenoms }} {{ $eleve->nom }}</h2>
         <ul>
             @foreach ($emploiDuTemps as $emploi)
                 <li>
@@ -23,7 +23,7 @@
 @csrf
 <button type="submit" class="btn btn-danger">Déconnexion</button>
 </form>
-<a href="{{ route('eleves.payInscription') }}" class="btn btn-primary">Payer l'inscription </a>
+<a href="{{ route('parents.parent.payInscription') }}" class="btn btn-primary">Payer l'inscription </a>
 
 </div>
 

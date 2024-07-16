@@ -17,7 +17,7 @@
     <button type="submit" class="btn btn-danger">Déconnexion</button>
 </form>
     <div class="container">
-    <a href="{{ route('eleves.eleves.payInscription') }}" class="btn btn-primary">Payer mon inscription</a>
+    <a href="{{ route('eleves.eleves.payInscription') }}" class="btn btn-primary" target="_blank">Payer mon inscription</a>
 </div>
 </div>
 

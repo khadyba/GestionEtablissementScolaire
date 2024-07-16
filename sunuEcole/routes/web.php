@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Classe;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClasseController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\ProfesseurController;
 use App\Http\Controllers\ElevesCoursController;
+use App\Http\Controllers\EvaluationsController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\SalleDeClasseController;
 use App\Http\Controllers\AdministrateurController;
@@ -76,7 +78,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/classes/{id}/professeurs', [ClasseController::class, 'assignTeachers'])->name('classes.assign.teachers');
     Route::post('/classes/{id}/professeurs', [ClasseController::class, 'storeAssignedTeacher'])->name('classes.assign.teachers.store');
     Route::delete('/classes/{classeId}/professeurs/{professeurId}', [ClasseController::class, 'detachProfesseurFromClasse'])->name('classes.professeurs.detach');
+    Route::delete('/classes/{classeId}/eleves/{eleveId}', [ClasseController::class, 'detachEleveClasse'])->name('classes.eleve.detach');
     Route::get('/classes/{classeId}/professeurs/manage', [ClasseController::class, 'manageProfessors'])->name('classes.professeurs.manage');
+    Route::get('/classes/{classeId}/eleves/manage', [ClasseController::class, 'manageEleves'])->name('classes.eleves.manage');
     // route pour la gestion des emplois du temps
     Route::get('/emplois_du_temps', [EmploisDuTempsController::class, 'index'])->name('emplois_du_temps.index');
     Route::get('/emplois_du_temps/create/{classe}', [EmploisDuTempsController::class, 'create'])->name('emplois_du_temps.create');
@@ -98,7 +102,7 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/classes/{id}', [ProfesseurController::class, 'show'])->name('classes.show.prof');
                 Route::get('/cours/create/{classe}', [ProfesseurController::class, 'create'])->name('cours.create');
                 Route::post('/cours', [ProfesseurController::class, 'store'])->name('cours.store');
-                Route::get('/cours', [ProfesseurController::class, 'listeCours'])->name('cours.list.prof');
+                Route::get('professeurs/classes/{id}/cours', [ProfesseurController::class, 'listeCours'])->name('cours.list.prof');
                 Route::get('/cours/{id}', [ProfesseurController::class, 'detailCours'])->name('cours.detail.prof');
                 Route::get('/cours/{id}/edit', [ProfesseurController::class, 'edit'])->name('cours.edit');
                 Route::put('/cours/{id}', [ProfesseurController::class, 'update'])->name('cours.update');
@@ -106,6 +110,12 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/salles/salleDisponible/{id}', [SalleDeClasseController::class, 'afficherSallesDisponibles'])->name('salle.disponible');
                 Route::post('/cours/{coursId}/assign-salle/{salleId}', [SalleDeClasseController::class, 'assignSalle'])->name('cours.assignSalle');
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
+                Route::get('professeurs/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
+                Route::post('evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
+                Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+                Route::post('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
+
+
             });
             // Routes pour les élèves
             Route::prefix('eleves')->name('eleves.')->group(function () {
@@ -126,6 +136,8 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/parent/dashboard', [ParentsController::class, 'index'])->name('parent.dashboard');
                 Route::get('parents/complete-profile', [ParentsController::class, 'completerProfil'])->name('parent.completeProfileForm');
                 Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parent.completeProfile');
+                Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
+
             });
 });
   

@@ -29,7 +29,11 @@ class ElevesController extends Controller
     }
      public function completerProfil()
      {
-        return view('Eleves.classes.completerProfil');
+        $classes = Classe::all();
+        $parents = User::whereHas('roles', function ($query) {
+            $query->where('role_id', 3);
+        })->get();
+        return view('Eleves.classes.completerProfil',compact('classes','parents'));
      }
 
 

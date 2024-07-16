@@ -39,9 +39,9 @@
         <p>Aucun emploi du temps disponible pour cette classe.</p>
     @endif
           
-    <a href="{{ route('professeurs.cours.list.prof',$classe->id) }}" class="btn btn-primary">Voir la liste des Cours</a>
-            
+    <a href="{{ route('professeurs.cours.list.prof', $classe->id) }}" class="btn btn-primary">Voir la liste des Cours</a>
+    <a href="{{ route('professeurs.evaluations.create', $classe->id) }}">Programmer une évaluation</a>
 
-    <a href="{{ route('classes.index') }}" class="btn btn-primary">Retour à la liste des classes</a>
+    <a href="{{ route('professeurs.classes.index.prof') }}" class="btn btn-primary">Retour à la liste des classes</a>
 </div>
 

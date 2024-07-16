@@ -13,7 +13,7 @@ class Notes extends Model
         'valeur',
         'appreciations' ,
         'evaluation_id' ,
-        'eleves_id'
+        'eleve_id'
     ];
 
 
