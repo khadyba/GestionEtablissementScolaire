@@ -17,33 +17,16 @@ class SalleDeClasseController extends Controller
     public function index()
     {
         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();
-        return view('Salle.sallesDeClasse', compact('sallesDeClasse'));
+        return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
-
-//     public function disponibliterSall($id)
-// {
-//     $classe = Classe::findOrFail($id);
-//     $salleDeClasses = SalleDeClasse::where('statut', 'libre')->get();
-//     $cours = Cours::find($id);
-
-//     if (!$cours) {
-//         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
-//     }
-
-//     return view('Salle.listSalles', compact('cours', 'classe', 'salleDeClasses'));
-// }
-
-    
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);
     $cours = Cours::findOrFail($id);
     $salles = SalleDeClasse::where('statut', 'libre')->get();
 
-    return view('Salle.listSalles', compact('salles', 'cours','classe'));
+    return view('Administrateur.Salle.listSalles', compact('salles', 'cours','classe'));
 }
-
-
         public function assignSalle($coursId, $salleId)
     {
         $cours = Cours::find($coursId);
@@ -57,8 +40,6 @@ public function afficherSallesDisponibles($id)
         $salle->save();
         return redirect()->route('professeurs.cours.detail.prof', $coursId)->with('success', 'Salle de classe assignée avec succès.');
     }
-
-    
     /**
      * Show the form for creating a new resource.
      *
@@ -66,7 +47,7 @@ public function afficherSallesDisponibles($id)
      */
     public function create()
     {
-        return view('Salle.createSalle');
+        return view('Administrateur.Salle.createSalle');
     }
 
     /**
@@ -111,7 +92,7 @@ public function afficherSallesDisponibles($id)
     public function edit($id)
     {
         $salle = SalleDeClasse::findOrFail($id);
-        return view('Salle.sallesDeClasseEdit', compact('salle'));
+        return view('Administrateur.Salle.sallesDeClasseEdit', compact('salle'));
     }
 
     /**

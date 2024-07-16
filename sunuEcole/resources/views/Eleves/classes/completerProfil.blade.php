@@ -1,9 +1,7 @@
 
-
-
 <div class="container">
     <h1>Compléter votre profil</h1>
-    <form action="{{ route('eleves.completeProfile') }}" method="POST">
+    <form action="{{ route('eleves.eleves.completeProfile') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="nom">Nom</label>
@@ -49,12 +47,3 @@
     </div>
         <button type="submit" class="btn btn-primary">Completer</button>
     </form>
-    <form action="{{ route('users.logout') }}" method="POST" style="display:inline">
-    @csrf
-    <button type="submit" class="btn btn-danger">Déconnexion</button>
-</form>
-    <div class="container">
-    <a href="{{ route('eleves.payInscription') }}" class="btn btn-primary">Payer mon inscription</a>
-</div>
-</div>
-

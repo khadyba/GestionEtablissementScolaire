@@ -24,8 +24,14 @@ class ElevesController extends Controller
         $parents = User::whereHas('roles', function ($query) {
             $query->where('role_id', 3);
         })->get();
-        return view('elevesdashboard', compact('classes', 'parents','cours'));
+        $cours = Cours::all();
+        return view('Eleves.elevesdashboard', compact('classes', 'parents','cours'));
     }
+     public function completerProfil()
+     {
+        return view('Eleves.classes.completerProfil');
+     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -70,7 +76,7 @@ class ElevesController extends Controller
     $eleve->is_completed = true;
     $eleve->save();
 
-    return redirect()->route('eleve.dashboard')->with('success', 'Profil complété avec succès.');
+    return redirect()->route('eleves.eleve.dashboard')->with('success', 'Profil complété avec succès.');
 }
 
     
@@ -83,8 +89,8 @@ class ElevesController extends Controller
      */
     public function show(Cours $cours)
     {
-        $cours=Cours::FindOrfail();
-        return view('Cours.coursDetail');
+        $cours=Cours::FindOrfail($cours);
+        return view('Eleves.classes.detailCours',compact('cours'));
     }
 
     /**

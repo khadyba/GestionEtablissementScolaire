@@ -30,7 +30,7 @@ class ProfessorDetachedNotification extends Mailable
     public function build()
     {
         return $this->subject('Notification de retrait de classe')
-                    ->view('emails.professor_detached')
+                    ->view('email.professor_detached')
                     ->with([
                         'classeNom' => $this->classeNom,
                         'etablissementName' => $this->etablissementName,

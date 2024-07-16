@@ -65,7 +65,7 @@ class PaymentReceived extends Mailable
     public function content()
     {
         return new Content(
-            view: 'payment_reçu',
+            view: 'email.payment_reçu',
         );
     }
 

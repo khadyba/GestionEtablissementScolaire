@@ -29,14 +29,14 @@ class AdministrateurController extends Controller
         $emploisDuTemps = EmploisDuTemps::all();
         $classeId = Classe::first();
         $classeId = $classeId ? $classeId->id : null;
-        return view('admindashboard',compact('elevesInscrits','emploisDuTemps','classeId'));
+        return view('Administrateur.admindashboard',compact('elevesInscrits','emploisDuTemps','classeId'));
     }
 
     public function listeElevesInscrits()
     {
         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
         // $emploisDuTemps = EmploisDuTemps::all();
-        return view('admindashboard', compact('elevesInscrits'));
+        return view('Administrateur.admindashboard', compact('elevesInscrits'));
     }
     /**
      * Show the form for creating a new resource.
@@ -45,7 +45,7 @@ class AdministrateurController extends Controller
      */
     public function create()
     {
-        return view('formulaireAdministrateur');
+        return view('Administrateur.formulaireAdministrateur');
     }
 
 
@@ -97,7 +97,7 @@ class AdministrateurController extends Controller
        
         {
             $admin = auth()->user();
-            return view('updateProfil', compact('admin'));
+            return view('Administrateur.updateProfil', compact('admin'));
         }
     
 
@@ -140,7 +140,7 @@ class AdministrateurController extends Controller
       public function formulaire()
       {
         $etablissements = Etablissement::all(); 
-        return view('formulaireAjouProf', compact('etablissements'));
+        return view('Administrateur.formulaireAjouProf', compact('etablissements'));
       }
 
     public function ajouterProfesseur(Request $request)

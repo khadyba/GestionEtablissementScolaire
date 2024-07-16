@@ -47,5 +47,8 @@ public function professeurs()
     {
         return $this->hasMany(EmploisDuTemps::class);
     }
-   
+    public function cours()
+    {
+        return $this->hasMany(Cours::class);
+    }
 }

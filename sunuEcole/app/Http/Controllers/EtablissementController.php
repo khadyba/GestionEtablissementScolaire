@@ -25,7 +25,7 @@ class EtablissementController extends Controller
      */
     public function create()
     {
-        return view('etablissementFormulaire');
+        return view('Administrateur.etablissementFormulaire');
     }
 
     /**

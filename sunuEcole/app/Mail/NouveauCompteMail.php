@@ -30,7 +30,7 @@ class NouveauCompteMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Votre compte sur SunuLycée')->view('professeur_compte', [
+        return $this->subject('Votre compte sur SunuLycée')->view('email.professeur_compte', [
             'email' => $this->identifiants['email'],
             'password' => $this->identifiants['password'],
         ]);
