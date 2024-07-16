@@ -10,7 +10,20 @@ class ParentsController extends Controller
 {
     public function index()
     {
-        return view('parentsdashboard');
+        $parent=Auth::user();
+    $eleve = $parent->eleve;
+
+    // Vérifier si l'élève existe et récupérer son emploi du temps s'il est disponible
+    $emploiDuTemps = null;
+    if ($eleve) {
+        $emploiDuTemps = $eleve->emploisDuTemps;
+    }
+        return view('Parents.parentsdashboard', compact('emploiDuTemps'));
+    }
+
+    public function completerProfil()
+    {
+        return view('Parents.completerProfil');
     }
     public function store(Request $request)
     {
@@ -29,6 +42,6 @@ class ParentsController extends Controller
         $parent->user_id = Auth::id(); 
         $parent->is_completed = true;
         $parent->save();
-        return redirect()->route('eleve.dashboard')->with('success', 'Profil complété avec succès.');
+        return redirect()->route('parents.parent.dashboard')->with('success', 'Profil complété avec succès.');
     }
 }

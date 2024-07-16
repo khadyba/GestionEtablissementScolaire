@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('non_de_votre_éléve');
             $table->string('telephone')->nullable();
             $table->boolean('is_completed')->default(false); 
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

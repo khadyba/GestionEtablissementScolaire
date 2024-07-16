@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Classe;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ class EmploisDuTempsController extends Controller
         // Récupérer tous les fichiers d'emploi du temps depuis la base de données
         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
         $emploisDuTemps = EmploisDuTemps::all();
-        return view('admindashboard', compact('emploisDuTemps','elevesInscrits'));
+        return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));
     }
     
 
@@ -31,7 +30,7 @@ class EmploisDuTempsController extends Controller
     public function create($classeId)
 {
     $classe = Classe::findOrFail($classeId);
-    return view('uploadEmploiDuTemps', compact('classe'));
+    return view('Administrateur.uploadEmploiDuTemps', compact('classe'));
 }
     
 

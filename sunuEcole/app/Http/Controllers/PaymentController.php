@@ -82,39 +82,27 @@ class PaymentController extends Controller
         if (!empty($eleve->email_tuteur)) {
             Mail::to($eleve->email_tuteur)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
         }
-
-        // Redirection vers l'URL de la facture générée par PayDunya
         return redirect($co->getInvoiceUrl());
     } else {
-        // Retourner une erreur JSON en cas d'échec de la création de la facture
         return response()->json(['error' => $co->response_text], 500);
     }
     }
-       
-
-    
-
 public function success()
 {
     return view('payment.success');
 }
-
 public function cancel()
 {
     $classes = Classe::all();
-    return view('elevesdashboard', compact('classes'));
+    return view('Eleves.elevesdashboard', compact('classes'));
 }
-
-
 public function callback(Request $request)
 {
-     // Vérifier que la méthode de la requête est POST
      if ($request->isMethod('post')) {
         $data = $request->all();
 
         if ($data['status'] == 'completed') {
             $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
-
             Payment::create([
                 'montant' => $data['total_amount'],
                 'date' => now(),
@@ -127,15 +115,9 @@ public function callback(Request $request)
             return response()->json(['status' => 'failure', 'message' => 'Payment not completed'], 400);
         }
     } else {
-        // Retourner une erreur si la méthode de la requête n'est pas POST
         return response()->json(['error' => 'Method not allowed'], 405);
     }
 }
-
-
-
-
-// ...
     /**
      * Show the form for creating a new resource.
      *

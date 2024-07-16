@@ -22,18 +22,15 @@ class ProfesseurController extends Controller
     public function index()
     {
         $classes = Classe::where('is_delete', false)->get();
-        return view('profdashboard', compact('classes'));
+        return view('Professeurs.profdashboard', compact('classes'));
     }
-
-
     public function showCompleteProfileForm()
     {
-        return view('complete-profile');
+        return view('Professeurs.complete-profile');
     }
 
     public function completeProfile(Request $request)
     {
-        // Valider les données du formulaire
         $validatedData = $request->validate([
             'nom' => 'required|string|max:255',
             'prenoms' => 'required|string|max:255',
@@ -41,45 +38,28 @@ class ProfesseurController extends Controller
             'adresse' => 'required|string|max:255',
             'telephone' => 'required|string|max:255',
         ]);
-    
-        // Récupérer l'utilisateur authentifié
         $user = Auth::user();
-    
-        // Vérifier le rôle de l'utilisateur dans la table pivot
         $role = DB::table('usersroles')
             ->where('user_id', $user->id)
             ->first();
-    
-        // Assurez-vous que l'utilisateur a le rôle de professeur (role_id = 1 pour professeur)
         if ($role && $role->role_id == 1) {
-            // Sauvegarder les données dans la table professeurs
             $professeur = Professeur::where('user_id', $user->id)->first();
-    
             if (!$professeur) {
                 $professeur = new Professeur();
                 $professeur->user_id = $user->id;
             }
-    
             $professeur->nom = $validatedData['nom'];
             $professeur->prenoms = $validatedData['prenoms'];
             $professeur->spécialiter = $validatedData['spécialiter'];
             $professeur->adresse = $validatedData['adresse'];
             $professeur->telephone = $validatedData['telephone'];
-            $professeur->is_completed = true; // Marquer le profil comme complété
-    
-            // Sauvegarder le profil du professeur
+            $professeur->is_completed = true; 
             $professeur->save();
-    
-            // Redirection avec un message de succès
-            return redirect()->route('prof.dashboard')->with('success', 'Profil complété avec succès.');
+            return redirect()->route('professeurs.prof.dashboard')->with('success', 'Profil complété avec succès.');
         }
-    
-        // Si l'utilisateur n'a pas le rôle de professeur, redirigez ou affichez un message d'erreur
+
         return redirect()->route('home')->with('error', 'Vous n\'avez pas les droits nécessaires pour compléter ce profil.');
     }
-    
-    
-    
     /**
      * Show the form for creating a new resource.
      *
@@ -89,7 +69,7 @@ class ProfesseurController extends Controller
     {
         $sallesDeClasses = SalleDeClasse::all();
         $classes = auth()->user()->professeur->classes;
-        return view('Cours.coursCreate', compact('classes','sallesDeClasses'));
+        return view('Professeurs.Cours.coursCreate', compact('classes','sallesDeClasses'));
     }
 
     /**
@@ -100,7 +80,6 @@ class ProfesseurController extends Controller
      */
     public function store(Request $request)
 {
-    // Validation des données de la requête
     $validatedData = $request->validate([
         'titre' => 'required|string|max:255',
         'descriptions' => 'required|string',
@@ -112,40 +91,24 @@ class ProfesseurController extends Controller
     ]);
 
     try {
-        // Récupérer l'utilisateur connecté (le professeur)
         $professeur = auth()->user()->professeur;
-
-        // Téléchargement du fichier du cours
         $filePath = $request->file('fichier_cours')->store('public/cours_fichiers');
-
-        // Création du cours
         $cours = new Cours();
         $cours->titre = $validatedData['titre'];
         $cours->descriptions = $validatedData['descriptions'];
         $cours->jours = $validatedData['jours'];
         $cours->heure_debut = $validatedData['heure_debut'];
         $cours->heure_fin = $validatedData['heure_fin'];
-        $cours->fichier_cours = $filePath; // Enregistrez le chemin complet du fichier
+        $cours->fichier_cours = $filePath; 
         $cours->professeur_id = $professeur->id;
         $cours->classe_id = $validatedData['classe_id'];
         $cours->save();
-
-        // Rediriger vers la page de détails de la classe avec un message de succès
         return redirect()->route('professeurs.cours.list.prof', $validatedData['classe_id'])
                          ->with('success', 'Cours créé avec succès.');
     } catch (\Exception $e) {
-        // Gérer les erreurs de manière appropriée
         return back()->withErrors(['error' => 'Une erreur est survenue lors de la création du cours.']);
     }
 }
-
-
- // Méthode pour télécharger un cours
-//  public function download($id)
-//  {
-//      $cours = Cours::findOrFail($id);
-//      return Storage::disk('public')->download($cours->fichier_cours);
-//  }
     /**
      * Display the specified resource.
      *
@@ -173,7 +136,7 @@ class ProfesseurController extends Controller
     if (!$cours) {
         return redirect()->route('professeurs.cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }
-    return view('Cours.editCours', compact('cours'));
+    return view('Professeurs.Cours.editCours', compact('cours'));
     }
 
     /**
@@ -239,7 +202,7 @@ class ProfesseurController extends Controller
     public function listeCours()
     {
         $cours = Cours::where('is_deleted', false)->get();
-        return view('Cours.listCours', compact('cours'));
+        return view('Professeurs.Cours.listCours', compact('cours'));
     }
 
     public function detailCours($id)
@@ -250,7 +213,7 @@ class ProfesseurController extends Controller
     if (!$cours) {
         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }
-        return  view('Cours.coursDetail',compact('cours','classe'));
+        return  view('Professeurs.Cours.coursDetail',compact('cours','classe'));
     }
     
 

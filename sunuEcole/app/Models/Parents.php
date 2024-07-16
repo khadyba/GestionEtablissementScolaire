@@ -13,12 +13,17 @@ class Parents extends Model
         'prenoms',
         'non_de_votre_éléve',
         'telephone',
-        'is_completed'
-      
+        'is_completed',
+          'user_id'
     ];
     public function eleves()
 {
     return $this->hasMany(Eleves::class);
+}
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id','id');
 }
 
 }

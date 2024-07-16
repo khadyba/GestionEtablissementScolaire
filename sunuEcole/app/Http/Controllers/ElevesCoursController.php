@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cours;
+use App\Models\Classe;
 use App\Models\ElevesCours;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,15 @@ class ElevesCoursController extends Controller
      */
     public function index()
     {
-        //
+        $classes = Classe::all();
+        return view('Eleves.classes.index', compact('classes'));
+    }
+
+    public function listCours($id)
+    {
+        $classe = Classe::findOrFail($id);
+        $cours = Cours::where('classe_id', $id)->get();
+        return view('Eleves.classes.cours', compact('classe','cours'));
     }
 
     /**
@@ -44,9 +54,16 @@ class ElevesCoursController extends Controller
      * @param  \App\Models\ElevesCours  $elevesCours
      * @return \Illuminate\Http\Response
      */
-    public function show(ElevesCours $elevesCours)
+    public function show($id)
     {
-        //
+        $classe = Classe::findOrFail($id);
+        return view('Eleves.classes.detail', compact('classe'));
+    }
+
+    public function detailCours($id)
+    {
+        $cours = Cours::findOrFail($id);
+        return view('Eleves.classes.detailCours', compact('cours'));
     }
 
     /**

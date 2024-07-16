@@ -49,7 +49,7 @@ class ProfessorAssignedNotification extends Mailable
     public function build()
     {
         return $this->subject('Notification d\'affectation de professeur')
-                    ->view('profmail-assigned')
+                    ->view('email.profmail-assigned')
                     ->with([
                         'classeName' => $this->classeName,
                         'etablissementName' => $this->etablissementName,

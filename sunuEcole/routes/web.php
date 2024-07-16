@@ -8,10 +8,11 @@ use App\Http\Controllers\ParentsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\ProfesseurController;
+use App\Http\Controllers\ElevesCoursController;
 use App\Http\Controllers\EtablissementController;
+use App\Http\Controllers\SalleDeClasseController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
-use App\Http\Controllers\SalleDeClasseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,25 +88,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/AjouterProf',[AdministrateurController::class,'ajouterProfesseur'])->name('Ajout.ajouterProfesseur');
     
 });
-        // route apres le payment sur paydunya
-        Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
-        Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
-        Route::post('payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
-        
-        Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
-            // route pour pemermetre au professeur , parents et eleves  de completer leur profil 
-            Route::get('/professeurs/complete-profil', [ProfesseurController::class, 'showCompleteProfileForm'])->name('professeurs.complete-profile');
-            Route::post('/professeurs/complete-profil', [ProfesseurController::class, 'completeProfile'])->name('professeurs.complete-profile.store');
-            Route::get('eleves/complete-profile', [ElevesController::class, 'index'])->name('eleves.completeProfileForm');
-            Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');
-            Route::get('parents/complete-profile', [ParentsController::class, 'index'])->name('parents.completeProfileForm');
-            Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parents.completeProfile');
-            // route pour les dashboard 
-            Route::get('/prof/dashboard', [ProfesseurController::class, 'index'])->name('prof.dashboard');
-            Route::get('/eleve/dashboard', [ElevesController::class, 'index'])->name('eleve.dashboard');
-            Route::get('/parent/dashboard', [ParentsController::class, 'index'])->name('parent.dashboard');
-          // route pour permettre au prof d'ajouter des cours au niveau des classes où ils ont été affectés 
+Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {  
+            // route pour les professeurs
             Route::prefix('professeurs')->name('professeurs.')->group(function () {
+                Route::get('/professeurs/complete-profil', [ProfesseurController::class, 'showCompleteProfileForm'])->name('professeurs.complete-profile');
+                Route::post('/professeurs/complete-profil', [ProfesseurController::class, 'completeProfile'])->name('professeurs.complete-profile.store');
+                Route::get('/prof/dashboard', [ProfesseurController::class, 'index'])->name('prof.dashboard');
                 Route::get('/listDesClasses', [ProfesseurController::class, 'index'])->name('classes.index.prof');
                 Route::get('/classes/{id}', [ProfesseurController::class, 'show'])->name('classes.show.prof');
                 Route::get('/cours/create/{classe}', [ProfesseurController::class, 'create'])->name('cours.create');
@@ -117,17 +105,32 @@ Route::middleware(['auth:admin'])->group(function () {
                 Route::delete('/cours/{id}', [ProfesseurController::class, 'destroy'])->name('cours.destroy');
                 Route::get('/salles/salleDisponible/{id}', [SalleDeClasseController::class, 'afficherSallesDisponibles'])->name('salle.disponible');
                 Route::post('/cours/{coursId}/assign-salle/{salleId}', [SalleDeClasseController::class, 'assignSalle'])->name('cours.assignSalle');
-
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
             });
             // Routes pour les élèves
             Route::prefix('eleves')->name('eleves.')->group(function () {
+                Route::get('/eleve/dashboard', [ElevesController::class, 'index'])->name('eleve.dashboard');
                 Route::get('/cours', [ElevesController::class, 'index'])->name('cours.index');
                 Route::get('/cours/{id}', [ElevesController::class, 'show'])->name('cours.show.eleve');
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
+                Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
+                Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
+                Route::get('/classes/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.index');
+                Route::get('/cours/{id}',  [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
+                Route::get('eleves/complete-profile', [ElevesController::class, 'completerProfil'])->name('eleves.completeProfileForm');
+                Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');
+                Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
+            }); 
+            // route pour les parents 
+            Route::prefix('parents')->name('parents.')->group(function (){
+                Route::get('/parent/dashboard', [ParentsController::class, 'index'])->name('parent.dashboard');
+                Route::get('parents/complete-profile', [ParentsController::class, 'completerProfil'])->name('parent.completeProfileForm');
+                Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parent.completeProfile');
             });
-            // route pour effectuer les inscripption 
-            Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
-        });
+});
   
        
+ // route apres le payment sur paydunya
+ Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
+ Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+ Route::post('payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');

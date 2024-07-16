@@ -33,7 +33,7 @@ class ClasseController extends Controller
     public function index()
     {
         $classes = Classe::where('is_delete', false)->get();
-        return view('Classe.listDesClasses', compact('classes'));
+        return view('Administrateur.Classe.listDesClasses', compact('classes'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ClasseController extends Controller
         $this->authorize('create', Classe::class);
         $etablissements = Etablissement::all();
 
-        return view('Classe.formulaireAjoutClasse', compact('etablissements'));
+        return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
     }
 
     /**
@@ -66,15 +66,8 @@ class ClasseController extends Controller
         'etablissement_id' => 'required|exists:etablissements,id',
      
     ]);
-
-    // Ajout de l'ID de l'administrateur connecté aux données validées
     $validatedData['administrateur_id'] = auth('admin')->id();
-     // dd(  $validatedData['administrateur_id']);
-
-    // Création d'une nouvelle classe avec les données validées
     Classe::create($validatedData);
-
-    // Redirection avec un message de succès
     return redirect()->route('classes.index')->with('success', 'Classe créée avec succès.');
 }
 
@@ -90,7 +83,7 @@ class ClasseController extends Controller
         $classe = Classe::with(['eleves', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
         $eleves = Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
-        return view('Classe.classesDetail', compact('classe','professeursAssignes','eleves'));
+        return view('Administrateur.Classe.classesDetail', compact('classe','professeursAssignes','eleves'));
     }
     
     
@@ -106,7 +99,7 @@ class ClasseController extends Controller
      {
         $classe = Classe::findOrFail($id);
         $this->authorize('update',  $classe);
-       return view('Classe.modifierClasses', compact('classe'));
+       return view('Administrateur.Classe.modifierClasses', compact('classe'));
      }
      
 
@@ -163,7 +156,7 @@ public function assignTeachers($id)
 
     $classe = Classe::findOrFail($id);
         $professeurs = Professeur::all();
-    return view('assign-professeurs', compact('classe', 'professeurs'));
+    return view('Administrateur.assign-professeurs', compact('classe', 'professeurs'));
 }
 
 public function storeAssignedTeacher(Request $request, $id)
@@ -224,7 +217,7 @@ public function assignStudents($id)
         // dd($eleves);
 
     // Retourner une vue avec les données nécessaires
-    return view('assign-eleves', compact('classe', 'eleves'));
+    return view('Administrateur.assign-eleves', compact('classe', 'eleves'));
 }
 
 
@@ -283,12 +276,7 @@ public function manageProfessors($classeId)
 {
     $classe = Classe::findOrFail($classeId);
     $professeurs = $classe->professeurs;
-    
-    return view('classe.manageProfessors', compact('classe', 'professeurs'));
+    return view('Administrateur.Classe.manageProfessors', compact('classe', 'professeurs'));
 }
-
-
-
-
 }
 

@@ -1,9 +1,7 @@
 
-
-
 <div class="container">
     <h1>Compléter votre profil</h1>
-    <form action="{{ route('parents.completeProfile') }}" method="POST">
+    <form action="{{ route('parents.parent.completeProfile') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="nom">Nom</label>
@@ -24,8 +22,3 @@
       
         <button type="submit" class="btn btn-primary">Completer</button>
     </form>
-    <div class="container">
-    <a href="{{ route('eleves.payInscription') }}" class="btn btn-primary">Payer mon inscription</a>
-</div>
-</div>
-
