@@ -78,4 +78,17 @@ class Eleves extends Model
     return $this->belongsTo(Parent::class);
 }
 
+    /**
+     * Récupérer l'emploi du temps de l'élève.
+     */
+    public function getEmploiDuTempsAttribute()
+    {
+        
+        if ($this->classe) {
+            return $this->classe->emploisDuTemps()->first();
+        }
+
+        return null;
+    }
+
 }

@@ -19,10 +19,7 @@ class PaymentController extends Controller
 
     protected $payDunyaService;
 
-    // public function __construct(PayDunyaService $payDunyaService)
-    // {
-    //     $this->payDunyaService = $payDunyaService;
-    // }
+   
     /**
      * Display a listing of the resource.
      *

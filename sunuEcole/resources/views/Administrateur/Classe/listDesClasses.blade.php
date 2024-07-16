@@ -34,6 +34,7 @@
                 
                     <a href="{{ route('classes.show', $classe->id) }}">Voir Details </a>
                     <a href="{{ route('classes.professeurs.manage', $classe->id) }}">Gérer les Professeurs</a>
+                    <a href="{{ route('classes.eleves.manage', $classe->id) }}">Gérer les Eleves</a>
                 </td>
             </tr>
         @endforeach

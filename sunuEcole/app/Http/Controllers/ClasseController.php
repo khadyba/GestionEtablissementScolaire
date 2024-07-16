@@ -155,7 +155,7 @@ public function assignTeachers($id)
 {
 
     $classe = Classe::findOrFail($id);
-        $professeurs = Professeur::all();
+    $professeurs = Professeur::all();
     return view('Administrateur.assign-professeurs', compact('classe', 'professeurs'));
 }
 
@@ -200,47 +200,25 @@ public function storeAssignedTeacher(Request $request, $id)
 
 public function assignStudents($id)
 {
-    // Récupérer la classe par ID
     $classe = Classe::findOrFail($id);
-
-    // Récupérer l'établissement associé à la classe
-    $etablissementId = $classe->etablissement_id;
-
-    // Récupérer les élèves associés à cet établissement
-    $roleEleves = Role::where('nom', 'eleves')->first(); 
-    $eleves = User::where('etablissement_id', $etablissementId)
-        ->whereHas('roles', function($query) use ($roleEleves) {
-            $query->where('role_id', $roleEleves->id);
-        })
-        ->with('eleves') // Assurez-vous que cette relation existe dans le modèle User
-        ->get();
-        // dd($eleves);
-
-    // Retourner une vue avec les données nécessaires
+    $eleves = Eleves::all();
     return view('Administrateur.assign-eleves', compact('classe', 'eleves'));
 }
-
-
-
-
-
 public function storeAssignedStudents(Request $request, $id)
 {
-     // Récupérer la classe par ID
     $classe = Classe::findOrFail($id);
-
-    // Valider les données du formulaire
     $validatedData = $request->validate([
         'eleve_ids' => 'required|array',
-        'eleve_ids.*' => 'exists:eleves,id', // Vérifier que tous les IDs d'élèves existent dans la table eleves
+        'eleve_ids.*' => 'exists:eleves,id', 
     ]);
-
-    // Affecter les élèves à la classe
-    $classe->eleves()->sync($validatedData['eleve_ids']);
-    // Redirection avec un message de succès
-    return redirect()->route('assign.eleves', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
-
+    
+    foreach ($validatedData['eleve_ids'] as $eleveId) {
+        $eleve = Eleves::findOrFail($eleveId);
+        $classe->eleves()->save($eleve);
+    }
+    return redirect()->route('classes.index', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
 }
+
 
 
 
@@ -269,8 +247,22 @@ public function detachProfesseurFromClasse($classeId, $professeurId)
 }
 
 
+public function detachEleveClasse($classeId, $eleveId)
+{
+    $classe = Classe::find($classeId);
+    $eleve = Eleves::find($eleveId);
 
-
+    if (!$eleve) {
+        return redirect()->route('classes.index')->with('error', 'Élève non trouvé.');
+    }
+    if ($eleve->classe_id == $classeId) {
+        $eleve->classe_id = null;
+        $eleve->save();
+        return redirect()->route('classes.index')->with('success', 'Élève retiré de la classe avec succès.');
+    } else {
+        return redirect()->route('classes.index')->with('error', 'Élève n\'est pas associé à cette classe.');
+    }
+}
 
 public function manageProfessors($classeId)
 {
@@ -278,5 +270,14 @@ public function manageProfessors($classeId)
     $professeurs = $classe->professeurs;
     return view('Administrateur.Classe.manageProfessors', compact('classe', 'professeurs'));
 }
+
+public function manageEleves($classeId)
+{
+    $classe = Classe::findOrFail($classeId);
+    $eleves = $classe->eleves;
+    return view('Administrateur.Classe.manageEleves', compact('classe', 'eleves'));
+}
+
+
 }
 

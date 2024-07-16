@@ -25,7 +25,10 @@ class AdministrateurController extends Controller
      */
     public function index()
     {
-        $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
+        $elevesInscrits = Payment::where('statut', 1)
+        ->with('eleve')
+        ->get()
+        ->unique('eleve_id');
         $emploisDuTemps = EmploisDuTemps::all();
         $classeId = Classe::first();
         $classeId = $classeId ? $classeId->id : null;

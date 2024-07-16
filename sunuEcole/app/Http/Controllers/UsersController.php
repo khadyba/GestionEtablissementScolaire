@@ -37,21 +37,21 @@ public function LoginForm(Request $request)
                 case 1: // Professeur
                     $professeur = Professeur::where('user_id', $user->id)->first();
                     if (!$professeur || !$professeur->is_completed) {
-                        return redirect()->route('professeurs.complete-profile');
+                        return redirect()->route('professeurs.professeurs.complete-profile');
                     }
                     return redirect()->route('professeurs.prof.dashboard');
 
                 case 2: // Élève
                     $eleve = Eleves::where('user_id', $user->id)->first();
                     if (!$eleve || !$eleve->is_completed) {
-                        return redirect()->route('eleves.completeProfileForm');
+                        return redirect()->route('eleves.eleves.completeProfileForm');
                     }
                     return redirect()->route('eleves.eleve.dashboard');
 
                 case 3: // Parent
                     $parent = Parents::where('user_id', $user->id)->first();
                     if (!$parent || !$parent->is_completed) {
-                        return redirect()->route('parents.parent.complete_profile');
+                        return redirect()->route('parents.parent.completeProfileForm');
                     }
                     return redirect()->route('parents.parent.dashboard');
 

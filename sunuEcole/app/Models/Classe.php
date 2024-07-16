@@ -36,7 +36,7 @@ public function professeurs()
 
     public function eleves()
     {
-        return $this->hasMany(Eleves::class);
+        return $this->hasMany(Eleves::class, 'classe_id');
     }
     
     public function administrateur()

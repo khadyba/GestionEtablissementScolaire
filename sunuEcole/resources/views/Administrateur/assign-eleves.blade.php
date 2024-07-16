@@ -11,8 +11,6 @@
             </ul>
         </div>
     @endif
-
-    <!-- Afficher les messages de succès -->
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -23,7 +21,7 @@
         @csrf
         <div class="form-group">
             <label for="eleve_ids">Sélectionner un ou plusieurs élèves :</label>
-            <select name="eleve_ids[]" id="eleve_ids" class="form-control"  style="height: auto; overflow-y: auto;">
+            <select name="eleve_ids[]" id="eleve_ids" class="form-control"   style="height: auto; overflow-y: auto;">
                 @foreach($eleves as $eleve)
                     <option value="{{ $eleve->id }}">{{ $eleve->prenoms }} {{ $eleve->nom }}</option>
                 @endforeach
