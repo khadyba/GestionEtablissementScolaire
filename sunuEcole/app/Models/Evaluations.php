@@ -12,6 +12,9 @@ class Evaluations extends Model
     protected $fillable = [
         'nom',
         'type' ,
+        'jours',
+        'heure_debut',
+        'heure_fin',
         'professeur_id',
     ];
 

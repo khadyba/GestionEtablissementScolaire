@@ -52,7 +52,7 @@ class User extends Authenticatable
         }
 
         
-        public function eleves()
+        public function eleve()
         {
             return $this->hasOne(Eleves::class, 'user_id');
         }

@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('semestre')->nullable();
             $table->unsignedBigInteger('evaluation_id');
             $table->unsignedBigInteger('eleve_id');
+            $table->unsignedBigInteger('professeur_id');
             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');
             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');
+            $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');
             $table->timestamps();
         });
     }

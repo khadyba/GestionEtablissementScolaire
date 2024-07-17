@@ -14,7 +14,9 @@ class NotesController extends Controller
      */
     public function index()
     {
-        //
+        $professeur = auth()->user()->professeur;
+        $notes = Notes::where('professeur_id', $professeur->id)->get();
+        return view('Professeurs.Evaluations.noteslist', compact('notes'));
     }
 
     /**
@@ -35,7 +37,7 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
     }
 
     /**
@@ -57,7 +59,7 @@ class NotesController extends Controller
      */
     public function edit(Notes $notes)
     {
-        //
+        return view('Professeurs.Evaluations.notesedit', compact('note'));
     }
 
     /**
@@ -69,8 +71,16 @@ class NotesController extends Controller
      */
     public function update(Request $request, Notes $notes)
     {
-        //
+        $validatedData = $request->validate([
+            'valeur' => 'required|integer|min:0|max:20',
+            'appreciations' => 'nullable|string',
+        ]);
+    
+        $notes->update($validatedData);
+    
+        return redirect()->route('professeurs.notes.list')->with('success', 'Note mise à jour avec succès.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -80,6 +90,8 @@ class NotesController extends Controller
      */
     public function destroy(Notes $notes)
     {
-        //
+        $notes->delete();
+
+      return redirect()->route('professeurs.notes.list')->with('success', 'Note supprimée avec succès.');
     }
 }

@@ -1,6 +1,6 @@
 
 <div class="container">
-    <h1>Tableau de bord Parent</h1>
+    <h1>Espace Parent</h1>
 
     @if ($emploiDuTemps)
         <h2>Emploi du temps de {{ $eleve->prenoms }} {{ $eleve->nom }}</h2>

@@ -28,6 +28,7 @@
                     <a href="{{ route('professeurs.cours.list.prof', $classe->id) }}">Voir Cours</a>
                 </td>
             </tr>
+            
         @endforeach
     </tbody>
 </table>

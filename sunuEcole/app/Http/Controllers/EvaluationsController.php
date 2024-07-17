@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notes;
 use App\Models\Classe;
 use App\Models\Evaluations;
-use App\Models\Notes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluationsController extends Controller
 {
@@ -19,6 +20,12 @@ class EvaluationsController extends Controller
         //
     }
 
+    public function listEvaluations($classeId)
+    {
+        $classe = Classe::findOrFail($classeId);
+        $evaluations = Evaluations::where('classe_id', $classeId)->get();
+        return view('Professeurs.Evaluations.listEvaluation', compact('classe', 'evaluations'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -80,33 +87,38 @@ class EvaluationsController extends Controller
         }
     }
     
-    
     public function showAddNotesForm($classeId)
     {
         $classe = Classe::findOrFail($classeId);
-        $evaluations = Evaluations::where('classe_id', $classeId)->get();
-        $eleves = $classe->eleves; // Assurez-vous que la relation entre Classe et Eleve est définie
+        $professeurId = Auth::user()->professeur->id;
+
+        // Récupérer les évaluations de ce professeur pour cette classe
+        $evaluations = Evaluations::where('classe_id', $classeId)
+            ->where('professeur_id', $professeurId)
+            ->get();
+
+        $eleves = $classe->eleves;
 
         return view('professeurs.evaluations.add_notes', compact('classe', 'evaluations', 'eleves'));
     }
-
-    public function storeNotes(Request $request, $classeId)
-    {
-        $validatedData = $request->validate([
-            'notes.*.evaluation_id' => 'required|exists:evaluations,id',
-            'notes.*.eleve_id' => 'required|exists:eleves,id',
-            'notes.*.valeur' => 'required|integer|min:0|max:20',
-            'notes.*.appreciations' => 'nullable|string',
-            'notes.*.semestre' => 'nullable|string',
-        ]);
-
-        foreach ($validatedData['notes'] as $noteData) {
+   public function storeNotes(Request $request, $classeId)
+{
+    $professeur = auth()->user()->professeur;
+    $validatedData = $request->validate([
+        'notes.*.*.evaluation_id' => 'required|exists:evaluations,id',
+        'notes.*.*.eleve_id' => 'required|exists:eleves,id',
+        'notes.*.*.valeur' => 'required|integer|min:0|max:20',
+        'notes.*.*.appreciations' => 'nullable|string',
+    ]);
+    foreach ($validatedData['notes'] as $eleveId => $evaluationNotes) {
+        foreach ($evaluationNotes as $evaluationId => $noteData) {
+            $noteData['professeur_id'] = $professeur->id;
             Notes::create($noteData);
         }
-
-        return redirect()->route('professeurs.classes.index.prof')
-                         ->with('success', 'Notes ajoutées avec succès.');
     }
+    return redirect()->route('professeurs.notes.list')->with('success', 'Notes ajoutées avec succès.');
+}
+
     /**
      * Display the specified resource.
      *
