@@ -144,6 +144,9 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('parents/complete-profile', [ParentsController::class, 'completerProfil'])->name('parent.completeProfileForm');
                 Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parent.completeProfile');
                 Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
+                Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
+                Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
+
 
             });
 });

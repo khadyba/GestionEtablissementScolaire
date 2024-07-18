@@ -36,14 +36,6 @@
                 @endforeach
             </select>
         </div>
-        <div>
-        <label for="parent_id">Parent:</label>
-        <select id="parent_id" name="parent_id">
-            <option value="">Sélectionnez un parent</option>
-            @foreach($parents as $parent)
-                <option value="{{ $parent->id }}" @if($eleve->parent_id == $parent->id) selected @endif>{{ $parent->nom }} {{ $parent->prenoms }}</option>
-            @endforeach
-        </select>
-    </div>
+    
         <button type="submit" class="btn btn-primary">Completer</button>
     </form>

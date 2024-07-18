@@ -57,7 +57,7 @@ class User extends Authenticatable
             return $this->hasOne(Eleves::class, 'user_id');
         }
 
-        public function parentt()
+        public function parent()
         {
             return $this->hasOne(Parents::class, 'user_id');
         }

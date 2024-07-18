@@ -14,7 +14,7 @@ class Parents extends Model
         'non_de_votre_éléve',
         'telephone',
         'is_completed',
-          'user_id'
+        'user_id'
     ];
     public function eleves()
 {
