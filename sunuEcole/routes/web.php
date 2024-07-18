@@ -15,6 +15,7 @@ use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\SalleDeClasseController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
+use App\Http\Controllers\NotesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,10 +113,13 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
                 Route::get('professeurs/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
                 Route::post('evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
+                Route::get('professeurs/classes/{classe}/evaluations', [EvaluationsController::class, 'listEvaluations'])->name('evaluations.list');
                 Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
                 Route::post('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
-
-
+                Route::get('professeurs/notes', [NotesController::class, 'index'])->name('notes.list');
+                Route::get('professeurs/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
+                Route::post('professeurs/notes/{note}', [NotesController::class, 'update'])->name('notes.update');
+                Route::delete('professeurs/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');
             });
             // Routes pour les élèves
             Route::prefix('eleves')->name('eleves.')->group(function () {
@@ -130,6 +134,9 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('eleves/complete-profile', [ElevesController::class, 'completerProfil'])->name('eleves.completeProfileForm');
                 Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');
                 Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
+                Route::get('professeurs/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
+                Route::get('eleves/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
+
             }); 
             // route pour les parents 
             Route::prefix('parents')->name('parents.')->group(function (){
@@ -137,6 +144,9 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('parents/complete-profile', [ParentsController::class, 'completerProfil'])->name('parent.completeProfileForm');
                 Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parent.completeProfile');
                 Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
+                Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
+                Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
+
 
             });
 });

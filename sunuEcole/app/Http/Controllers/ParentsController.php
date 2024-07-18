@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Log;
+use App\Models\Notes;
 use App\Models\Classe;
 use App\Models\Eleves;
 use App\Models\Parents;
-
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -115,9 +116,40 @@ class ParentsController extends Controller
 
 
 
+    public function showEmploiDuTemps($eleveId)
+    {
+        $eleve = Eleves::findOrFail($eleveId);
+        $emploiDuTemps = $eleve->classe->emploiDuTemps; 
+
+        return view('Parents.emploi_du_temps', compact('eleve', 'emploiDuTemps'));
+    }
+
+    public function showNotes(Request $request)
+    {
+        
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur non connecté.');
+        }
+        $parentEmail = $user->email;
+        $nomEleve = $request->input('non_de_votre_éléve');
+
+        $eleve = Eleves::where('nom', $nomEleve)
+        ->where('email_tuteur', $parentEmail)
+        ->first();
+        // dd($eleve->nom);
+    
+        if (!$eleve) {
+            return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
+        }
+        $notes = Notes::where('eleve_id', $eleve->id)->get();
+        return view('Parents.notes', compact('notes', 'eleve'));
+    }
+    
 
 
-
+    
+   
 
 
 

@@ -65,29 +65,19 @@ class ProfesseurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    //  public function create($classes)
-    // {
-    //     $sallesDeClasses = SalleDeClasse::all();
-    //     $classes = auth()->user()->professeur->classes;
-    //     return view('Professeurs.Cours.coursCreate', compact('classes','sallesDeClasses'));
-    // }
-public function create($id)
-{
-    // Rechercher la classe par son ID
-    $classe = Classe::find($id);
 
-    // Vérifier si la classe a été trouvée
-    if (!$classe) {
-        // Gérer le cas où aucune classe n'est trouvée avec cet ID
-        return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);
+    public function create($id)
+    {
+    
+        $classe = Classe::find($id);
+        if (!$classe) {
+            return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);
+        }
+        $professeur = auth()->user()->professeur;
+        $sallesDeClasses = SalleDeClasse::all(); 
+
+        return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));
     }
-
-    // Si une classe est trouvée, continuer
-    $professeur = auth()->user()->professeur;
-    $sallesDeClasses = SalleDeClasse::all(); // Supposons que vous avez besoin de salles de classe pour la création du cours
-
-    return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));
-}
 
     
     
@@ -228,41 +218,30 @@ public function create($id)
     return redirect()->route('professeurs.cours.list.prof')->with('success', 'Cours supprimé avec succès.');
     }
 
-
-    // public function listeCours()
-    // {
-    //     $cours = Cours::where('is_deleted', false)->get();
-    //     return view('Professeurs.Cours.listCours', compact('cours'));
-    // }
-
-    public function listeCours($classeId)
+    public function listeCours($id)
     {
         $professeur = auth()->user()->professeur;
-        $classe = Classe::findOrFail($classeId);
-    
-        // Vérifier si le professeur est assigné à la classe
+        $classe = Classe::findOrFail($id);
+        // dd($professeur, $classe, $classeId);
         if (!$professeur->classes->contains($classe)) {
             return redirect()->back()->withErrors(['error' => 'Vous n\'êtes pas autorisé à voir les cours de cette classe.']);
         }
-    
-        $cours = Cours::where('classe_id', $classeId)->where('is_deleted', false)->get();
-    
+        $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
         return view('Professeurs.Cours.listCours', compact('classe', 'cours'));
     }
     
-
+    
     
     public function detailCours($id)
     {
-       $cours = Cours::find($id);
-       $classe= Classe::find($id);
-
+        $cours = Cours::findOrFail($id);
+        $classe= $cours->classe->id;
+        
+        // dd( $id,  $classe,$cours->classe->id);
     if (!$cours) {
         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }
         return  view('Professeurs.Cours.coursDetail',compact('cours','classe'));
     }
     
-
-
 }

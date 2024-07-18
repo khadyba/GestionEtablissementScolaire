@@ -24,7 +24,10 @@
                 </td>
                 <td>
                 <a href="{{ route('professeurs.classes.show.prof', $classe->id) }}">Voir Detail</a>
+                <a href="{{ route('professeurs.evaluations.list', $classe->id) }}">Voir la liste des Évaluations programmer</a>
                 <a href="{{ route('professeurs.evaluations.add_notes', $classe->id) }}">Ajouter des Notes</a>
+                <a href="{{ route('professeurs.notes.list') }}">Listes des Notes</a>
+
 
                 </td>
             </tr>

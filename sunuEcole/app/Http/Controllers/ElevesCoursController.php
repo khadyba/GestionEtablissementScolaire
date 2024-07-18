@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cours;
 use App\Models\Classe;
 use App\Models\ElevesCours;
+use App\Models\Evaluations;
+use App\Models\Notes;
 use Illuminate\Http\Request;
 
 class ElevesCoursController extends Controller
@@ -27,6 +29,27 @@ class ElevesCoursController extends Controller
         return view('Eleves.classes.cours', compact('classe','cours'));
     }
 
+
+    public function listEvaluations($classeId)
+    {
+        $classe = Classe::findOrFail($classeId);
+        $evaluations = Evaluations::where('classe_id', $classeId)->get();
+        return view('Eleves.Evaluations.listEvaluation', compact('classe', 'evaluations'));
+    }
+    public function listNotes()
+    {
+        $user = auth()->user();
+    
+        if (!$user->eleve) {
+            return redirect()->route('eleves.dashboard')->withErrors('Aucune relation élève trouvée pour cet utilisateur.');
+        }
+    
+        $eleve = $user->eleve;
+        $notes = Notes::where('eleve_id', $eleve->id)->get();
+    
+        return view('Eleves.Evaluations.listNotes', compact('notes'));
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

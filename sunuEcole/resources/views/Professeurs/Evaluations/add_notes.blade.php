@@ -21,14 +21,16 @@
             @foreach ($evaluations as $evaluation)
                 <div class="form-group">
                     <label for="notes[{{ $eleve->id }}][{{ $evaluation->id }}][valeur]">Note pour {{ $evaluation->titre }} ({{ $evaluation->type }}):</label>
-                    <input type="number" name="notes[{{ $loop->parent->index }}][valeur]" class="form-control" id="notes[{{ $eleve->id }}][{{ $evaluation->id }}][valeur]" required>
+                    <input type="number" name="notes[{{ $eleve->id }}][{{ $evaluation->id }}][valeur]" class="form-control" id="notes[{{ $eleve->id }}][{{ $evaluation->id }}][valeur]" required>
 
-                    <input type="hidden" name="notes[{{ $loop->parent->index }}][evaluation_id]" value="{{ $evaluation->id }}">
-                    <input type="hidden" name="notes[{{ $loop->parent->index }}][eleve_id]" value="{{ $eleve->id }}">
-                </div>
-                <div class="form-group">
-                    <label for="notes[{{ $eleve->id }}][{{ $evaluation->id }}][appreciations]">Appréciations:</label>
-                    <textarea name="notes[{{ $loop->parent->index }}][appreciations]" class="form-control" id="notes[{{ $eleve->id }}][{{ $evaluation->id }}][appreciations]"></textarea>
+                    <!-- Hidden inputs for evaluation_id and eleve_id -->
+                    <input type="hidden" name="notes[{{ $eleve->id }}][{{ $evaluation->id }}][evaluation_id]" value="{{ $evaluation->id }}">
+                    <input type="hidden" name="notes[{{ $eleve->id }}][{{ $evaluation->id }}][eleve_id]" value="{{ $eleve->id }}">
+
+                    <div class="form-group">
+                        <label for="notes[{{ $eleve->id }}][{{ $evaluation->id }}][appreciations]">Appréciations:</label>
+                        <textarea name="notes[{{ $eleve->id }}][{{ $evaluation->id }}][appreciations]" class="form-control" id="notes[{{ $eleve->id }}][{{ $evaluation->id }}][appreciations]"></textarea>
+                    </div>
                 </div>
             @endforeach
         @endforeach

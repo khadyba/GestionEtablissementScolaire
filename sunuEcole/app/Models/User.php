@@ -52,12 +52,12 @@ class User extends Authenticatable
         }
 
         
-        public function eleves()
+        public function eleve()
         {
             return $this->hasOne(Eleves::class, 'user_id');
         }
 
-        public function parentt()
+        public function parent()
         {
             return $this->hasOne(Parents::class, 'user_id');
         }

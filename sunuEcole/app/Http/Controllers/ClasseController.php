@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
 use App\Models\Classe;
 use App\Models\Eleves;
 use App\Models\Professeur;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
-use App\Models\Administrateur;
+
+use App\Mail\EmploiDuTempsMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -216,6 +215,9 @@ public function storeAssignedStudents(Request $request, $id)
         $eleve = Eleves::findOrFail($eleveId);
         $classe->eleves()->save($eleve);
     }
+
+       // Envoyer l'email
+       Mail::to($eleve->email_tuteur)->send(new EmploiDuTempsMail($eleve));
     return redirect()->route('classes.index', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
 }
 

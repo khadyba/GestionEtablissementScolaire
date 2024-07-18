@@ -13,10 +13,14 @@ class Notes extends Model
         'valeur',
         'appreciations' ,
         'evaluation_id' ,
-        'eleve_id'
+        'eleve_id',
+        'professeur_id'
     ];
 
-
+    public function professeur()
+    {
+        return $this->belongsTo(Professeur::class);
+    }
     public function evaluation()
     {
         return $this->belongsTo(Evaluations::class);
