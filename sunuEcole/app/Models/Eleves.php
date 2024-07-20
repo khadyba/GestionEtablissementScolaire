@@ -53,7 +53,7 @@ class Eleves extends Model
         $moyenne = $this->moyenneSemestrielle($semestre);
 
         return [
-            'eleve' => $this->prenom, 
+            'eleve' => $this->prenoms, 
             'semestre' => $semestre,
             'notes' => $notes,
             'moyenne' => $moyenne,
