@@ -20,12 +20,12 @@
                     <td>{{ $evaluation->type }}</td>
                     <td>{{ $evaluation->jours }}</td>
                     
+                   <td> <a href="{{ route('professeurs.evaluations.add_notes', ['classeId' => $classe->id, 'evaluationId' => $evaluation->id]) }}">Ajouter des Notes</a></td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
         @endif
-        <a href="{{ route('professeurs.evaluations.add_notes', $classe->id) }}">Ajouter des Notes</a>
         <a href="{{ route('professeurs.evaluations.create', $classe->id) }}">Programmer une évaluation</a>
 
     </div>

@@ -8,9 +8,9 @@
 
     <h2>Élèves assignés</h2>
     <ul>
-        @if ($classe->eleves->isNotEmpty())
-            @foreach($classe->eleves as $eleve)
-                <li>{{ $eleve->prenoms }} {{ $eleve->nom }}</li>
+        @if ($classe->eleve->isNotEmpty())
+            @foreach($classe->eleve as $eleves)
+                <li>{{ $eleves->prenoms }} {{ $eleves->nom }}</li>
             @endforeach
         @else
             <li>Aucun élève assigné</li>

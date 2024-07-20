@@ -79,10 +79,10 @@ class ClasseController extends Controller
      */
     public function show($id)
     {
-        $classe = Classe::with(['eleves', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
-        $eleves = Eleves::whereNull('classe_id')->get();
+        $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $eleve = Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
-        return view('Administrateur.Classe.classesDetail', compact('classe','professeursAssignes','eleves'));
+        return view('Administrateur.Classe.classesDetail', compact('classe','professeursAssignes','eleve'));
     }
     
     
@@ -213,7 +213,7 @@ public function storeAssignedStudents(Request $request, $id)
     
     foreach ($validatedData['eleve_ids'] as $eleveId) {
         $eleve = Eleves::findOrFail($eleveId);
-        $classe->eleves()->save($eleve);
+        $classe->eleve()->save($eleve);
     }
 
        // Envoyer l'email

@@ -87,37 +87,46 @@ class EvaluationsController extends Controller
         }
     }
     
-    public function showAddNotesForm($classeId)
-    {
-        $classe = Classe::findOrFail($classeId);
-        $professeurId = Auth::user()->professeur->id;
 
-        // Récupérer les évaluations de ce professeur pour cette classe
-        $evaluations = Evaluations::where('classe_id', $classeId)
-            ->where('professeur_id', $professeurId)
-            ->get();
+    public function showAddNotesForm($classeId, $evaluationId)
+{
+    $classe = Classe::findOrFail($classeId);
+    $evaluation = Evaluations::findOrFail($evaluationId);
+    $professeurId = Auth::user()->professeur->id;
 
-        $eleves = $classe->eleves;
+    // Récupérer les élèves qui n'ont pas encore de notes pour cette évaluation spécifique
+    $eleves = $classe->eleve()->whereDoesntHave('notes', function($query) use ($evaluation) {
+        $query->where('evaluation_id', $evaluation->id);
+    })->get();
 
-        return view('professeurs.evaluations.add_notes', compact('classe', 'evaluations', 'eleves'));
-    }
-   public function storeNotes(Request $request, $classeId)
+    return view('Professeurs.Evaluations.add_notes', compact('classe', 'evaluation', 'eleves'));
+}
+
+public function storeNotes(Request $request, $classeId)
 {
     $professeur = auth()->user()->professeur;
-    $validatedData = $request->validate([
-        'notes.*.*.evaluation_id' => 'required|exists:evaluations,id',
-        'notes.*.*.eleve_id' => 'required|exists:eleves,id',
-        'notes.*.*.valeur' => 'required|integer|min:0|max:20',
-        'notes.*.*.appreciations' => 'nullable|string',
-    ]);
-    foreach ($validatedData['notes'] as $eleveId => $evaluationNotes) {
-        foreach ($evaluationNotes as $evaluationId => $noteData) {
-            $noteData['professeur_id'] = $professeur->id;
-            Notes::create($noteData);
-        }
+    $data = $request->input('notes', []); // Ajoutez une valeur par défaut pour éviter les erreurs
+
+    foreach ($data as $eleveId => $noteData) {
+        Notes::updateOrCreate(
+            [
+                'eleve_id' => $noteData['eleve_id'],
+                'evaluation_id' => $noteData['evaluation_id'],
+            ],
+            [
+                'valeur' => $noteData['valeur'] ?? null, // Utilisez null par défaut
+                'coefficient' => $noteData['coefficient'] ?? null, // Utilisez null par défaut
+                'appreciations' => $noteData['appreciations'] ?? '',
+                'professeur_id' => $professeur->id,
+            ]
+        );
     }
-    return redirect()->route('professeurs.notes.list')->with('success', 'Notes ajoutées avec succès.');
+
+    return redirect()->route('professeurs.notes.list', $classeId)
+        ->with('success', 'Notes enregistrées avec succès.');
 }
+
+
 
     /**
      * Display the specified resource.

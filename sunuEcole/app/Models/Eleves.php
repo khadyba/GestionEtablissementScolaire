@@ -31,33 +31,7 @@ class Eleves extends Model
 
     public function notes()
     {
-        return $this->hasMany(Notes::class);
-    }
-
-    // methode pour calculer la moyenne semestrielle de l'eleves 
-
-    public function moyenneSemestrielle($semestre)
-    {
-        $notes = $this->notes()->where('semestre', $semestre)->get();
-        if ($notes->isEmpty()) {
-            return null; 
-        }
-        $total = $notes->sum('valeur');
-        $count = $notes->count();
-        return $total / $count;
-    }
-//   methode pour avoir le bultin de l'eleves
-    public function bulletinDeNotes($semestre)
-    {
-        $notes = $this->notes()->where('semestre', $semestre)->get();
-        $moyenne = $this->moyenneSemestrielle($semestre);
-
-        return [
-            'eleve' => $this->prenoms, 
-            'semestre' => $semestre,
-            'notes' => $notes,
-            'moyenne' => $moyenne,
-        ];
+        return $this->hasMany(Notes::class, 'eleve_id');
     }
     public function payments()
     {

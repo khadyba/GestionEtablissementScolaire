@@ -137,10 +137,10 @@ class ProfesseurController extends Controller
      */
     public function show($id)
     {
-        $classe = Classe::with(['eleves', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
-        $eleves = Eleves::whereNull('classe_id')->get();
+        $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $eleve= Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
-        return view('Professeurs.Classes.classesDetail', compact('classe','professeursAssignes','eleves'));
+        return view('Professeurs.Classes.classesDetail', compact('classe','professeursAssignes','eleve'));
     }
 
     /**
@@ -215,7 +215,7 @@ class ProfesseurController extends Controller
         $cours->is_deleted = true;
         $cours->save();
 
-    return redirect()->route('professeurs.cours.list.prof')->with('success', 'Cours supprimé avec succès.');
+    return back();
     }
 
     public function listeCours($id)

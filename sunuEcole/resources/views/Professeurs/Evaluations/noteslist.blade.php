@@ -1,37 +1,66 @@
 
-<div class="container">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Notes</title>
+</head>
+<body>
+    <div class="container">
 <td><a href="{{ route('professeurs.prof.dashboard') }}">Retour à votre espace personnel</a></td>
 
-    <h1>Liste de vos Notes</h1>
+        <h1>Liste des Notes</h1>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    <table class="table">
-        <thead>
+        <table>
             <tr>
                 <th>Élève</th>
                 <th>Évaluation</th>
                 <th>Note</th>
                 <th>Appréciations</th>
+                <th>coefficient</th>
                 <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
+            
             @foreach ($notes as $note)
-                <tr>
-                    <td>{{ $note->eleve->prenoms }}  {{ $note->eleve->nom }}</td>
-                    <td>{{ $note->evaluation->titre }}</td>
-                    <td>{{ $note->valeur }}</td>
-                    <td>{{ $note->appreciations }}</td>
-                    <td>
-                        <a href="{{ route('professeurs.notes.edit', $note->id) }}" class="btn btn-primary">Modifier</a>
-                        <form action="{{ route('professeurs.notes.delete', $note->id) }}" method="POST" style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette note ?')">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+            <tr>
+                <td>{{ $note->eleve->prenoms }} {{ $note->eleve->nom }}</td>
+                <td>{{ $note->evaluation->type }}</td>
+                <td>{{ $note->valeur }}</td>
+                <td>{{ $note->appreciations }}</td>
+                <td>{{ $note->coefficient }}</td>
 
+                <td>
+                    <a href="{{ route('professeurs.notes.edit', $note->id) }}">Modifier</a>
+                    <form action="{{ route('professeurs.notes.delete', $note->id) }}" method="POST" style="display:inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </table>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

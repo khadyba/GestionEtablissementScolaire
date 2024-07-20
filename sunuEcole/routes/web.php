@@ -114,7 +114,10 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('professeurs/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
                 Route::post('evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
                 Route::get('professeurs/classes/{classe}/evaluations', [EvaluationsController::class, 'listEvaluations'])->name('evaluations.list');
-                Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+               
+                // Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+                Route::get('/professeurs/classes/{classeId}/evaluations/{evaluationId}/add_notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+
                 Route::post('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
                 Route::get('professeurs/notes', [NotesController::class, 'index'])->name('notes.list');
                 Route::get('professeurs/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
@@ -146,8 +149,6 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
                 Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
                 Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
-
-
             });
 });
   

@@ -14,7 +14,9 @@ class Notes extends Model
         'appreciations' ,
         'evaluation_id' ,
         'eleve_id',
-        'professeur_id'
+        'professeur_id',
+        'coefficient',
+        'is_deleted',
     ];
 
     public function professeur()
