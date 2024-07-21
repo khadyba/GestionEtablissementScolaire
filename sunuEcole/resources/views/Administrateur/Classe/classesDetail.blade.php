@@ -40,6 +40,8 @@
     @endif
           
     <a href="{{ route('professeurs.cours.list.prof',$classe->id) }}" class="btn btn-primary">Voir la liste des Cours</a>
+    <a href="{{ route('classes.notes',$classe->id) }}" class="btn btn-primary">Calculs des moyenne</a>
+
     <a href="{{ route('classes.index') }}" class="btn btn-primary">Retour à la liste des classes</a>
 </div>
 

@@ -91,6 +91,15 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/listProfAjouter',[AdministrateurController::class,'index'])->name('list.index');
     Route::get('/formulairAjout',[AdministrateurController::class,'formulaire'])->name('affiche.formulaire');
     Route::post('/AjouterProf',[AdministrateurController::class,'ajouterProfesseur'])->name('Ajout.ajouterProfesseur');
+    // route pour le calcul des moyenne et generation des bultin de notes
+    Route::get('admin/classes/{id}/notes', [NotesController::class, 'showClassNotes'])->name('classes.notes');
+    Route::get('admin/classes/eleves/{eleveId}/calculer-moyenne', [NotesController::class, 'calculerMoyenne'])->name('eleves.calculer_moyenne');
+    Route::get('admin/classes/{classeId}/eleves/{eleveId}/bulletin', [NotesController::class, 'genererBulletin'])->name('eleves.bulletin');
+
+    Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [NotesController::class, 'showBulletin'])->name('classes.bulletin');
+
+
+
     
 });
 Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {  
