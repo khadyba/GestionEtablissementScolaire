@@ -35,5 +35,7 @@
         <a href="{{ route('classes.bulletin', [$classe->id, $eleve->id]) }}" class="btn btn-secondary">Voir le bulletin</a>
 
     @endforeach
+    
 </div>
+<button onclick="window.history.back()">Retour</button>
 

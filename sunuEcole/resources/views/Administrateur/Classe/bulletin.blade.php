@@ -45,7 +45,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Évaluation</th>
+                <th>Matiére</th>
                 <th>Note</th>
                 <th>Coefficient</th>
                 <th>Appréciations</th>
@@ -54,7 +54,7 @@
         <tbody>
             @foreach ($eleve->notes as $note)
                 <tr>
-                    <td>{{ $note->evaluation->titre }}</td>
+                    <td>{{ $note->evaluation->titre }} {{ $note->evaluation->type}} </td>
                     <td>{{ $note->valeur }}</td>
                     <td>{{ $note->coefficient }}</td>
                     <td>{{ $note->appreciations }}</td>

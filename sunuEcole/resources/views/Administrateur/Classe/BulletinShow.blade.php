@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulletin de Notes</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Si vous utilisez Laravel Mix -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
 </head>
 <body>
     <div class="container">
@@ -20,7 +20,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Évaluation</th>
+                    <th>Matiére</th>
                     <th>Note</th>
                     <th>Coefficient</th>
                     <th>Appréciations</th>
