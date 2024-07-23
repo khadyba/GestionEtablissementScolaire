@@ -13,9 +13,11 @@
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+  <!-- FontAwesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
-
+   
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -37,51 +39,52 @@
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
-   @include('layouts.header')
+  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div id="logo">
+            <a href="{{ url('/') }}"><img src="{{ asset('assets/img/canvas.png') }}" alt="Sunulyce Logo"></a>
+            <!-- Uncomment below if you prefer to use a text logo -->
+            <!--<h1><a href="{{ url('/') }}">Regna</a></h1>-->
+        </div>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Acceuil</a></li>
+          <li><a class="nav-link scrollto" href="#about">A Propos </a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto" href="#call-to-action">Rejoingnez-Nous</a></li>
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+    </div>
+  </header>
   <!-- End Header -->
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Bienvenue Sur Sunu Lycée </h1>
-      <h2>La plateforme de gestion ultime pour votre lycée</h2>
-      <h3>Votre lycée est déjà parmi nous. Connectez-vous pour rejoindre dès maintenant vos classes.</h3>
-      <a href="#about" class="btn-get-started">Connexions</a>
-    </div>
-  </section><!-- End Hero Section -->
+ 
 
   <main id="main">
+    
 
-    <!-- ======= About Section ======= -->
-     @include('partials.about')
-   <!-- End About Section -->
-
+  
 
 
-    <!-- ======= Call To Action Section ======= -->
-    <section id="call-to-action">
-      <div class="container">
-        <div class="row" data-aos="zoom-in">
-          <div class="col-lg-9 text-center text-lg-start">
-            <h3 class="cta-title">Améliorez la Gestion de Votre Lycée</h3>
-            <p class="cta-text">Découvrez notre plateforme intuitive pour une gestion efficace et simplifiée de votre établissement scolaire. Optimisez vos processus administratifs dès aujourd'hui.</p>
 
-          </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="#"> Commencer !</a>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Call To Action Section -->
-
-    <!-- ======= Contact Section ======= -->
-     @include('partials.contact')
-   <!-- End Contact Section -->
+  
+     @yield('content')
+  
 
   </main><!-- End #main -->
+
+
+
+
+
+
+
+
+
+
 
   <!-- ======= Footer ======= -->
    @include('partials.footer')

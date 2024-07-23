@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Etablissement;
 use Illuminate\Http\Request;
+use App\Models\Etablissement;
+use Illuminate\Support\Facades\Auth;
 
 class EtablissementController extends Controller
 {
@@ -14,7 +15,7 @@ class EtablissementController extends Controller
      */
     public function index()
     {
-        //
+    //    
     }
 
     /**
@@ -24,7 +25,7 @@ class EtablissementController extends Controller
      */
     public function create()
     {
-        //
+        return view('Administrateur.etablissementFormulaire');
     }
 
     /**
@@ -35,8 +36,34 @@ class EtablissementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        $administrateur = Auth::guard('admin')->user();
+        
+        // Valider les données du formulaire
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'directeur' => 'required|string|max:255',
+            'adresse' => 'required|string|max:255',
+            'telephone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'type' => 'required|string|max:50',
+        ]);
+        
+        $etablissement = Etablissement::create([
+            'nom' => $validatedData['nom'],
+            'directeur' => $validatedData['directeur'],
+            'adresse' => $validatedData['adresse'],
+            'telephone' => $validatedData['telephone'],
+            'email' => $validatedData['email'],
+            'type' => $validatedData['type'],
+            'administrateur_id' => $administrateur->id, 
+        ]);
+        
+        
+        
+        return redirect()->route('admin.dashboard')->with('success', 'Établissement ajouté avec succès.');
     }
+    
 
     /**
      * Display the specified resource.

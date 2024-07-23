@@ -14,6 +14,30 @@ class Cours extends Model
         'jours',
         'heure_debut',
         'heure_fin',
-        'fichier_cours'
+        'fichier_cours',
+        'professeurs_id',
+        'classes_id',
+        'is_deleted'
+
     ];
+    public function eleves()
+    {
+        return $this->belongsToMany(Eleves::class, 'eleves_cours')->withTimestamps();
+    }
+
+    public function professeur()
+{
+    return $this->belongsTo(Professeur::class);
+}
+
+public function salleDeClasse()
+{
+    return $this->belongsTo(SalleDeClasse::class);
+}
+
+public function classe()
+{
+    return $this->belongsTo(Classe::class);
+}
+      
 }

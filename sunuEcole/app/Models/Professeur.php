@@ -13,13 +13,22 @@ class Professeur extends Model
         'prenoms',
         'spécialiter',
         'adresse',
-        'telephone'
+        'telephone',
+        'user_id',
+        'is_completed'
     ];
-
     public function classes()
-{
-    return $this->belongsToMany(Classe::class, 'nouveau_nom_table_pivot')
-                ->withPivot('jour', 'heure_debut', 'heure_fin')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Classe::class, 'classe_professeur', 'professeur_id', 'classe_id');
+    }
+    
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluations::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id','id');
+    }
 }

@@ -14,14 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+          
             $table->id();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('etablissement_id');
-            $table->enum('typecompte', ['administrations', 'professeurs', 'eleves', 'parents']);
+            $table->boolean('is_completed')->default(false);
+            $table->foreign('etablissement_id')->references('id')->on('etablissements');
+            $table->enum('typecompte', ['professeurs', 'eleves', 'parents']);
             $table->rememberToken();
-            $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -35,5 +37,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+       
     }
 };
