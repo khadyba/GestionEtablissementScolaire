@@ -16,19 +16,38 @@
        <div class="row mt-5 ">
            <div class="col-md-6">
             <div class="mb-3">
+            @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
            <h2>Connexion Pour Les Administrateurs</h2>
            </div>
+           @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
              <form method="POST" action="{{ route('admin.login.submit') }}">
                @csrf
 
                <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
                 <input id="email" type="email" name="email"  class="form-control" id="email" value="{{ old('email') }}"  aria-describedby="emailHelp" required autofocus>
+                @error('email')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
                </div> 
-               
                <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
                 <input id="password" type="password" name="password"  class="form-control" required>
+                @error('password')
+                 <div class="text-danger">{{ $message }}</div>
+                @enderror
                </div> 
                 
                 <button type="submit" class="btn btn-primary mb-3">Se connecter</button>

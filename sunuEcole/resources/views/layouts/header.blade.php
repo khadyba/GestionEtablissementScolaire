@@ -1,4 +1,4 @@
-
+<!-- 
 <header id="header" class="fixed-top d-flex align-items-center header-transparent">
     <div class="container d-flex justify-content-between align-items-center">
         <nav id="navbar" class="navbar">
@@ -10,4 +10,4 @@
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
     </div>
-</header>
+</header> -->

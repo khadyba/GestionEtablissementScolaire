@@ -166,3 +166,15 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
  Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
  Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
  Route::post('payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
+
+
+
+
+
+
+
+
+ Route::get('/test', function () {
+    return view('layouts-admin.index');
+})->name('test');

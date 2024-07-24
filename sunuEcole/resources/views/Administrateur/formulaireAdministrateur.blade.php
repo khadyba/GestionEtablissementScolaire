@@ -18,6 +18,15 @@
            <h2>Formulaire D'inscriptions Pour Les Administrateurs</h2>
            </div>
           <div class="col-md-6">
+          @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
             <form action="{{ route('administrateurs.store') }}" method="POST">
              @csrf
 
@@ -38,7 +47,7 @@
 
                <div class="mb-3">
                     <label   for="exampleInputEmail1" >Téléphone :</label>
-                    <input type="number" id="telephone" name="telephone" class="form-control" required><br>
+                    <input type="text" id="telephone" name="telephone" class="form-control" required><br>
                 </div>
                <div class="mb-3">
                     <label for="exampleInputEmail1">Email :</label>

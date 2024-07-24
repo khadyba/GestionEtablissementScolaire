@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\AdminRegisterRequest;
 
 class AdministrateurController extends Controller
 {
@@ -58,24 +59,13 @@ class AdministrateurController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminRegisterRequest $request)
     {
-         // Validation des données du formulaire
-         $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'telephone' => 'required|string|max:20',
-            'email' => 'required|string|email|unique:administrateurs|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+        $validatedData = $request->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        // Création d'un nouvel administrateur avec les données validées
         Administrateur::create($validatedData);
-
-        // Redirection avec un message de succès
-        return redirect()->route('admin.login')->with('success', 'Administrateur créé avec succès.');
+        return redirect()->route('admin.login')->with('success', 'Inscription réussie, veuillez vous connecter !');
     }
 
     /**

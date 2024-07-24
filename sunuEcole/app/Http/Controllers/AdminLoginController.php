@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,7 @@ class AdminLoginController extends Controller
         return view('Administrateur.login');
     }
 
-    public function login(Request $request)
+    public function login(AdminLoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -23,7 +24,9 @@ class AdminLoginController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             return redirect()->route('admin.dashboard'); 
         }
-        return back()->withErrors(['email' => 'Email ou mot de passe incorrect.']);
+        return back()->withErrors([
+            'credentials' => 'Les informations d\'identification fournies sont incorrectes.',
+        ])->onlyInput('email');
     }
 
 
