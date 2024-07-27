@@ -80,6 +80,11 @@ class ElevesCoursController extends Controller
     public function show($id)
     {
         $classe = Classe::findOrFail($id);
+        $eleve = auth()->user()->eleve;
+        
+        if (!$eleve->classes->contains($classe)) {
+            return back()->withErrors(['error' => 'Vous n\'êtes pas autorisé à acceder  à cette classe.']);
+        }
         return view('Eleves.classes.detail', compact('classe'));
     }
 

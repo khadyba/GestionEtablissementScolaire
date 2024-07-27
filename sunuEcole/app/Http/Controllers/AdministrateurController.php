@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\AjoutProfRequest;
 use App\Http\Requests\AdminRegisterRequest;
 
 class AdministrateurController extends Controller
@@ -136,24 +137,13 @@ class AdministrateurController extends Controller
         return view('Administrateur.formulaireAjouProf', compact('etablissements'));
       }
 
-    public function ajouterProfesseur(Request $request)
+    public function ajouterProfesseur(AjoutProfRequest $request)
     {
-        
+        $validatedData = $request->validated();
 
-     // Validation des données du formulaire
-     $validatedData = $request->validate([
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'nullable|string|min:8', 
-        'etablissement_id' => 'required|exists:etablissements,id',
-        'typecompte' => 'required|string|in:professeurs,eleves,parents',
-    ]);
-
-    // Génération d'un mot de passe si non fourni
     if (empty($validatedData['password'])) {
         $validatedData['password'] = Str::random(8);
     }
-
-    // Hachage du mot de passe
     $hashedPassword = Hash::make($validatedData['password']);
 
     // Création d'un nouvel utilisateur avec les données validées
@@ -162,8 +152,6 @@ class AdministrateurController extends Controller
         'password' => $hashedPassword,
         'etablissement_id' => $validatedData['etablissement_id'],
     ]);
-
-    // Déterminer l'ID du rôle basé sur le type de compte
     $roleId = null;
     switch ($request->typecompte) {
         case 'professeurs':
@@ -176,17 +164,14 @@ class AdministrateurController extends Controller
             $roleId = 3;
             break;
     }
-
-    // Vérifier que l'ID du rôle est défini
     if ($roleId) {
-        // Insérer les informations dans la table pivot usersroles
         DB::table('usersroles')->insert([
             'user_id' => $user->id,
             'role_id' => $roleId,
         ]);
     }
 
-    // Retourner les identifiants pour l'administrateur
+   
     $identifiants = [
         'email' => $validatedData['email'],
         'password' => $validatedData['password'],

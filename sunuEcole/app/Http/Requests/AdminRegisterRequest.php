@@ -28,7 +28,7 @@ class AdminRegisterRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'regex:/^[\pL\s-]+$/u' 
+                'regex:/^[\pL\s-]+$/u'
             ],
             'prenoms' => [
                 'required',
@@ -36,11 +36,16 @@ class AdminRegisterRequest extends FormRequest
                 'max:255',
                 'regex:/^[\pL\s-]+$/u'
             ],
-            'adresse' => 'required|string|max:255',
+           'adresse' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[\pL\pN\s,.\'-]+$/u'
+            ],
             'telephone' => [
                 'required',
                 'string',
-                'regex:/^(77|76|75|78|33) \d{3} \d{2} \d{2}$/'
+                'regex:/^(77|76|75|78|33)\s\d{3}\s\d{2}\s\d{2}$/'
             ],
             'email' => [
                 'required',
@@ -48,13 +53,14 @@ class AdminRegisterRequest extends FormRequest
                 'email',
                 'unique:administrateurs',
                 'max:255',
+                'regex:/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/',
             ],
             'password' => [
                 'required',
                 'string',
                 'min:8',
-                'regex:/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]|\\:;"\'<>,.?/]{8,}$/',
-            ],
+                'regex:/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]|\\:;"\'<>,.?\/]{8,}$/', 
+            ]
         ];
     }
 
@@ -70,6 +76,7 @@ class AdminRegisterRequest extends FormRequest
             'email.string' => 'L\'adresse e-mail doit être une chaîne de caractères.',
             'email.email' => 'L\'adresse e-mail doit être une adresse valide.',
             'email.max' => 'L\'adresse e-mail ne doit pas dépasser 255 caractères.',
+            'email.regex'=>'Mettez un adresse email valide !',
             'password.required' => 'Le mot de passe est obligatoire.',
             'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
@@ -77,6 +84,7 @@ class AdminRegisterRequest extends FormRequest
             'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',
             'prenoms.regex' => 'Mettez un prénom valide.',
             'nom.regex' => 'Mettez un nom valide.',
+            'adresse.regex' => 'Mettez une adresse valide.',
         ];
     }
 }

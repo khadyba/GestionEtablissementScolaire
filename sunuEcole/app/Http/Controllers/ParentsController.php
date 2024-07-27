@@ -38,18 +38,14 @@ class ParentsController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'non_de_votre_éléve' => 'required|string|max:255',
-            'telephone' => 'required',  
-        ]);
+
+    $validated = $request->validated();
         $user = Auth::user();
         $parent = new Parents();
-        $parent->nom = $request->input('nom');
-        $parent->prenoms = $request->input('prenoms');
-        $parent->non_de_votre_éléve = $request->input('non_de_votre_éléve');
-        $parent->telephone = $request->input('telephone');
+        $parent->nom = $validated['nom'];
+        $parent->prenoms = $validated['prenoms'];
+        $parent->non_de_votre_éléve = $validated['non_de_votre_éléve'];
+        $parent->telephone = $validated['telephone'];
         $parent->user_id = Auth::id(); 
         $parent->is_completed = true;
         $parent->save();

@@ -21,7 +21,6 @@ class CheckProfileCompletion
  
         public function handle($request, Closure $next)
         {
-            // Vérifier si l'utilisateur est authentifié
             if (Auth::check()) {
                 $user = Auth::user();
                 $role = DB::table('usersroles')->where('user_id', $user->id)->first();

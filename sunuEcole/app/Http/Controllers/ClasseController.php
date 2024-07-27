@@ -276,7 +276,8 @@ public function manageProfessors($classeId)
 public function manageEleves($classeId)
 {
     $classe = Classe::findOrFail($classeId);
-    $eleves = $classe->eleves;
+    $eleves = $classe->eleve;
+    // dd($eleves);
     return view('Administrateur.Classe.manageEleves', compact('classe', 'eleves'));
 }
 
