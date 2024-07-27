@@ -37,8 +37,8 @@
                        <td>{{ $classe->nom }}</td>
                        <td>{{ $classe->niveau }}</td>
                        <td>{{ $classe->etablissement->nom }}</td>
-                       <div class="d-flex justify-content:space between">
                        <td>
+                           <div class="d-flex justify-content-between">
                            <a href="{{ route('classes.edit', $classe->id) }}" class="btn btn-warning btn-sm me-2">Modifier</a>
                            <form action="{{ route('classes.destroy', $classe->id) }}" method="POST" style="display:inline">
                                @csrf
@@ -51,8 +51,8 @@
                            <a href="{{ route('classes.show', $classe->id) }}" class="btn btn-primary btn-sm me-2">Voir Détails</a>
                            <a href="{{ route('classes.professeurs.manage', $classe->id) }}" class="btn btn-secondary btn-sm me-2">Gérer les Professeurs</a>
                            <a href="{{ route('classes.eleves.manage', $classe->id) }}" class="btn btn-secondary btn-sm">Gérer les Élèves</a>
+                        </div>
                        </td>
-                       </div>
                    </tr>
                @endforeach
            </tbody>

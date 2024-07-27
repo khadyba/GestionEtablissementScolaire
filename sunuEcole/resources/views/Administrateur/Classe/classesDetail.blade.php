@@ -10,11 +10,16 @@
 <body>
 
 <div class="container">
-     <div class="mt-2 ">
-    <h1>Classe: {{ $classe->nom }}</h1>
+    <div class="row align-items-center mb-4">
+        <div class="col-md-10">
+            <h1>Classe: {{ $classe->nom }}</h1>
+            <p>Niveau: {{ $classe->niveau }}</p>
+            <p>Établissement: {{ $classe->etablissement->nom }}</p>
+        </div>
+        <div class="col-md-2 text-end">
+            <img src="{{ asset('assets/img/canvas.png') }}" alt="Sunulyce Logo" class="img-fluid" style="max-height: 50px;">
+        </div>
     </div>
-    <p>Niveau: {{ $classe->niveau }}</p>
-    <p>Établissement: {{ $classe->etablissement->nom }}</p>
 
     <div class="row">
         <div class="col-md-6">
