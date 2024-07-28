@@ -18,6 +18,8 @@ class ProfesseurController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
+        $this->authorizeResource(Classe::class, 'classe');
         $this->authorizeResource(Cours::class, 'cours');
     }
     /**
@@ -27,8 +29,11 @@ class ProfesseurController extends Controller
      */
     public function index()
     {
+
         $classes = Classe::where('is_delete', false)->get();
+        // dd('ook');
         return view('Professeurs.profdashboard', compact('classes'));
+        
     }
     public function showCompleteProfileForm()
     {
@@ -73,6 +78,7 @@ class ProfesseurController extends Controller
             return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);
         }
         $professeur = auth()->user()->professeur;
+        // dd(  $professeur->role_id );
         $sallesDeClasses = SalleDeClasse::all(); 
 
         return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));
@@ -136,6 +142,8 @@ class ProfesseurController extends Controller
     public function show($id)
     {
         $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $this->authorize('view', $classe);
+        dd('ooh');
         $eleve= Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
         return view('Professeurs.Classes.classesDetail', compact('classe','professeursAssignes','eleve'));

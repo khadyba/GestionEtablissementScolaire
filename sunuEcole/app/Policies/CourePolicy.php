@@ -2,8 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Cours;
 use App\Models\User;
+use App\Models\Cours;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CourePolicy
@@ -18,7 +20,7 @@ class CourePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +32,7 @@ class CourePolicy
      */
     public function view(User $user, Cours $cours)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,8 +43,17 @@ class CourePolicy
      */
     public function create(User $user)
     {
-        return $user->role_id === 1;
+       
+        if (Auth::check()) {
+            $roleIds = $user->roles->pluck('id')->toArray();
+            if (in_array(1, $roleIds)) {
+                return Response::allow();
+            }
+        }
+
+        return Response::deny('Vous n\'êtes pas autorisé à accéder à cette route');
     }
+
 
     /**
      * Determine whether the user can update the model.
@@ -53,6 +64,7 @@ class CourePolicy
      */
     public function update(User $user, Cours $cours)
     {
+        
         return $user->role_id === 1 && $cours->user_id === $user->id;
     }
 

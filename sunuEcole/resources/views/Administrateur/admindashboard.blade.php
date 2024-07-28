@@ -10,16 +10,9 @@
     <!-- Link to external CSS file -->
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/admin-dashboard.css') }}"> -->
 </head>
+@include('layouts.nav')
 <body>
 <div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12 text-end">
-            <form action="{{ route('admin.logout') }}" method="POST" style="display:inline">
-                @csrf
-                <button type="submit" class="btn btn-danger">Déconnexion</button>
-            </form>
-        </div>
-    </div>
     @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
@@ -31,7 +24,7 @@
         {{ session('success') }}
     </div>
     @endif
-    <div class="container">
+    <div class="container  text-secondary">
         <h1 class="my-4">Liste des Élèves Inscrits</h1>
 
         @if (session('identifiants'))
@@ -79,7 +72,7 @@
     </div>
 
     <div class="container mt-4">
-        <h1 class="my-4">Liste des Emplois du Temps</h1>
+        <h1 class="my-4 text-secondary">Liste des Emplois du Temps</h1>
         <table class="table table-striped">
             <thead class="table-primary">
                 <tr>

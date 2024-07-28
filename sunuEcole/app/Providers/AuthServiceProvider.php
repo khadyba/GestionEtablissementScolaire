@@ -19,6 +19,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Models\Classe' => 'App\Policies\ClassePolicy',
+
          Classe::class => ClassePolicy::class,
          Cours::class => CourePolicy::class,
     ];
@@ -33,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-
+        Gate::policy(Cours::class, CourePolicy::class);
         Gate::resource('classes', ClassePolicy::class);
     }
 }

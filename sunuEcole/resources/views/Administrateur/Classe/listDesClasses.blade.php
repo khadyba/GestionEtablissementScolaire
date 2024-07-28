@@ -7,20 +7,12 @@
 <link rel="icon" type="image/png" href="{{ asset('assets/img/canvas.png') }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+@include('layouts.nav')
 <body>
 <div class="container">
     <div class="row mt-5">
-       <div class="col-md-6">
-         <form action="{{ route('admin.logout') }}" method="POST" style="display:inline">
-           @csrf
-           <button type="submit" class="btn btn-danger">Déconnexion</button>
-         </form>
-       </div>
-       <div class="col-md-6">
-         <a href="{{ route('admin.dashboard') }}" class="btn btn-primary">Retourner à l'espace personnel</a>
-       </div>
        <div class="mb-3">
-         <h1>Liste des classes</h1>
+         <h1 class="text-secondary">Liste des classes</h1>
        </div>
        <table class="table">
            <thead>
@@ -39,7 +31,7 @@
                        <td>{{ $classe->etablissement->nom }}</td>
                        <td>
                            <div class="d-flex justify-content-between">
-                           <a href="{{ route('classes.edit', $classe->id) }}" class="btn btn-warning btn-sm me-2">Modifier</a>
+                           <a href="{{ route('classes.edit', $classe->id) }}" class="btn btn-primary btn-sm me-2">Modifier</a>
                            <form action="{{ route('classes.destroy', $classe->id) }}" method="POST" style="display:inline">
                                @csrf
                                @method('DELETE')

@@ -16,6 +16,7 @@ use App\Http\Controllers\SalleDeClasseController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
 use App\Http\Controllers\NotesController;
+use App\Models\Administrateur;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ use App\Http\Controllers\NotesController;
 
 Route::get('/', function () {
     return view('layouts.app');
-})->name('index');
+})->name('home');
             // Routes pour les utilisateurs
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('create', [UsersController::class, 'create'])->name('create');
@@ -65,6 +66,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/classes/{id}/edit',[ClasseController::class,'edit'])->name('classes.edit');
     Route::put('/classes/{id}/update',[ClasseController::class,'update'])->name('classes.update');
     Route::delete('/classes/{id}',[ClasseController::class,'destroy'])->name('classes.destroy');
+    Route::get('professeurs/classes/{id}/cours', [AdministrateurController::class, 'listeCours'])->name('cours');
+
     // route pour creer les salle de classe
     Route::get('/admin/salles/create', [SalleDeClasseController::class, 'create'])->name('admin.salles.create');
     Route::post('/admin/salles/store', [SalleDeClasseController::class, 'store'])->name('admin.salles.store');
@@ -167,6 +170,6 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
  Route::post('payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 
-//  Route::get('/test', function () {
-//     return view('layouts-admin.index');
-// })->name('test');
+ Route::get('/test', function () {
+    return view('layouts-admin.index');
+})->name('test');

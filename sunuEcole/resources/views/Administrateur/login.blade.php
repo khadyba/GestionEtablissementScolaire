@@ -55,6 +55,7 @@
                             <a href="{{ route('administrateurs.create') }}">Pas de compte ? Inscrivez-vous !</a>
                         </div>
              </form>
+             <a href="{{ route('home') }}" class="btn btn-secondary mt-3">Retour à l'accueil</a>
            </div> 
 
                <div class="col-md-6">

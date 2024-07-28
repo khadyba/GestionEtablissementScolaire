@@ -8,12 +8,14 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+@include('layouts.nav')
+
 <body>
 <div class="container my-4">
         <div class="mt-3 mb-4">
         <img src="{{ asset('assets/img/canvas.png') }}" alt="Sunulyce Logo">
         </div>
-    <h1>Gérer les Élèves pour la Classe {{ $classe->nom }}</h1>
+    <h1 class="text-secondary">Gérer les Élèves pour la Classe {{ $classe->nom }}</h1>
     <a href="{{ route('classes.show', $classe->id) }}" class="btn btn-primary mb-3">Retourner à la Classe</a>
     <div class="row">
         <div class="col-md-6">

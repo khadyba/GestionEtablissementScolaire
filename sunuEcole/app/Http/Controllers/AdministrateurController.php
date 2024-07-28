@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Cours;
 use App\Models\Classe;
 use App\Models\Payment;
 use Illuminate\Support\Str;
@@ -183,5 +184,14 @@ class AdministrateurController extends Controller
         'success' => 'Utilisateur créé avec succès.',
         'identifiants' => $identifiants,
     ]);
+}
+
+
+public function listeCours($id)
+{
+    $professeur = auth()->user()->professeur;
+    $classe = Classe::findOrFail($id);
+    $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
+    return view('Professeurs.Cours.listCours', compact('classe', 'cours'));
 }
 }

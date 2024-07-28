@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompleterProfilParentRequest;
 use Log;
 use App\Models\Notes;
 use App\Models\Classe;
@@ -36,7 +37,7 @@ class ParentsController extends Controller
     {
         return view('Parents.completerProfil');
     }
-    public function store(Request $request)
+    public function store(CompleterProfilParentRequest $request)
     {
 
     $validated = $request->validated();

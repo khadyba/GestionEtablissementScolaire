@@ -31,13 +31,22 @@ class AdminLoginController extends Controller
 
 
 
+    // public function logout(Request $request)
+    // {
+    //     Auth::guard('admin')->logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return redirect('/admin/login');
+    // }
     public function logout(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect('/admin/login')->withErrors(['message' => 'Vous êtes déjà déconnecté.']);
+        }
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/admin/login');
+        $request->session()->regenerateToken();        
+        return redirect('/admin/login')->with('success', 'Déconnexion réussie.');
     }
-  
+    
 }
