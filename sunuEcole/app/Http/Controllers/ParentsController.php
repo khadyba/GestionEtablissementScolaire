@@ -140,10 +140,34 @@ class ParentsController extends Controller
         }
     
         $notes = Notes::where('eleve_id', $eleve->id)->get();
-        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first(); // Récupère le dernier emploi du temps de la classe de l'élève
+        $classe = $eleve->classe;
+        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
     
-        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve'));
+        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
     }
     
+    public function showBulletin($classeId, $eleveId)
+    {
+        $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
+        $classe = Classe::with('etablissement')->findOrFail($classeId);
+    
+        $totalNotes = 0;
+        $totalCoefficients = 0;
+    
+        foreach ($eleve->notes as $note) {
+            $totalNotes += $note->valeur * $note->coefficient;
+            $totalCoefficients += $note->coefficient;
+        }
+    
+        if ($totalCoefficients > 0) {
+            $moyenne = $totalNotes / $totalCoefficients;
+        } else {
+            $moyenne = 0;
+        }
+    
+        $etablissement = $classe->etablissement;
+    
+        return view('Parents.BultinEleves', compact('eleve', 'classe', 'etablissement', 'moyenne'));
+    }
 
 }

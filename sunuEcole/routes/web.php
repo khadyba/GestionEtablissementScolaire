@@ -17,6 +17,7 @@ use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
 use App\Http\Controllers\NotesController;
 use App\Models\Administrateur;
+use App\Models\Parents;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +152,8 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
                 Route::get('professeurs/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
                 Route::get('eleves/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
+                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ElevesController::class, 'showBulletin'])->name('eleves.bulletin');
+
 
             }); 
             // route pour les parents 
@@ -161,6 +164,8 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
                 Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
                 Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
+                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ParentsController::class, 'showBulletin'])->name('eleves.bulletin');
+
             });
 });
       

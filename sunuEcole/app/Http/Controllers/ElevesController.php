@@ -74,7 +74,29 @@ class ElevesController extends Controller
     }
     
 
-
+    public function showBulletin($classeId, $eleveId)
+    {
+        $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
+        $classe = Classe::with('etablissement')->findOrFail($classeId);
+    
+        $totalNotes = 0;
+        $totalCoefficients = 0;
+    
+        foreach ($eleve->notes as $note) {
+            $totalNotes += $note->valeur * $note->coefficient;
+            $totalCoefficients += $note->coefficient;
+        }
+    
+        if ($totalCoefficients > 0) {
+            $moyenne = $totalNotes / $totalCoefficients;
+        } else {
+            $moyenne = 0;
+        }
+    
+        $etablissement = $classe->etablissement;
+    
+        return view('Eleves.Evaluations.BulletinShow', compact('eleve', 'classe', 'etablissement', 'moyenne'));
+    }
     
 
     /**

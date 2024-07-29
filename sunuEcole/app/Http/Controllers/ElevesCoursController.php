@@ -47,10 +47,12 @@ class ElevesCoursController extends Controller
         }
     
         $eleve = $user->eleve;
+        $classe = $eleve->classe;
         $notes = Notes::where('eleve_id', $eleve->id)->get();
     
-        return view('Eleves.Evaluations.listNotes', compact('notes'));
+        return view('Eleves.Evaluations.listNotes', compact('notes','classe','eleve'));
     }
+
     
     /**
      * Show the form for creating a new resource.

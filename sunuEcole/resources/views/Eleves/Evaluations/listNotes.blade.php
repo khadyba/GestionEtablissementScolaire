@@ -25,7 +25,6 @@
                                 <th>Évaluation</th>
                                 <th>Note</th>
                                 <th>Appréciations</th>
-                            
                             </tr>
                         </thead>
                         <tbody>
@@ -34,23 +33,22 @@
                                     <td>{{ $note->evaluation->titre }}</td>
                                     <td>{{ $note->valeur }}</td>
                                     <td>{{ $note->appreciations }}</td>
-                                  
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 @endif
             </div>
-            <!-- Colonne pour l'image -->
-            <div class="col-md-4 mb-4">
-                  <img src="{{ asset('assets/img/note.png') }}" alt="Description de l'image" class="img-fluid">
-              </div>
+            <div class="col-md-4 ">
+                <img src="{{ asset('assets/img/note.png') }}" alt="Description de l'image" class="img-fluid mt-4">
+            </div>
         </div>
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-4dUosZBzLv6/jYbbXsYrgg4QyVj2/j4vKMC/kpBlh24o3w2L1gmbv2JWo1IoewNn" crossorigin="anonymous"></script>
     <div class="container text-center mt-4">
         <button onclick="window.history.back()" class="btn btn-primary">Retour</button>
+        <a href="{{ route('eleves.eleve.bulletin', [$classe->id, $eleve->id]) }}" class="btn btn-secondary">Voir le Bulletin</a>
     </div>
 </body>
 </html>
