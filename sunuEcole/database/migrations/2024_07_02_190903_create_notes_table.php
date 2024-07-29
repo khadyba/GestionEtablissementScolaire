@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('valeur');
             $table->text('appreciations');
             $table->string('semestre')->nullable();
+            $table->integer('coefficient');
+            $table->boolean('is_deleted')->default(false);
             $table->unsignedBigInteger('evaluation_id');
             $table->unsignedBigInteger('eleve_id');
             $table->unsignedBigInteger('professeur_id');

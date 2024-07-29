@@ -25,7 +25,7 @@ public function professeurs()
 }
 
 
-    public function eleves()
+    public function eleve()
     {
         return $this->hasMany(Eleves::class, 'classe_id');
     }

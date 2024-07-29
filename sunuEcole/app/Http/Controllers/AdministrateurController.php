@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Cours;
 use App\Models\Classe;
 use App\Models\Payment;
 use Illuminate\Support\Str;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\AjoutProfRequest;
+use App\Http\Requests\AdminRegisterRequest;
 
 class AdministrateurController extends Controller
 {
@@ -58,24 +61,13 @@ class AdministrateurController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminRegisterRequest $request)
     {
-         // Validation des données du formulaire
-         $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'telephone' => 'required|string|max:20',
-            'email' => 'required|string|email|unique:administrateurs|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+        $validatedData = $request->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        // Création d'un nouvel administrateur avec les données validées
         Administrateur::create($validatedData);
-
-        // Redirection avec un message de succès
-        return redirect()->route('admin.login')->with('success', 'Administrateur créé avec succès.');
+        return redirect()->route('admin.login')->with('success', 'Inscription réussie, veuillez vous connecter !');
     }
 
     /**
@@ -146,24 +138,13 @@ class AdministrateurController extends Controller
         return view('Administrateur.formulaireAjouProf', compact('etablissements'));
       }
 
-    public function ajouterProfesseur(Request $request)
+    public function ajouterProfesseur(AjoutProfRequest $request)
     {
-        
+        $validatedData = $request->validated();
 
-     // Validation des données du formulaire
-     $validatedData = $request->validate([
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'nullable|string|min:8', 
-        'etablissement_id' => 'required|exists:etablissements,id',
-        'typecompte' => 'required|string|in:professeurs,eleves,parents',
-    ]);
-
-    // Génération d'un mot de passe si non fourni
     if (empty($validatedData['password'])) {
         $validatedData['password'] = Str::random(8);
     }
-
-    // Hachage du mot de passe
     $hashedPassword = Hash::make($validatedData['password']);
 
     // Création d'un nouvel utilisateur avec les données validées
@@ -172,8 +153,6 @@ class AdministrateurController extends Controller
         'password' => $hashedPassword,
         'etablissement_id' => $validatedData['etablissement_id'],
     ]);
-
-    // Déterminer l'ID du rôle basé sur le type de compte
     $roleId = null;
     switch ($request->typecompte) {
         case 'professeurs':
@@ -186,17 +165,14 @@ class AdministrateurController extends Controller
             $roleId = 3;
             break;
     }
-
-    // Vérifier que l'ID du rôle est défini
     if ($roleId) {
-        // Insérer les informations dans la table pivot usersroles
         DB::table('usersroles')->insert([
             'user_id' => $user->id,
             'role_id' => $roleId,
         ]);
     }
 
-    // Retourner les identifiants pour l'administrateur
+   
     $identifiants = [
         'email' => $validatedData['email'],
         'password' => $validatedData['password'],
@@ -208,5 +184,14 @@ class AdministrateurController extends Controller
         'success' => 'Utilisateur créé avec succès.',
         'identifiants' => $identifiants,
     ]);
+}
+
+
+public function listeCours($id)
+{
+    $professeur = auth()->user()->professeur;
+    $classe = Classe::findOrFail($id);
+    $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
+    return view('Administrateur.Classe.courList', compact('classe', 'cours'));
 }
 }

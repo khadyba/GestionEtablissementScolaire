@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompleterProfilParentRequest;
 use Log;
 use App\Models\Notes;
 use App\Models\Classe;
@@ -9,6 +10,7 @@ use App\Models\Eleves;
 use App\Models\Parents;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Models\EmploisDuTemps;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Paydunya\Setup as PaydunyaSetup;
@@ -35,20 +37,16 @@ class ParentsController extends Controller
     {
         return view('Parents.completerProfil');
     }
-    public function store(Request $request)
+    public function store(CompleterProfilParentRequest $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'non_de_votre_éléve' => 'required|string|max:255',
-            'telephone' => 'required',  
-        ]);
+
+    $validated = $request->validated();
         $user = Auth::user();
         $parent = new Parents();
-        $parent->nom = $request->input('nom');
-        $parent->prenoms = $request->input('prenoms');
-        $parent->non_de_votre_éléve = $request->input('non_de_votre_éléve');
-        $parent->telephone = $request->input('telephone');
+        $parent->nom = $validated['nom'];
+        $parent->prenoms = $validated['prenoms'];
+        $parent->non_de_votre_éléve = $validated['non_de_votre_éléve'];
+        $parent->telephone = $validated['telephone'];
         $parent->user_id = Auth::id(); 
         $parent->is_completed = true;
         $parent->save();
@@ -123,41 +121,53 @@ class ParentsController extends Controller
 
         return view('Parents.emploi_du_temps', compact('eleve', 'emploiDuTemps'));
     }
-
     public function showNotes(Request $request)
     {
-        
         $user = auth()->user();
         if (!$user) {
             return redirect()->back()->with('error', 'Utilisateur non connecté.');
         }
+    
         $parentEmail = $user->email;
         $nomEleve = $request->input('non_de_votre_éléve');
-
+    
         $eleve = Eleves::where('nom', $nomEleve)
-        ->where('email_tuteur', $parentEmail)
-        ->first();
-        // dd($eleve->nom);
+            ->where('email_tuteur', $parentEmail)
+            ->first();
     
         if (!$eleve) {
             return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
         }
+    
         $notes = Notes::where('eleve_id', $eleve->id)->get();
-        return view('Parents.notes', compact('notes', 'eleve'));
+        $classe = $eleve->classe;
+        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
+    
+        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
     }
     
-
-
+    public function showBulletin($classeId, $eleveId)
+    {
+        $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
+        $classe = Classe::with('etablissement')->findOrFail($classeId);
     
-   
-
-
-
-
-
-
-
-
-
+        $totalNotes = 0;
+        $totalCoefficients = 0;
+    
+        foreach ($eleve->notes as $note) {
+            $totalNotes += $note->valeur * $note->coefficient;
+            $totalCoefficients += $note->coefficient;
+        }
+    
+        if ($totalCoefficients > 0) {
+            $moyenne = $totalNotes / $totalCoefficients;
+        } else {
+            $moyenne = 0;
+        }
+    
+        $etablissement = $classe->etablissement;
+    
+        return view('Parents.BultinEleves', compact('eleve', 'classe', 'etablissement', 'moyenne'));
+    }
 
 }

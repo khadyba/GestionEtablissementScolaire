@@ -16,6 +16,8 @@ use App\Http\Controllers\SalleDeClasseController;
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\EmploisDuTempsController;
 use App\Http\Controllers\NotesController;
+use App\Models\Administrateur;
+use App\Models\Parents;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,8 @@ use App\Http\Controllers\NotesController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('layouts.app');
+})->name('home');
             // Routes pour les utilisateurs
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('create', [UsersController::class, 'create'])->name('create');
@@ -65,6 +67,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/classes/{id}/edit',[ClasseController::class,'edit'])->name('classes.edit');
     Route::put('/classes/{id}/update',[ClasseController::class,'update'])->name('classes.update');
     Route::delete('/classes/{id}',[ClasseController::class,'destroy'])->name('classes.destroy');
+    Route::get('professeurs/classes/{id}/cours', [AdministrateurController::class, 'listeCours'])->name('cours');
+
     // route pour creer les salle de classe
     Route::get('/admin/salles/create', [SalleDeClasseController::class, 'create'])->name('admin.salles.create');
     Route::post('/admin/salles/store', [SalleDeClasseController::class, 'store'])->name('admin.salles.store');
@@ -91,6 +95,15 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/listProfAjouter',[AdministrateurController::class,'index'])->name('list.index');
     Route::get('/formulairAjout',[AdministrateurController::class,'formulaire'])->name('affiche.formulaire');
     Route::post('/AjouterProf',[AdministrateurController::class,'ajouterProfesseur'])->name('Ajout.ajouterProfesseur');
+    // route pour le calcul des moyenne et generation des bultin de notes
+    Route::get('admin/classes/{id}/notes', [NotesController::class, 'showClassNotes'])->name('classes.notes');
+    Route::get('admin/classes/eleves/{eleveId}/calculer-moyenne', [NotesController::class, 'calculerMoyenne'])->name('eleves.calculer_moyenne');
+    Route::get('admin/classes/{classeId}/eleves/{eleveId}/bulletin', [NotesController::class, 'genererBulletin'])->name('eleves.bulletin');
+
+    Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [NotesController::class, 'showBulletin'])->name('classes.bulletin');
+
+
+
     
 });
 Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {  
@@ -114,7 +127,10 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('professeurs/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
                 Route::post('evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
                 Route::get('professeurs/classes/{classe}/evaluations', [EvaluationsController::class, 'listEvaluations'])->name('evaluations.list');
-                Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+               
+                // Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+                Route::get('/professeurs/classes/{classeId}/evaluations/{evaluationId}/add_notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+
                 Route::post('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
                 Route::get('professeurs/notes', [NotesController::class, 'index'])->name('notes.list');
                 Route::get('professeurs/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
@@ -129,13 +145,15 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
                 Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
                 Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
-                Route::get('/classes/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.index');
+                Route::get('/classe/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.list');
                 Route::get('/cours/{id}',  [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
                 Route::get('eleves/complete-profile', [ElevesController::class, 'completerProfil'])->name('eleves.completeProfileForm');
                 Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');
                 Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
                 Route::get('professeurs/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
                 Route::get('eleves/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
+                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ElevesController::class, 'showBulletin'])->name('eleves.bulletin');
+
 
             }); 
             // route pour les parents 
@@ -146,13 +164,17 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
                 Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
                 Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
-
+                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ParentsController::class, 'showBulletin'])->name('eleves.bulletin');
 
             });
 });
-  
-       
+      
  // route apres le payment sur paydunya
  Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
  Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
  Route::post('payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
+
+ Route::get('/test', function () {
+    return view('layouts-admin.index');
+})->name('test');

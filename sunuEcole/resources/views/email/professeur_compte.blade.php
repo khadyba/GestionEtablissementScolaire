@@ -5,6 +5,8 @@
 </head>
 <body>
     <h2>Bienvenue sur SunuLycée</h2>
+<p><img src="{{ asset('assets/img/canvas.png') }}" alt="Sunulyce Logo"></p>
+    
     <p>
         Un compte a été créé pour vous sur notre plateforme SunuLycée. Voici vos identifiants :
         <br>
