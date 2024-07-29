@@ -62,12 +62,14 @@
             </tbody>
         </table>
 
-        <div class="mt-4">
+        <div class="mt-4 ">
             <a href="{{ route('etablissement.formulaire') }}" class="btn btn-primary me-2">Ajouter un Etablissement</a>
             <a href="{{ route('classes.create') }}" class="btn btn-primary me-2">Ajouter une classe</a>
             <a href="{{ route('affiche.formulaire') }}" class="btn btn-primary me-2">Ajouter Professeurs</a>
             <a href="{{ route('classes.index') }}" class="btn btn-primary me-2">Voir la liste des classes</a>
-            <a href="{{ route('admin.salles.create') }}" class="btn btn-primary">Ajouter Salle de classe</a>
+            <a href="{{ route('admin.salles.create') }}" class="btn btn-primary me-2">Ajouter Salle de classe</a>
+            <a href="{{ route('admin.salles-de-classe.index') }}" class="btn btn-primary me-2">liste Salles</a>
+
         </div>
     </div>
 

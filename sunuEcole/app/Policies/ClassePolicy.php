@@ -34,11 +34,8 @@ class ClassePolicy
 
 public function view($user, Classe $classe)
 {
-    // Ajoutez des messages de débogage
-    return 
-    $user instanceof User || $user instanceof Administrateur 
-        ;
-   
+
+    return $user instanceof User || $user instanceof Administrateur  ; 
 }
 
     

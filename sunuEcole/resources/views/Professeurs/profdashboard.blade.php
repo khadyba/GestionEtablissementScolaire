@@ -9,14 +9,11 @@
     <!-- Link to external CSS file -->
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/admin-dashboard.css') }}"> -->
 </head>
+@include('partials.navProf')
 <body>
     <div class="container mt-5">
-        <form action="{{ route('users.logout') }}" method="POST" style="display:inline">
-            @csrf
-            <button type="submit" class="btn btn-danger">Déconnexion</button>
-        </form>
-
-        <h1 class="mt-4">Liste des classes</h1>
+       
+        <h1 class="mt-4 text-secondary">Liste des classes</h1>
         <table class="table table-striped mt-3">
             <thead>
                 <tr>

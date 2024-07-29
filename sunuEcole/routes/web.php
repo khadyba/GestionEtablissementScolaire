@@ -144,7 +144,7 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
                 Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
                 Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
                 Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
-                Route::get('/classes/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.index');
+                Route::get('/classe/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.list');
                 Route::get('/cours/{id}',  [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
                 Route::get('eleves/complete-profile', [ElevesController::class, 'completerProfil'])->name('eleves.completeProfileForm');
                 Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');

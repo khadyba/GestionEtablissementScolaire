@@ -9,7 +9,6 @@
 
 </head>
 @include('layouts.nav')
-
 <body>
 <div class="container my-4">
        <div class="mt-3 mb-4">
@@ -17,7 +16,7 @@
         </div>
     <div class="row">
         <div class="col-md-6">
-            <h1 class="mb-4">Importer l'emploi du temps pour la classe {{ $classe->nom }}</h1>
+            <h1 class="mb-4 text-secondary">Importer l'emploi du temps pour la classe {{ $classe->nom }}</h1>
             @if ($errors->any())
                 <div class="alert alert-danger mb-4">
                     <ul>
@@ -37,7 +36,7 @@
             <form action="{{ route('emplois_du_temps.store', ['classe' => $classe->id]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mb-3">
-                    <label for="emplois_du_temps">Sélectionner un fichier :</label>
+                    <label for="emplois_du_temps text-secondary">Sélectionner un fichier :</label>
                     <input type="file" name="emplois_du_temps" id="emplois_du_temps" class="form-control-file" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Importer</button>

@@ -18,8 +18,6 @@ class ProfesseurController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->authorizeResource(Classe::class, 'classe');
         $this->authorizeResource(Cours::class, 'cours');
     }
     /**
@@ -246,8 +244,6 @@ class ProfesseurController extends Controller
     {
         $cours = Cours::findOrFail($id);
         $classe= $cours->classe->id;
-        
-        // dd( $id,  $classe,$cours->classe->id);
     if (!$cours) {
         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }

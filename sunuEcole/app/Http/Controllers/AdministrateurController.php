@@ -192,6 +192,6 @@ public function listeCours($id)
     $professeur = auth()->user()->professeur;
     $classe = Classe::findOrFail($id);
     $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
-    return view('Professeurs.Cours.listCours', compact('classe', 'cours'));
+    return view('Administrateur.Classe.courList', compact('classe', 'cours'));
 }
 }
