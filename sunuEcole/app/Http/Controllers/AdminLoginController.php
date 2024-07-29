@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,7 @@ class AdminLoginController extends Controller
         return view('Administrateur.login');
     }
 
-    public function login(Request $request)
+    public function login(AdminLoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -23,18 +24,29 @@ class AdminLoginController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             return redirect()->route('admin.dashboard'); 
         }
-        return back()->withErrors(['email' => 'Email ou mot de passe incorrect.']);
+        return back()->withErrors([
+            'credentials' => 'Les informations d\'identification fournies sont incorrectes.',
+        ])->onlyInput('email');
     }
 
 
 
+    // public function logout(Request $request)
+    // {
+    //     Auth::guard('admin')->logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return redirect('/admin/login');
+    // }
     public function logout(Request $request)
     {
+        if (!Auth::guard('admin')->check()) {
+            return redirect('/admin/login')->withErrors(['message' => 'Vous êtes déjà déconnecté.']);
+        }
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/admin/login');
+        $request->session()->regenerateToken();        
+        return redirect('/admin/login')->with('success', 'Déconnexion réussie.');
     }
-  
+    
 }

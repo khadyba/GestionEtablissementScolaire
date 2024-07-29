@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompleterProfilParentRequest;
 use Log;
 use App\Models\Notes;
 use App\Models\Classe;
@@ -36,20 +37,16 @@ class ParentsController extends Controller
     {
         return view('Parents.completerProfil');
     }
-    public function store(Request $request)
+    public function store(CompleterProfilParentRequest $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'non_de_votre_éléve' => 'required|string|max:255',
-            'telephone' => 'required',  
-        ]);
+
+    $validated = $request->validated();
         $user = Auth::user();
         $parent = new Parents();
-        $parent->nom = $request->input('nom');
-        $parent->prenoms = $request->input('prenoms');
-        $parent->non_de_votre_éléve = $request->input('non_de_votre_éléve');
-        $parent->telephone = $request->input('telephone');
+        $parent->nom = $validated['nom'];
+        $parent->prenoms = $validated['prenoms'];
+        $parent->non_de_votre_éléve = $validated['non_de_votre_éléve'];
+        $parent->telephone = $validated['telephone'];
         $parent->user_id = Auth::id(); 
         $parent->is_completed = true;
         $parent->save();
@@ -143,10 +140,34 @@ class ParentsController extends Controller
         }
     
         $notes = Notes::where('eleve_id', $eleve->id)->get();
-        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first(); // Récupère le dernier emploi du temps de la classe de l'élève
+        $classe = $eleve->classe;
+        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
     
-        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve'));
+        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
     }
     
+    public function showBulletin($classeId, $eleveId)
+    {
+        $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
+        $classe = Classe::with('etablissement')->findOrFail($classeId);
+    
+        $totalNotes = 0;
+        $totalCoefficients = 0;
+    
+        foreach ($eleve->notes as $note) {
+            $totalNotes += $note->valeur * $note->coefficient;
+            $totalCoefficients += $note->coefficient;
+        }
+    
+        if ($totalCoefficients > 0) {
+            $moyenne = $totalNotes / $totalCoefficients;
+        } else {
+            $moyenne = 0;
+        }
+    
+        $etablissement = $classe->etablissement;
+    
+        return view('Parents.BultinEleves', compact('eleve', 'classe', 'etablissement', 'moyenne'));
+    }
 
 }

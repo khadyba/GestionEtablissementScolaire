@@ -24,8 +24,10 @@ class ElevesCoursController extends Controller
 
     public function listCours($id)
     {
+        
         $classe = Classe::findOrFail($id);
         $cours = Cours::where('classe_id', $id)->get();
+        // $classe= $cours->classe->id;
         return view('Eleves.classes.cours', compact('classe','cours'));
     }
 
@@ -45,10 +47,12 @@ class ElevesCoursController extends Controller
         }
     
         $eleve = $user->eleve;
+        $classe = $eleve->classe;
         $notes = Notes::where('eleve_id', $eleve->id)->get();
     
-        return view('Eleves.Evaluations.listNotes', compact('notes'));
+        return view('Eleves.Evaluations.listNotes', compact('notes','classe','eleve'));
     }
+
     
     /**
      * Show the form for creating a new resource.
@@ -80,12 +84,18 @@ class ElevesCoursController extends Controller
     public function show($id)
     {
         $classe = Classe::findOrFail($id);
+        $eleve = auth()->user()->eleve;
+        
+        if ($eleve->classe_id !== $classe->id) {
+            return back()->withErrors(['error' => 'Vous n\'êtes pas autorisé à accéder à cette classe.']);
+        }
         return view('Eleves.classes.detail', compact('classe'));
     }
 
     public function detailCours($id)
     {
         $cours = Cours::findOrFail($id);
+        $classe= $cours->classe->id;
         return view('Eleves.classes.detailCours', compact('cours'));
     }
 

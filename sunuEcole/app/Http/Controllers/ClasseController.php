@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cours;
 use App\Models\Classe;
 use App\Models\Eleves;
 use App\Models\Professeur;
 use Illuminate\Http\Request;
-use App\Models\Etablissement;
 
+use App\Models\Etablissement;
 use App\Mail\EmploiDuTempsMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +22,10 @@ class ClasseController extends Controller
 
     public function __construct()
 {
-    $this->middleware('auth:admin'); 
-}
+    $this->middleware('auth:admin');
+    // $this->authorizeResource(Classe::class, 'classe');
 
+}
     /**
      * Display a listing of the resource.
      *
@@ -55,9 +57,7 @@ class ClasseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    $this->authorize('create', Classe::class);
-    
+{    
     // Validation des données du formulaire
     $validatedData = $request->validate([
         'nom' => 'required|string|max:255',
@@ -80,13 +80,11 @@ class ClasseController extends Controller
     public function show($id)
     {
         $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $this->authorize('view', $classe);
         $eleve = Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
         return view('Administrateur.Classe.classesDetail', compact('classe','professeursAssignes','eleve'));
     }
-    
-    
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -192,11 +190,6 @@ public function storeAssignedTeacher(Request $request, $id)
 }
 
 
-
-
-
-
-
 public function assignStudents($id)
 {
     $classe = Classe::findOrFail($id);
@@ -220,11 +213,6 @@ public function storeAssignedStudents(Request $request, $id)
        Mail::to($eleve->email_tuteur)->send(new EmploiDuTempsMail($eleve));
     return redirect()->route('classes.index', $classe->id)->with('success', 'Élèves assignés avec succès à la classe.');
 }
-
-
-
-
-
 
 
 public function detachProfesseurFromClasse($classeId, $professeurId)
@@ -276,7 +264,8 @@ public function manageProfessors($classeId)
 public function manageEleves($classeId)
 {
     $classe = Classe::findOrFail($classeId);
-    $eleves = $classe->eleves;
+    $eleves = $classe->eleve;
+    // dd($eleves);
     return view('Administrateur.Classe.manageEleves', compact('classe', 'eleves'));
 }
 

@@ -23,11 +23,19 @@ class EtablissementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function create()
+    // {
+    //     return view('Administrateur.etablissementFormulaire');
+    // }
     public function create()
-    {
-        return view('Administrateur.etablissementFormulaire');
-    }
-
+{
+    $administrateur = auth()->user();
+    // $etablissementExist = $administrateur->etablissement;
+    // if ($etablissementExist) {
+    //     return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');
+    // }
+    return view('Administrateur.etablissementFormulaire');
+}
     /**
      * Store a newly created resource in storage.
      *
@@ -38,8 +46,6 @@ class EtablissementController extends Controller
     {
        
         $administrateur = Auth::guard('admin')->user();
-        
-        // Valider les données du formulaire
         $validatedData = $request->validate([
             'nom' => 'required|string|max:255',
             'directeur' => 'required|string|max:255',
@@ -48,7 +54,6 @@ class EtablissementController extends Controller
             'email' => 'required|email|max:255',
             'type' => 'required|string|max:50',
         ]);
-        
         $etablissement = Etablissement::create([
             'nom' => $validatedData['nom'],
             'directeur' => $validatedData['directeur'],
@@ -58,9 +63,6 @@ class EtablissementController extends Controller
             'type' => $validatedData['type'],
             'administrateur_id' => $administrateur->id, 
         ]);
-        
-        
-        
         return redirect()->route('admin.dashboard')->with('success', 'Établissement ajouté avec succès.');
     }
     

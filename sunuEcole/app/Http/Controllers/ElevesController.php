@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Classe;
 use App\Models\Cours;
+use App\Models\Classe;
 use App\Models\Eleves;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\returnSelf;
+use App\Http\Requests\CompleterProfilEleveRequest;
 
 class ElevesController extends Controller
 {
@@ -53,36 +54,49 @@ class ElevesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-{
-    $request->validate([
-        'nom' => 'required|string|max:255',
-        'prenoms' => 'required|string|max:255',
-        'adresse' => 'required|string|max:255',
-        'email_tuteur' => 'required|string|max:255',
-        'non_de_votre_tuteur' => 'required|string|max:255',
-        'dateDeNaissance' => 'required|date',
-        'classe_id' => 'nullable|exists:classes,id',
-        'parent_id' => 'nullable|exists:parents,id', 
-    ]);
-    $user = Auth::user();
-   
-    $eleve = new Eleves();
-    $eleve->nom = $request->input('nom');
-    $eleve->prenoms = $request->input('prenoms');
-    $eleve->adresse = $request->input('adresse');
-    $eleve->non_de_votre_tuteur = $request->input('non_de_votre_tuteur');
-    $eleve->email_tuteur = $request->input('email_tuteur');
-    $eleve->dateDeNaissance = $request->input('dateDeNaissance');
-    $eleve->classe_id = $request->input('classe_id');
-    $eleve->parent_id = $request->input('parent_id'); 
-    $eleve->user_id = Auth::id(); 
-    $eleve->is_completed = true;
-    $eleve->save();
+    public function store(CompleterProfilEleveRequest $request)
+    {
+        $validated = $request->validated();
+        $user = Auth::user();
+        $eleve = new Eleves();
+        $eleve->nom = $validated['nom'];
+        $eleve->prenoms = $validated['prenoms'];
+        $eleve->adresse = $validated['adresse'];
+        $eleve->non_de_votre_tuteur = $validated['non_de_votre_tuteur'];
+        $eleve->email_tuteur = $validated['email_tuteur'];
+        $eleve->dateDeNaissance = $validated['dateDeNaissance'];
+        $eleve->classe_id = $validated['classe_id'];
+        $eleve->parent_id = $validated['parent_id'];
+        $eleve->user_id = $user->id; 
+        $eleve->is_completed = true;
+        $eleve->save();
+        return redirect()->route('eleves.eleve.dashboard')->with('success', 'Profil complété avec succès.');
+    }
+    
 
-    return redirect()->route('eleves.eleve.dashboard')->with('success', 'Profil complété avec succès.');
-}
-
+    public function showBulletin($classeId, $eleveId)
+    {
+        $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
+        $classe = Classe::with('etablissement')->findOrFail($classeId);
+    
+        $totalNotes = 0;
+        $totalCoefficients = 0;
+    
+        foreach ($eleve->notes as $note) {
+            $totalNotes += $note->valeur * $note->coefficient;
+            $totalCoefficients += $note->coefficient;
+        }
+    
+        if ($totalCoefficients > 0) {
+            $moyenne = $totalNotes / $totalCoefficients;
+        } else {
+            $moyenne = 0;
+        }
+    
+        $etablissement = $classe->etablissement;
+    
+        return view('Eleves.Evaluations.BulletinShow', compact('eleve', 'classe', 'etablissement', 'moyenne'));
+    }
     
 
     /**

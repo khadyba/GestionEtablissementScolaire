@@ -8,6 +8,7 @@ use App\Models\Administrateur;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ClassePolicy
+
 {
     use HandlesAuthorization;
 
@@ -17,9 +18,9 @@ class ClassePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny($user)
     {
-        return $user instanceof Administrateur;
+        return $user instanceof User || $user instanceof Administrateur;
     }
 
     /**
@@ -29,10 +30,15 @@ class ClassePolicy
      * @param  \App\Models\Classe  $classe
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Classe $classe)
-    {
-        return $user instanceof Administrateur;
-    }
+   // app/Policies/ClassePolicy.php
+
+public function view($user, Classe $classe)
+{
+
+    return $user instanceof User || $user instanceof Administrateur  ; 
+}
+
+    
 
     /**
      * Determine whether the user can create models.

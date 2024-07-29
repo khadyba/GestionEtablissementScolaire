@@ -11,9 +11,15 @@ use App\Models\SalleDeClasse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CompleterProfilProfRequest;
 
 class ProfesseurController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Cours::class, 'cours');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,23 +27,19 @@ class ProfesseurController extends Controller
      */
     public function index()
     {
+
         $classes = Classe::where('is_delete', false)->get();
+        // dd('ook');
         return view('Professeurs.profdashboard', compact('classes'));
+        
     }
     public function showCompleteProfileForm()
     {
         return view('Professeurs.complete-profile');
     }
-
-    public function completeProfile(Request $request)
+    public function completeProfile(CompleterProfilProfRequest $request)
     {
-        $validatedData = $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenoms' => 'required|string|max:255',
-            'spécialiter' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'telephone' => 'required|string|max:255',
-        ]);
+        $validatedData = $request->validated();
         $user = Auth::user();
         $role = DB::table('usersroles')
             ->where('user_id', $user->id)
@@ -68,12 +70,13 @@ class ProfesseurController extends Controller
 
     public function create($id)
     {
-    
+        $this->authorize('create', Cours::class);
         $classe = Classe::find($id);
         if (!$classe) {
             return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);
         }
         $professeur = auth()->user()->professeur;
+        // dd(  $professeur->role_id );
         $sallesDeClasses = SalleDeClasse::all(); 
 
         return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));
@@ -99,7 +102,6 @@ class ProfesseurController extends Controller
             'fichier_cours' => 'required|file|mimes:pdf,doc,docx,ppt,pptx',
             'classe_id' => 'required|exists:classes,id',
         ]);
-    
         try {
             $professeur = auth()->user()->professeur;
             $classeId = $validatedData['classe_id'];
@@ -138,6 +140,8 @@ class ProfesseurController extends Controller
     public function show($id)
     {
         $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
+        $this->authorize('view', $classe);
+        dd('ooh');
         $eleve= Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
         return view('Professeurs.Classes.classesDetail', compact('classe','professeursAssignes','eleve'));
@@ -168,6 +172,8 @@ class ProfesseurController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('updade', Cours::class);
+
         $cours = Cours::find($id);
     
         if (!$cours) {
@@ -206,6 +212,8 @@ class ProfesseurController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('create', Cours::class);
+
         $cours = Cours::find($id);
 
         if (!$cours) {
@@ -236,8 +244,6 @@ class ProfesseurController extends Controller
     {
         $cours = Cours::findOrFail($id);
         $classe= $cours->classe->id;
-        
-        // dd( $id,  $classe,$cours->classe->id);
     if (!$cours) {
         return redirect()->route('cours.index')->with('error', 'Le cours demandé n\'existe pas.');
     }

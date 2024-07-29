@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\Eleves;
 use App\Models\Professeur;
@@ -21,12 +22,11 @@ class UsersController extends Controller
 {
     return  view('LoginForm');
 }
-public function LoginForm(Request $request)
+public function LoginForm(LoginRequest $request)
 {
-    $credentials = $request->validate([
-        'email' => 'required|string|email|max:255',
-        'password' => 'required|string|min:8',
-    ]);
+   
+    $credentials = $request->only('email', 'password');
+
     if (Auth::attempt($credentials)) {
         $user = Auth::user();
         $role = DB::table('usersroles')
@@ -65,8 +65,8 @@ public function LoginForm(Request $request)
     } else {
         // Authentification échouée
         return back()->withErrors([
-            'email' => 'Les informations d\'identification fournies sont incorrectes.',
-        ]);
+            'credentials' => 'Les informations d\'identification fournies sont incorrectes.',
+        ])->onlyInput('email');
     }
 }
 
@@ -80,16 +80,9 @@ public function LoginForm(Request $request)
         return view('formulaireInscription', compact('etablissements'));
     }
 
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        // Validation des données du formulaire
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'etablissement_id' => 'required|exists:etablissements,id', 
-            'typecompte' => 'required|string|in:professeurs,eleves,parents',
-        ]);
-    
+        $validatedData = $request->validated();
         // Hachage du mot de passe
         $validatedData['password'] = Hash::make($validatedData['password']);
     

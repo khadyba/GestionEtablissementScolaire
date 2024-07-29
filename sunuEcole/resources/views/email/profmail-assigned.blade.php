@@ -1,3 +1,4 @@
+<img src="{{ asset('assets/img/canvas.png') }}" alt="Sunulyce Logo">
 
 @component('mail::message')
 # Notification d'affectation de professeur
