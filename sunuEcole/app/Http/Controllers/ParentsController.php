@@ -18,7 +18,9 @@ use Paydunya\Checkout\CheckoutInvoice;
 use Paydunya\Checkout\Store as PaydunyaStore;
 
 class ParentsController extends Controller
-{public function index()
+
+{
+    public function index()
     {
         $parent = Auth::user();
         $eleve = $parent->eleve;
@@ -58,6 +60,7 @@ class ParentsController extends Controller
 
     public function __construct()
     {
+        $this->middleware(['auth', 'parent']);
         PaydunyaSetup::setMasterKey(config('paydunya.master_key'));
         PaydunyaSetup::setPublicKey(config('paydunya.public_key'));
         PaydunyaSetup::setPrivateKey(config('paydunya.private_key'));

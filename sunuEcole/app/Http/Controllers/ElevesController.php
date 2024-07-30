@@ -14,6 +14,10 @@ use App\Http\Requests\CompleterProfilEleveRequest;
 
 class ElevesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'student']);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -15,9 +15,9 @@ use App\Http\Requests\CompleterProfilProfRequest;
 
 class ProfesseurController extends Controller
 {
-
     public function __construct()
     {
+        $this->middleware(['auth', 'professor']);
         $this->authorizeResource(Cours::class, 'cours');
     }
     /**
@@ -29,7 +29,6 @@ class ProfesseurController extends Controller
     {
 
         $classes = Classe::where('is_delete', false)->get();
-        // dd('ook');
         return view('Professeurs.profdashboard', compact('classes'));
         
     }

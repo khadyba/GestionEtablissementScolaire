@@ -23,7 +23,6 @@ class ClasseController extends Controller
     public function __construct()
 {
     $this->middleware('auth:admin');
-    // $this->authorizeResource(Classe::class, 'classe');
 
 }
     /**
@@ -44,7 +43,6 @@ class ClasseController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Classe::class);
         $etablissements = Etablissement::all();
 
         return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
@@ -80,7 +78,6 @@ class ClasseController extends Controller
     public function show($id)
     {
         $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);
-        $this->authorize('view', $classe);
         $eleve = Eleves::whereNull('classe_id')->get();
         $professeursAssignes = $classe->professeurs;
         return view('Administrateur.Classe.classesDetail', compact('classe','professeursAssignes','eleve'));
@@ -95,7 +92,6 @@ class ClasseController extends Controller
      public function edit($id)
      {
         $classe = Classe::findOrFail($id);
-        $this->authorize('update',  $classe);
        return view('Administrateur.Classe.modifierClasses', compact('classe'));
      }
      
@@ -113,7 +109,6 @@ class ClasseController extends Controller
 public function update(Request $request, $id)
 {
     $classe = Classe::findOrFail($id);
-    $this->authorize('update', $classe);
 
     $request->validate([
         'nom' => 'required|string|max:255',
@@ -136,7 +131,6 @@ public function update(Request $request, $id)
     public function destroy($id)
 {
     $classe = Classe::findOrFail($id);
-    $this->authorize('delete', $classe);
 
     if ($classe->administrateur_id !== auth('admin')->id()) {
         return redirect()->route('classes.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cette classe.');
