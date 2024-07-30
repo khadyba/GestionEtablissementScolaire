@@ -68,7 +68,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::put('/classes/{id}/update',[ClasseController::class,'update'])->name('classes.update');
     Route::delete('/classes/{id}',[ClasseController::class,'destroy'])->name('classes.destroy');
     Route::get('professeurs/classes/{id}/cours', [AdministrateurController::class, 'listeCours'])->name('cours');
-
     // route pour creer les salle de classe
     Route::get('/admin/salles/create', [SalleDeClasseController::class, 'create'])->name('admin.salles.create');
     Route::post('/admin/salles/store', [SalleDeClasseController::class, 'store'])->name('admin.salles.store');
@@ -101,73 +100,67 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('admin/classes/{classeId}/eleves/{eleveId}/bulletin', [NotesController::class, 'genererBulletin'])->name('eleves.bulletin');
 
     Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [NotesController::class, 'showBulletin'])->name('classes.bulletin');
-
-
-
-    
 });
+
 Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {  
-            // route pour les professeurs
-            Route::prefix('professeurs')->name('professeurs.')->group(function () {
-                Route::get('/professeurs/complete-profil', [ProfesseurController::class, 'showCompleteProfileForm'])->name('professeurs.complete-profile');
-                Route::post('/professeurs/complete-profil', [ProfesseurController::class, 'completeProfile'])->name('professeurs.complete-profile.store');
-                Route::get('/prof/dashboard', [ProfesseurController::class, 'index'])->name('prof.dashboard');
-                Route::get('/listDesClasses', [ProfesseurController::class, 'index'])->name('classes.index.prof');
-                Route::get('/classes/{id}', [ProfesseurController::class, 'show'])->name('classes.show.prof');
-                Route::get('/cours/create/{classe}', [ProfesseurController::class, 'create'])->name('cours.create');
-                Route::post('/cours', [ProfesseurController::class, 'store'])->name('cours.store');
-                Route::get('professeurs/classes/{id}/cours', [ProfesseurController::class, 'listeCours'])->name('cours.list.prof');
-                Route::get('/cours/{id}', [ProfesseurController::class, 'detailCours'])->name('cours.detail.prof');
-                Route::get('/cours/{id}/edit', [ProfesseurController::class, 'edit'])->name('cours.edit');
-                Route::put('/cours/{id}', [ProfesseurController::class, 'update'])->name('cours.update');
-                Route::delete('/cours/{id}', [ProfesseurController::class, 'destroy'])->name('cours.destroy');
-                Route::get('/salles/salleDisponible/{id}', [SalleDeClasseController::class, 'afficherSallesDisponibles'])->name('salle.disponible');
-                Route::post('/cours/{coursId}/assign-salle/{salleId}', [SalleDeClasseController::class, 'assignSalle'])->name('cours.assignSalle');
-                Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
-                Route::get('professeurs/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
-                Route::post('evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
-                Route::get('professeurs/classes/{classe}/evaluations', [EvaluationsController::class, 'listEvaluations'])->name('evaluations.list');
-               
-                // Route::get('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
-                Route::get('/professeurs/classes/{classeId}/evaluations/{evaluationId}/add_notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+    // Routes pour les professeurs
+    Route::middleware('professor')->prefix('professeurs')->name('professeurs.')->group(function () {
+        Route::get('/complete-profil', [ProfesseurController::class, 'showCompleteProfileForm'])->name('complete-profile');
+        Route::post('/complete-profil', [ProfesseurController::class, 'completeProfile'])->name('complete-profile.store');
+        Route::get('/dashboard', [ProfesseurController::class, 'index'])->name('dashboard');
+        Route::get('/listDesClasses', [ProfesseurController::class, 'index'])->name('classes.index');
+        Route::get('/classes/{id}', [ProfesseurController::class, 'show'])->name('classes.show');
+        Route::get('/cours/create/{classe}', [ProfesseurController::class, 'create'])->name('cours.create');
+        Route::post('/cours', [ProfesseurController::class, 'store'])->name('cours.store');
+        Route::get('/classes/{id}/cours', [ProfesseurController::class, 'listeCours'])->name('cours.list');
+        Route::get('/cours/{id}', [ProfesseurController::class, 'detailCours'])->name('cours.detail');
+        Route::get('/cours/{id}/edit', [ProfesseurController::class, 'edit'])->name('cours.edit');
+        Route::put('/cours/{id}', [ProfesseurController::class, 'update'])->name('cours.update');
+        Route::delete('/cours/{id}', [ProfesseurController::class, 'destroy'])->name('cours.destroy');
+        Route::get('/salles/salleDisponible/{id}', [SalleDeClasseController::class, 'afficherSallesDisponibles'])->name('salle.disponible');
+        Route::post('/cours/{coursId}/assign-salle/{salleId}', [SalleDeClasseController::class, 'assignSalle'])->name('cours.assignSalle');
+        Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
+        Route::get('/classes/{id}/evaluations/create', [EvaluationsController::class, 'create'])->name('evaluations.create');
+        Route::post('/evaluations/store', [EvaluationsController::class, 'store'])->name('evaluations.store');
+        Route::get('/classes/{classe}/evaluations', [EvaluationsController::class, 'listEvaluations'])->name('evaluations.list');
+        Route::get('/classes/{classeId}/evaluations/{evaluationId}/add_notes', [EvaluationsController::class, 'showAddNotesForm'])->name('evaluations.add_notes');
+        Route::post('/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
+        Route::get('/notes', [NotesController::class, 'index'])->name('notes.list');
+        Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
+        Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');
+        Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');
+    });
 
-                Route::post('/professeurs/classes/{id}/ajouter-notes', [EvaluationsController::class, 'storeNotes'])->name('evaluations.store_notes');
-                Route::get('professeurs/notes', [NotesController::class, 'index'])->name('notes.list');
-                Route::get('professeurs/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');
-                Route::post('professeurs/notes/{note}', [NotesController::class, 'update'])->name('notes.update');
-                Route::delete('professeurs/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');
-            });
-            // Routes pour les élèves
-            Route::prefix('eleves')->name('eleves.')->group(function () {
-                Route::get('/eleve/dashboard', [ElevesController::class, 'index'])->name('eleve.dashboard');
-                Route::get('/cours', [ElevesController::class, 'index'])->name('cours.index');
-                Route::get('/cours/{id}', [ElevesController::class, 'show'])->name('cours.show.eleve');
-                Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
-                Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
-                Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
-                Route::get('/classe/{id}/cours',  [ElevesCoursController::class, 'listCours'])->name('cours.list');
-                Route::get('/cours/{id}',  [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
-                Route::get('eleves/complete-profile', [ElevesController::class, 'completerProfil'])->name('eleves.completeProfileForm');
-                Route::post('eleves/complete-profile', [ElevesController::class, 'store'])->name('eleves.completeProfile');
-                Route::get('eleves/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('eleves.payInscription');
-                Route::get('professeurs/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
-                Route::get('eleves/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
-                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ElevesController::class, 'showBulletin'])->name('eleves.bulletin');
+    // Routes pour les élèves
+    Route::middleware('student')->prefix('eleves')->name('eleves.')->group(function () {
+        Route::get('/dashboard', [ElevesController::class, 'index'])->name('dashboard');
+        Route::get('/cours', [ElevesController::class, 'index'])->name('cours.index');
+        Route::get('/cours/{id}', [ElevesController::class, 'show'])->name('cours.show');
+        Route::get('/cours/download/{id}', [ProfesseurController::class, 'download'])->name('cours.download');
+        Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
+        Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
+        Route::get('/classe/{id}/cours', [ElevesCoursController::class, 'listCours'])->name('cours.list');
+        Route::get('/cours/{id}', [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
+        Route::get('/complete-profile', [ElevesController::class, 'completerProfil'])->name('completeProfileForm');
+        Route::post('/complete-profile', [ElevesController::class, 'store'])->name('completeProfile');
+        Route::get('/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('payInscription');
+        Route::get('/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
+        Route::get('/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
+        Route::get('/classes/{classeId}/eleves/{eleveId}/notes', [ElevesController::class, 'showBulletin'])->name('bulletin');
+    });
 
-
-            }); 
-            // route pour les parents 
-            Route::prefix('parents')->name('parents.')->group(function (){
-                Route::get('/parent/dashboard', [ParentsController::class, 'index'])->name('parent.dashboard');
-                Route::get('parents/complete-profile', [ParentsController::class, 'completerProfil'])->name('parent.completeProfileForm');
-                Route::post('parents/complete-profile', [ParentsController::class, 'store'])->name('parent.completeProfile');
-                Route::get('parent/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('parent.payInscription');
-                Route::get('parents/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
-                Route::get('parents/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
-                Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [ParentsController::class, 'showBulletin'])->name('eleves.bulletin');
-
-            });
+    // Routes pour les parents
+    Route::middleware('parent')->prefix('parents')->name('parents.')->group(function () {
+        Route::get('/dashboard', [ParentsController::class, 'index'])->name('dashboard');
+        Route::get('/complete-profile', [ParentsController::class, 'completerProfil'])->name('completeProfileForm');
+        Route::post('/complete-profile', [ParentsController::class, 'store'])->name('completeProfile');
+        Route::get('/pay-inscription', [ParentsController::class, 'redirectToPayment'])->name('payInscription');
+        Route::get('/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
+        Route::get('/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
+        Route::get('/classes/{classeId}/eleves/{eleveId}/notes', [ParentsController::class, 'showBulletin'])->name('eleves.bulletin');
+    });
 });
+
       
  // route apres le payment sur paydunya
  Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
