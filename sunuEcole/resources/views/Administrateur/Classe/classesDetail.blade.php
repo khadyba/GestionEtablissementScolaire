@@ -66,7 +66,7 @@
     </div>
 
     <div class="mt-3">
-        <a href="{{ route('cours', $classe->id) }}" class="btn btn-primary">Voir la liste des Cours</a>
+        <a href="{{ route('list', $classe->id) }}" class="btn btn-primary">Voir la liste des Cours</a>
         <a href="{{ route('classes.notes', $classe->id) }}" class="btn btn-primary">Calcul des moyennes</a>
         <a href="{{ route('classes.index') }}" class="btn btn-primary">Retour à la liste des classes</a>
     </div>

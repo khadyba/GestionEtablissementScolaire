@@ -55,7 +55,7 @@
           <li><a class="nav-link scrollto active" href="#hero">Acceuil</a></li>
           <li><a class="nav-link scrollto" href="#about">A Propos </a></li>
           <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="nav-link scrollto" href="#call-to-action">Rejoingnez-Nous</a></li>
+          <li><a class="nav-link scrollto" href="#call-to-action">Rejoignez-Nous</a></li>
 
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

@@ -13,7 +13,10 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('eleves.eleve.dashboard') }}">Espace Personnel</a>
+          <a class="nav-link" href="{{ route('eleves.dashboard') }}">Espace Personnel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('eleves.profile.edit') }}">Modifier Profile</a>
         </li>
        
       </ul>

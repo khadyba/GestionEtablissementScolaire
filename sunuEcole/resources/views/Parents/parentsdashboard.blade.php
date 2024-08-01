@@ -30,7 +30,7 @@
                     <button type="submit" class="btn btn-primary">Afficher les notes</button>
                 </form>
 
-                <a href="{{ route('parents.parent.payInscription') }}" class="btn btn-primary">Payer l'inscription</a>
+                <a href="{{ route('parents.payInscription') }}" class="btn btn-primary">Payer l'inscription</a>
             </div>
 
             <!-- Colonne pour l'image -->

@@ -30,10 +30,10 @@ class EtablissementController extends Controller
     public function create()
 {
     $administrateur = auth()->user();
-    // $etablissementExist = $administrateur->etablissement;
-    // if ($etablissementExist) {
-    //     return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');
-    // }
+    $etablissementExist = $administrateur->etablissement;
+    if ($etablissementExist) {
+        return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');
+    }
     return view('Administrateur.etablissementFormulaire');
 }
     /**

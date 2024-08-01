@@ -121,9 +121,10 @@ class ElevesController extends Controller
      * @param  \App\Models\Eleves  $eleves
      * @return \Illuminate\Http\Response
      */
-    public function edit(Eleves $eleves)
+    public function editProfile(Eleves $eleve)
     {
-        //
+        $eleve = Auth::user()->eleve;
+        return view('Eleves.profileEdit', compact('eleve'));
     }
 
     /**
@@ -133,10 +134,22 @@ class ElevesController extends Controller
      * @param  \App\Models\Eleves  $eleves
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Eleves $eleves)
+    public function updateProfile(Request $request, Eleves $eleve)
     {
-        //
+        $user = Auth::user();
+        $eleve = $user->eleve;
+        $data = $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenoms'  =>  'required|string|max:255',
+        'adresse'  =>  'required|string|max:255',
+        'non_de_votre_tuteur'  =>  'required|string|max:255',
+      
+    ]);
+
+    $eleve->update($data);
+    return redirect()->route('eleves.profile.edit')->with('success', 'Profil mis à jour avec succès');
     }
+    
 
     /**
      * Remove the specified resource from storage.

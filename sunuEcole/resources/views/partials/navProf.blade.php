@@ -13,9 +13,12 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('professeurs.prof.dashboard') }}">Espace Personnel</a>
+          <a class="nav-link" href="{{ route('professeurs.dashboard') }}">Espace Personnel</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('professeurs.profile.edit') }}">Modifier Profile</a>
+        </li>
       </ul>
       <form class="d-flex" action="{{ route('users.logout') }}" method="POST">
       @csrf

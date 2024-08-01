@@ -7,8 +7,20 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/canvas.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+@include('partials.navElv')
 <body>
-    @include('partials.navElv')
+<div class="container">
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="container mt-5 text-secondary">
         <div class="row">
             <!-- Colonne pour la liste des classes -->
@@ -27,7 +39,7 @@
 
                 <!-- Boutons d'Action -->
                 <div class="mt-4">
-                    <a href="{{ route('eleves.eleves.payInscription') }}" class="btn btn-primary" target="_blank">Payer mon inscription</a>
+                    <a href="{{ route('eleves.payInscription') }}" class="btn btn-primary" target="_blank">Payer mon inscription</a>
                     <a href="{{ route('eleves.notes.list') }}" class="btn btn-primary ms-2">Consulter mes Notes</a>
                 </div>
             </div>

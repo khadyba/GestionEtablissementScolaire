@@ -55,6 +55,15 @@ class AdministrateurController extends Controller
     }
 
 
+    public function listProfessors()
+    {
+       
+        $professeurs = User::whereHas('roles', function($query) {
+            $query->where('nom', 'professeurs');
+        })->where('is_completed', false)->get();
+
+        return view('Administrateur.Professeurs.list', compact('professeurs'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -187,11 +196,26 @@ class AdministrateurController extends Controller
 }
 
 
-public function listeCours($id)
+public function listeCours($id) 
 {
     $professeur = auth()->user()->professeur;
     $classe = Classe::findOrFail($id);
     $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
     return view('Administrateur.Classe.courList', compact('classe', 'cours'));
 }
+
+public function destroyProfessor($id)
+{
+    $professeur = User::find($id);
+
+    if ($professeur) {
+        $professeur->is_completed = true;
+        $professeur->save();
+        return redirect()->route('professeurs.list')->with('success', 'Le compte du professeur a été désactivé avec succès.');
+    }
+
+    return redirect()->route('professeurs.list')->with('error', 'Le professeur n\'a pas été trouvé.');
+}
+
+
 }

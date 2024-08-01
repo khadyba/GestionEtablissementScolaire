@@ -20,6 +20,10 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ route('admin.profile.edit') }}">Modifier Mon Profile</a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('professeurs.list') }}">Liste des professeurs</a>
+        </li>
       </ul>
       <form class="d-flex" action="{{ route('admin.logout') }}" method="POST">
          @csrf
