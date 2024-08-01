@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CompleterProfilProfRequest;
+use App\Http\Requests\UpdateProfessorProfileRequest;
 
 class ProfesseurController extends Controller
 {
@@ -255,18 +256,19 @@ class ProfesseurController extends Controller
         return view('Professeurs.profileEdit', compact('professeur'));
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfessorProfileRequest $request)
     {
         $user = Auth::user();
         $professeur = $user->professeur;
-        $data = $request->validate([
-        'nom' => 'required|string|max:255',
-        'prenoms'  =>  'required|string|max:255',
-        'adresse'  =>  'required|string|max:255',
-        'spécialiter'  =>  'required|string|max:255',
-        'telephone'  =>  'required|string|max:255',
+        $data = $request->validated();
+    //     $data = $request->validate([
+    //     'nom' => 'required|string|max:255',
+    //     'prenoms'  =>  'required|string|max:255',
+    //     'adresse'  =>  'required|string|max:255',
+    //     'spécialiter'  =>  'required|string|max:255',
+    //     'telephone'  =>  'required|string|max:255',
       
-    ]);
+    // ]);
 
     $professeur->update($data);
     return redirect()->route('professeurs.profile.edit')->with('success', 'Profil mis à jour avec succès');
