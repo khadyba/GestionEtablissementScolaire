@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminRegisterRequest extends FormRequest
@@ -45,6 +46,7 @@ class AdminRegisterRequest extends FormRequest
             'telephone' => [
                 'required',
                 'string',
+                Rule::unique('administateurs'),
                 'regex:/^(77|76|75|78|33)\s\d{3}\s\d{2}\s\d{2}$/'
             ],
             'email' => [
@@ -81,6 +83,7 @@ class AdminRegisterRequest extends FormRequest
             'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
             'password.regex' => 'Le mot de passe doit contenir au moins une lettre majuscule, un chiffre, et peut inclure des caractères spéciaux.',
+            'telephone.unique' => 'Le numéro de téléphone exist déjat',
             'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',
             'prenoms.regex' => 'Mettez un prénom valide.',
             'nom.regex' => 'Mettez un nom valide.',

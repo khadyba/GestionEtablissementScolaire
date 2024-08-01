@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\returnSelf;
 use App\Http\Requests\CompleterProfilEleveRequest;
+use App\Http\Requests\UpdateStudentProfileRequest;
 
 class ElevesController extends Controller
 {
@@ -134,17 +135,18 @@ class ElevesController extends Controller
      * @param  \App\Models\Eleves  $eleves
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request, Eleves $eleve)
+    public function updateProfile(UpdateStudentProfileRequest $request, Eleves $eleve)
     {
         $user = Auth::user();
         $eleve = $user->eleve;
-        $data = $request->validate([
-        'nom' => 'required|string|max:255',
-        'prenoms'  =>  'required|string|max:255',
-        'adresse'  =>  'required|string|max:255',
-        'non_de_votre_tuteur'  =>  'required|string|max:255',
+        $data = $request->validated();
+    //     $data = $request->validate([
+    //     'nom' => 'required|string|max:255',
+    //     'prenoms'  =>  'required|string|max:255',
+    //     'adresse'  =>  'required|string|max:255',
+    //     'non_de_votre_tuteur'  =>  'required|string|max:255',
       
-    ]);
+    // ]);
 
     $eleve->update($data);
     return redirect()->route('eleves.profile.edit')->with('success', 'Profil mis à jour avec succès');

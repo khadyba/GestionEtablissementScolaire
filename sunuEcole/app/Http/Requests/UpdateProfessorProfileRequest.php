@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompleterProfilProfRequest extends FormRequest
+class UpdateProfessorProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,17 +37,17 @@ class CompleterProfilProfRequest extends FormRequest
                 'max:255',
                 'regex:/^[\pL\s-]+$/u'
             ],
-            'spécialiter' => [
+            'adresse' => [
                 'required',
                 'string',
                 'max:255',
                 'regex:/^[\pL\s-]+$/u'
             ],
-           'adresse' => [
+            'spécialiter' => [
                 'required',
                 'string',
                 'max:255',
-                'regex:/^[\pL\pN\s,.\'-]+$/u'
+                'regex:/^[\pL\s-]+$/u'
             ],
             'telephone' => [
                 'required',
@@ -57,17 +57,16 @@ class CompleterProfilProfRequest extends FormRequest
             ],
         ];
     }
-
     public function messages()
     {
         return [
             'nom.regex' => 'Mettez un nom valide.',
             'prenoms.regex' => 'Mettez un prénom valide.',
-            'spécialiter.regex' => 'Mettez une spécialiter valide.',
-            'adresse.regex' => 'Mettez une adresse valide.',
-            'telephone.unique' => 'Le numéro de téléphone exist déjat',
+            'adresse.regex' => 'Mettez un adrees valide.',
+            'spécialiter.regex' => 'Mettez une spécialister valide',
             'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',
+            'telephone.unique' => 'Ce numéro exist déjat',
+
         ];
     }
-
 }

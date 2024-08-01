@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompleterProfilProfRequest extends FormRequest
+class UpdateStudentProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,23 +36,17 @@ class CompleterProfilProfRequest extends FormRequest
                 'max:255',
                 'regex:/^[\pL\s-]+$/u'
             ],
-            'spécialiter' => [
+            'adresse' => [
                 'required',
                 'string',
                 'max:255',
                 'regex:/^[\pL\s-]+$/u'
             ],
-           'adresse' => [
+            'non_de_votre_tuteur' => [
                 'required',
                 'string',
                 'max:255',
-                'regex:/^[\pL\pN\s,.\'-]+$/u'
-            ],
-            'telephone' => [
-                'required',
-                'string',
-                Rule::unique('professeurs'),
-                'regex:/^(77|76|75|78|33)\s\d{3}\s\d{2}\s\d{2}$/'
+                'regex:/^[\pL\s-]+$/u'
             ],
         ];
     }
@@ -63,11 +56,8 @@ class CompleterProfilProfRequest extends FormRequest
         return [
             'nom.regex' => 'Mettez un nom valide.',
             'prenoms.regex' => 'Mettez un prénom valide.',
-            'spécialiter.regex' => 'Mettez une spécialiter valide.',
-            'adresse.regex' => 'Mettez une adresse valide.',
-            'telephone.unique' => 'Le numéro de téléphone exist déjat',
-            'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',
+            'adresse.regex' => 'Mettez une adresse valide',
+            'non_de_votre_tuteur.regex' => 'Mettez un nom de tuteur valide.'
         ];
     }
-
 }

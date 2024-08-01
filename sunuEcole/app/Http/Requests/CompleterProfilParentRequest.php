@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompleterProfilParentRequest extends FormRequest
@@ -45,6 +46,7 @@ class CompleterProfilParentRequest extends FormRequest
             'telephone' => [
                 'required',
                 'string',
+                Rule::unique('parents'),
                 'regex:/^(77|76|75|78|33)\s\d{3}\s\d{2}\s\d{2}$/'
             ],
         ];
@@ -55,6 +57,7 @@ class CompleterProfilParentRequest extends FormRequest
             'nom.regex' => 'Mettez un nom valide.',
             'prenoms.regex' => 'Mettez un prénom valide.',
             'non_de_votre_éléver.regex' => 'Mettez un nom valide.',
+            'telephone.unique' => 'Le numéro de téléphone exist déjat',
             'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',
           
         ];
