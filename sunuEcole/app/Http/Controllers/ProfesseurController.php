@@ -249,4 +249,26 @@ class ProfesseurController extends Controller
         return  view('Professeurs.Cours.coursDetail',compact('cours','classe'));
     }
     
+    public function editProfile()
+    {
+        $professeur = Auth::user()->professeur;
+        return view('Professeurs.profileEdit', compact('professeur'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $professeur = $user->professeur;
+        $data = $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenoms'  =>  'required|string|max:255',
+        'adresse'  =>  'required|string|max:255',
+        'spécialiter'  =>  'required|string|max:255',
+        'telephone'  =>  'required|string|max:255',
+      
+    ]);
+
+    $professeur->update($data);
+    return redirect()->route('professeurs.profile.edit')->with('success', 'Profil mis à jour avec succès');
+    }
 }

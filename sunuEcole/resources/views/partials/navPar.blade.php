@@ -13,7 +13,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('parents.parent.dashboard') }}">Espace Personnel</a>
+          <a class="nav-link" href="{{ route('parents.dashboard') }}">Espace Personnel</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('parents.profile.edit') }}">Modifier Profile</a>
         </li>
 
       </ul>

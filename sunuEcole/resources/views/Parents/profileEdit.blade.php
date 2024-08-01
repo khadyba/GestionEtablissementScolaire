@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Completer profile</title>
+<link rel="icon" type="image/png" href="{{ asset('assets/img/canvas.png') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+@include('partials.navPar')
+<div class="container">
+    <h1>Modifier Profil</h1>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <div class="row">
+        <div class="col-md-6">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <form action="{{ route('parents.profile.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="nom" name="nom" value="{{ old('nom', $parent->nom) }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="prenoms" class="form-label">Prénoms</label>
+                    <input type="text" class="form-control" id="prenoms" name="prenoms" value="{{ old('prenoms', $parent->prenoms) }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="adresse" class="form-label">Telephone</label>
+                    <input type="text" class="form-control" id="telephone" name="telephone" value="{{ old('telephone', $parent->telephone) }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telephone" class="form-label">Non de votre éléve</label>
+                    <input type="text" class="form-control" id="non_de_votre_éléve" name="non_de_votre_éléve" value="{{ old('non_de_votre_éléve', $parent->non_de_votre_éléve) }}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <img src="{{ asset('assets/img/personnes.png') }}" alt="Image description" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+36MOy5FjCEXSUzC5oxqD4yAaHjH2" crossorigin="anonymous"></script>
+</body>
+</html>

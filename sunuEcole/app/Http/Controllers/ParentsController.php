@@ -173,4 +173,24 @@ class ParentsController extends Controller
         return view('Parents.BultinEleves', compact('eleve', 'classe', 'etablissement', 'moyenne'));
     }
 
+    public function editProfile(Parents $parent)
+    {
+        $parent = Auth::user()->parent;
+        return view('Parents.profileEdit', compact('parent'));
+    }
+    public function updateProfile(Request $request,Parents $parent)
+    {
+        $user = Auth::user();
+        $parent = $user->parent;
+        $data = $request->validate([
+        'nom' => 'required|string|max:255',
+        'prenoms'  =>  'required|string|max:255',
+        'telephone'  =>  'required|string|max:255',
+        'non_de_votre_éléve'=>  'required|string|max:255'
+      
+    ]);
+
+    $parent->update($data);
+    return redirect()->route('parents.profile.edit')->with('success', 'Profil mis à jour avec succès');
+    }
 }

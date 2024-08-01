@@ -31,7 +31,7 @@
                         <td>{{ $classe->etablissement->nom }}</td>
                         <td>
                             <a href="{{ route('professeurs.cours.create', $classe->id) }}" class="btn btn-primary btn-sm">Ajouter Cours</a>
-                            <a href="{{ route('professeurs.classes.show.prof', $classe->id) }}" class="btn btn-info btn-sm">Voir Detail</a>
+                            <a href="{{ route('professeurs.classes.show', $classe->id) }}" class="btn btn-info btn-sm">Voir Detail</a>
                             <a href="{{ route('professeurs.evaluations.list', $classe->id) }}" class="btn btn-warning btn-sm">Voir Évaluations</a>
                             <a href="{{ route('professeurs.notes.list') }}" class="btn btn-success btn-sm">Liste des Notes</a>
                         </td>

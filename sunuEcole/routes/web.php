@@ -67,7 +67,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/classes/{id}/edit',[ClasseController::class,'edit'])->name('classes.edit');
     Route::put('/classes/{id}/update',[ClasseController::class,'update'])->name('classes.update');
     Route::delete('/classes/{id}',[ClasseController::class,'destroy'])->name('classes.destroy');
-    Route::get('professeurs/classes/{id}/cours', [AdministrateurController::class, 'listeCours'])->name('cours');
+    Route::get('/classes/{id}/cours', [AdministrateurController::class, 'listeCours'])->name('list');
     // route pour creer les salle de classe
     Route::get('/admin/salles/create', [SalleDeClasseController::class, 'create'])->name('admin.salles.create');
     Route::post('/admin/salles/store', [SalleDeClasseController::class, 'store'])->name('admin.salles.store');
@@ -94,11 +94,14 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/listProfAjouter',[AdministrateurController::class,'index'])->name('list.index');
     Route::get('/formulairAjout',[AdministrateurController::class,'formulaire'])->name('affiche.formulaire');
     Route::post('/AjouterProf',[AdministrateurController::class,'ajouterProfesseur'])->name('Ajout.ajouterProfesseur');
+   
+    Route::get('/professeurs', [AdministrateurController::class, 'listProfessors'])->name('professeurs.list');
+    Route::delete('/professeurs/{id}', [AdministrateurController::class, 'destroyProfessor'])->name('professeurs.destroy');
+
     // route pour le calcul des moyenne et generation des bultin de notes
     Route::get('admin/classes/{id}/notes', [NotesController::class, 'showClassNotes'])->name('classes.notes');
     Route::get('admin/classes/eleves/{eleveId}/calculer-moyenne', [NotesController::class, 'calculerMoyenne'])->name('eleves.calculer_moyenne');
     Route::get('admin/classes/{classeId}/eleves/{eleveId}/bulletin', [NotesController::class, 'genererBulletin'])->name('eleves.bulletin');
-
     Route::get('admin/classes/{classeId}/eleves/{eleveId}/notes', [NotesController::class, 'showBulletin'])->name('classes.bulletin');
 });
 
@@ -107,6 +110,8 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
     Route::middleware('professor')->prefix('professeurs')->name('professeurs.')->group(function () {
         Route::get('/complete-profil', [ProfesseurController::class, 'showCompleteProfileForm'])->name('complete-profile');
         Route::post('/complete-profil', [ProfesseurController::class, 'completeProfile'])->name('complete-profile.store');
+        Route::get('/profile/edit', [ProfesseurController::class, 'editProfile'])->name('profile.edit');
+        Route::put('/profile/update', [ProfesseurController::class, 'updateProfile'])->name('profile.update');
         Route::get('/dashboard', [ProfesseurController::class, 'index'])->name('dashboard');
         Route::get('/listDesClasses', [ProfesseurController::class, 'index'])->name('classes.index');
         Route::get('/classes/{id}', [ProfesseurController::class, 'show'])->name('classes.show');
@@ -143,6 +148,10 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
         Route::get('/cours/{id}', [ElevesCoursController::class, 'detailCours'])->name('cours.detail');
         Route::get('/complete-profile', [ElevesController::class, 'completerProfil'])->name('completeProfileForm');
         Route::post('/complete-profile', [ElevesController::class, 'store'])->name('completeProfile');
+
+        Route::get('/profile/edit', [ElevesController::class, 'editProfile'])->name('profile.edit');
+        Route::put('/profile/update', [ElevesController::class, 'updateProfile'])->name('profile.update');
+
         Route::get('/pay-inscription', [PaymentController::class, 'redirectToPayment'])->name('payInscription');
         Route::get('/classes/{classe}/evaluations', [ElevesCoursController::class, 'listEvaluations'])->name('evaluations.list');
         Route::get('/notes', [ElevesCoursController::class, 'listNotes'])->name('notes.list');
@@ -158,6 +167,9 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
         Route::get('/eleves/{eleve}/emploi_du_temps', [ParentsController::class, 'showEmploiDuTemps'])->name('eleves.emploi_du_temps');
         Route::get('/eleves/notes', [ParentsController::class, 'showNotes'])->name('eleves.notes');
         Route::get('/classes/{classeId}/eleves/{eleveId}/notes', [ParentsController::class, 'showBulletin'])->name('eleves.bulletin');
+
+        Route::get('/profile/edit', [ParentsController::class, 'editProfile'])->name('profile.edit');
+        Route::put('/profile/update', [ParentsController::class, 'updateProfile'])->name('profile.update');
     });
 });
 

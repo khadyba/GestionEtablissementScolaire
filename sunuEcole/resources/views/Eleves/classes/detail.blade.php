@@ -50,7 +50,7 @@
                 @endif
 
                 <div class="mt-4">
-                    <a href="{{ route('eleves.cours.index', ['id' => $classe->id]) }}" class="btn btn-primary">Voir la liste des Cours</a>
+                    <a href="{{ route('eleves.cours.list', ['id' => $classe->id]) }}" class="btn btn-primary">Voir la liste des Cours</a>
                     <a href="{{ route('eleves.classes.index') }}" class="btn btn-primary">Retour à la liste des classes</a>
                 </div>
             </div>
