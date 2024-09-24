@@ -1,0 +1,74 @@
+{
+    "sourceFile": "app/Http/Controllers/UsersController.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1727022833826,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1727023298706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,9 @@\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n+                    \n                     if (!$professeur || !$professeur->is_completed) {\n                         return redirect()->route('professeurs.complete-profile');\n                     }\n                     return redirect()->route('professeurs.dashboard');\n"
+                },
+                {
+                    "date": 1727023325283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,10 @@\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n-                    \n+                    Log::info(\"User authenticated: \" . $user->id);\n+\n                     if (!$professeur || !$professeur->is_completed) {\n                         return redirect()->route('professeurs.complete-profile');\n                     }\n                     return redirect()->route('professeurs.dashboard');\n"
+                },
+                {
+                    "date": 1727023371674,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,10 +35,9 @@\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n-                    Log::info(\"User authenticated: \" . $user->id);\n-\n+                    <dd></dd>\n                     if (!$professeur || !$professeur->is_completed) {\n                         return redirect()->route('professeurs.complete-profile');\n                     }\n                     return redirect()->route('professeurs.dashboard');\n"
+                },
+                {
+                    "date": 1727023378939,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n-                    <dd></dd>\n+                    dd($)\n                     if (!$professeur || !$professeur->is_completed) {\n                         return redirect()->route('professeurs.complete-profile');\n                     }\n                     return redirect()->route('professeurs.dashboard');\n"
+                },
+                {
+                    "date": 1727023711982,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,16 +28,16 @@\n     $credentials = $request->only('email', 'password');\n \n     if (Auth::attempt($credentials)) {\n         $user = Auth::user();\n+        dd($professeur);\n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n-                    dd($)\n                     if (!$professeur || !$professeur->is_completed) {\n                         return redirect()->route('professeurs.complete-profile');\n                     }\n                     return redirect()->route('professeurs.dashboard');\n"
+                },
+                {
+                    "date": 1727023720925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     $credentials = $request->only('email', 'password');\n \n     if (Auth::attempt($credentials)) {\n         $user = Auth::user();\n-        dd($professeur);\n+        dd($user);\n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n         if ($role) {\n"
+                },
+                {
+                    "date": 1727023784189,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n     $credentials = $request->only('email', 'password');\n \n     if (Auth::attempt($credentials)) {\n         $user = Auth::user();\n-        dd($user);\n+       \n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n         if ($role) {\n"
+                },
+                {
+                    "date": 1727023791226,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,8 +32,9 @@\n        \n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n+            dd($user-);\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n"
+                },
+                {
+                    "date": 1727024109382,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n        \n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n-            dd($user-);\n+            // dd($user->id);\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n"
+                },
+                {
+                    "date": 1727024927394,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -45,9 +45,9 @@\n \n                 case 2: // Élève\n                     $eleve = Eleves::where('user_id', $user->id)->first();\n                     if (!$eleve || !$eleve->is_completed) {\n-                        return redirect()->route('eleves.eleves.completeProfileForm');\n+                        return redirect()->route('eleves.completeProfileForm');\n                     }\n                     return redirect()->route('eleves.dashboard');\n \n                 case 3: // Parent\n"
+                },
+                {
+                    "date": 1727024965318,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,9 +52,9 @@\n \n                 case 3: // Parent\n                     $parent = Parents::where('user_id', $user->id)->first();\n                     if (!$parent || !$parent->is_completed) {\n-                        return redirect()->route('parents.parent.completeProfileForm');\n+                        return redirect()->route('parents.completeProfileForm');\n                     }\n                     return redirect()->route('parents.dashboard');\n \n                 default:\n"
+                },
+                {
+                    "date": 1727117110666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,8 @@\n        \n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n-            // dd($user->id);\n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n"
+                },
+                {
+                    "date": 1727117118639,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,8 @@\n public function LoginForm(LoginRequest $request)\n {\n    \n     $credentials = $request->only('email', 'password');\n-\n     if (Auth::attempt($credentials)) {\n         $user = Auth::user();\n        \n         $role = DB::table('usersroles')\n"
+                },
+                {
+                    "date": 1727117295923,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,9 @@\n        \n         $role = DB::table('usersroles')\n             ->where('user_id', $user->id)\n             ->first();\n+            \n         if ($role) {\n             switch ($role->role_id) {\n                 case 1: // Professeur\n                     $professeur = Professeur::where('user_id', $user->id)->first();\n"
+                }
+            ],
+            "date": 1727022833826,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse App\\Http\\Requests\\LoginRequest;\nuse App\\Http\\Requests\\RegisterRequest;\nuse App\\Models\\User;\nuse App\\Models\\Eleves;\nuse App\\Models\\Professeur;\nuse App\\Models\\Parents;\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Etablissement;\nuse Illuminate\\Support\\Facades\\DB;\nuse Illuminate\\Support\\Facades\\Auth;\nuse Illuminate\\Support\\Facades\\Hash;\n\n\nclass UsersController extends Controller\n{\n\n    public function connection()\n{\n    return  view('LoginForm');\n}\npublic function LoginForm(LoginRequest $request)\n{\n   \n    $credentials = $request->only('email', 'password');\n\n    if (Auth::attempt($credentials)) {\n        $user = Auth::user();\n        $role = DB::table('usersroles')\n            ->where('user_id', $user->id)\n            ->first();\n        if ($role) {\n            switch ($role->role_id) {\n                case 1: // Professeur\n                    $professeur = Professeur::where('user_id', $user->id)->first();\n                    if (!$professeur || !$professeur->is_completed) {\n                        return redirect()->route('professeurs.complete-profile');\n                    }\n                    return redirect()->route('professeurs.dashboard');\n\n                case 2: // Élève\n                    $eleve = Eleves::where('user_id', $user->id)->first();\n                    if (!$eleve || !$eleve->is_completed) {\n                        return redirect()->route('eleves.eleves.completeProfileForm');\n                    }\n                    return redirect()->route('eleves.dashboard');\n\n                case 3: // Parent\n                    $parent = Parents::where('user_id', $user->id)->first();\n                    if (!$parent || !$parent->is_completed) {\n                        return redirect()->route('parents.parent.completeProfileForm');\n                    }\n                    return redirect()->route('parents.dashboard');\n\n                default:\n                    return redirect()->route('home'); \n            }\n        } else {\n            // Gérer le cas où aucun rôle spécifique n'est défini\n            return redirect()->route('home'); \n        }\n    } else {\n        // Authentification échouée\n        return back()->withErrors([\n            'credentials' => 'Les informations d\\'identification fournies sont incorrectes.',\n        ])->onlyInput('email');\n    }\n}\n\n\n\n    \n    public function create()\n    {\n        $etablissements = Etablissement::all(); \n     \n        return view('formulaireInscription', compact('etablissements'));\n    }\n\n    public function store(RegisterRequest $request)\n    {\n        $validatedData = $request->validated();\n        // Hachage du mot de passe\n        $validatedData['password'] = Hash::make($validatedData['password']);\n    \n        // Création d'un nouvel utilisateur avec les données validées\n        $user = User::create($validatedData);\n    \n        // Déterminer l'ID du rôle basé sur le type de compte\n        $roleId = null;\n        switch ($request->typecompte) {\n            case 'professeurs':\n                $roleId = 1;\n                break;\n            case 'eleves':\n                $roleId = 2;\n                break;\n            case 'parents':\n                $roleId = 3;\n                break;\n        }\n    \n        // Vérifier que l'ID du rôle est défini\n        if ($roleId) {\n            // Insérer les informations dans la table pivot usersrole\n            DB::table('usersroles')->insert([\n                'user_id' => $user->id,\n                'role_id' => $roleId,\n            ]);\n        }\n    \n        // Redirection avec un message de succès\n        return redirect()->route('users.login')->with('success', 'Utilisateur créé avec succès.');\n    }\n    \n    \n\n    public function logout(Request $request)\n    {\n        Auth::logout();\n        $request->session()->invalidate();\n        $request->session()->regenerateToken();\n        return redirect()->route('users.login')->with('success', 'Utilisateur créé avec succès.');\n       \n        // return redirect('users.login');\n    }\n}"
+        }
+    ]
+}

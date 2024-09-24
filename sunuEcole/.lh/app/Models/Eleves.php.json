@@ -1,0 +1,22 @@
+{
+    "sourceFile": "app/Models/Eleves.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1727204546940,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1727204703187,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,18 +14,18 @@\n         'adresse',\n         'non_de_votre_tuteur',\n         'email_tuteur',\n         'dateDeNaissance',\n-        'classes_id',\n+        'classe_id',\n         'parent_id',\n         'is_completed'\n     ];\n \n     public function classe()\n     {\n         return $this->belongsTo(Classe::class);\n     }\n-    \n+\n     public function cours()\n     {\n         return $this->belongsToMany(Cours::class, 'eleves_cours')->withTimestamps();\n     }\n"
+                }
+            ],
+            "date": 1727204546940,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Eleves extends Model\n{\n    use HasFactory;\n    protected $fillable = [\n        'nom',\n        'prenoms',\n        'adresse',\n        'non_de_votre_tuteur',\n        'email_tuteur',\n        'dateDeNaissance',\n        'classes_id',\n        'parent_id',\n        'is_completed'\n    ];\n\n    public function classe()\n    {\n        return $this->belongsTo(Classe::class);\n    }\n    \n    public function cours()\n    {\n        return $this->belongsToMany(Cours::class, 'eleves_cours')->withTimestamps();\n    }\n\n    public function notes()\n    {\n        return $this->hasMany(Notes::class, 'eleve_id');\n    }\n    public function payments()\n    {\n        return $this->hasMany(Payment::class);\n    }\n\n    public function etablissement()\n    {\n        return $this->belongsTo(Etablissement::class, 'etablissement_id');\n    }\n    public function user()\n    {\n        return $this->belongsTo(User::class, 'user_id');\n    }\n\n    public function parent()\n{\n    return $this->belongsTo(Parent::class,'email_tuteur');\n}\n\n    /**\n     * Récupérer l'emploi du temps de l'élève.\n     */\n    public function getEmploiDuTempsAttribute()\n    {\n        \n        if ($this->classe) {\n            return $this->classe->emploisDuTemps()->first();\n        }\n\n        return null;\n    }\n\n\n    \n\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "sourceFile": "app/Http/Requests/CompleterProfilEleveRequest.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1727205737585,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1727205807154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -61,8 +61,9 @@\n                 'string',\n                 'max:10',\n                 'regex:/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',\n             ],\n+            'classe_id' => 'nullable|integer|exists:classes,id',\n             \n         ];\n     }\n     public function messages()\n"
+                },
+                {
+                    "date": 1727205836789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,10 @@\n                 'max:10',\n                 'regex:/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',\n             ],\n             'classe_id' => 'nullable|integer|exists:classes,id',\n-            \n+            ''\n+\n         ];\n     }\n     public function messages()\n     {\n"
+                },
+                {
+                    "date": 1727205842528,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n                 'max:10',\n                 'regex:/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',\n             ],\n             'classe_id' => 'nullable|integer|exists:classes,id',\n-            ''\n+            'parent_'\n \n         ];\n     }\n     public function messages()\n"
+                },
+                {
+                    "date": 1727205848234,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -62,9 +62,9 @@\n                 'max:10',\n                 'regex:/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',\n             ],\n             'classe_id' => 'nullable|integer|exists:classes,id',\n-            'parent_id' =>\n+            'parent_id' => \n \n         ];\n     }\n     public function messages()\n"
+                }
+            ],
+            "date": 1727205737585,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Requests;\n\nuse Illuminate\\Foundation\\Http\\FormRequest;\n\nclass CompleterProfilEleveRequest extends FormRequest\n{\n    /**\n     * Determine if the user is authorized to make this request.\n     *\n     * @return bool\n     */\n    public function authorize()\n    {\n        return true;\n    }\n\n    /**\n     * Get the validation rules that apply to the request.\n     *\n     * @return array<string, mixed>\n     */\n    public function rules()\n    {\n        return [\n            'nom' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\s-]+$/u'\n            ],\n            'prenoms' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\s-]+$/u'\n            ],\n           'adresse' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\pN\\s,.\\'-]+$/u'\n            ],\n            'non_de_votre_tuteur' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\s-]+$/u'\n            ],\n            \n           'email_tuteur' => [\n                'required',\n                'string',\n                'max:255',\n                'unique:eleves',\n                'regex:/^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$/', \n            ],\n            'dateDeNaissance' => [\n                'required',\n                'string',\n                'max:10',\n                'regex:/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',\n            ],\n            \n        ];\n    }\n    public function messages()\n    {\n        return [\n            'nom.regex' => 'Mettez un nom valide.',\n            'prenoms.regex' => 'Mettez un prénom valide.',\n            'adresse.regex' => 'Mettez une adresse valide.',\n            'non_de_votre_tuteur.regex' => 'Mettez un nom de tuteur  valide.',\n            'email.required' => 'L\\'adresse e-mail est obligatoire.',\n            'email.unique' => 'L\\'adresse e-mail existe déjà.',\n            'email_tuteur.regex' => 'L\\'adresse email du tuteur fournie est invalide.',\n            'dateDeNaissance.regex' => 'La Date doit être sous le format jj/mm/aaaa.',\n        ];\n    }\n    \n\n\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "app/Http/Requests/AdminRegisterRequest.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1727021857888,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1727021857888,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Requests;\n\nuse Illuminate\\Validation\\Rule;\nuse Illuminate\\Foundation\\Http\\FormRequest;\n\nclass AdminRegisterRequest extends FormRequest\n{\n    /**\n     * Determine if the user is authorized to make this request.\n     *\n     * @return bool\n     */\n    public function authorize()\n    {\n        return true;\n    }\n\n    /**\n     * Get the validation rules that apply to the request.\n     *\n     * @return array<string, mixed>\n     */\n    public function rules()\n    {\n        return [\n            'nom' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\s-]+$/u'\n            ],\n            'prenoms' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\s-]+$/u'\n            ],\n           'adresse' => [\n                'required',\n                'string',\n                'max:255',\n                'regex:/^[\\pL\\pN\\s,.\\'-]+$/u'\n            ],\n            'telephone' => [\n                'required',\n                'string',\n                Rule::unique('administrateurs'),\n                'regex:/^(77|76|75|78|33)\\s\\d{3}\\s\\d{2}\\s\\d{2}$/'\n            ],\n            'email' => [\n                'required',\n                'string',\n                'email',\n                'unique:administrateurs',\n                'max:255',\n                'regex:/^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$/',\n            ],\n            'password' => [\n                'required',\n                'string',\n                'min:8',\n                'regex:/^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+={}\\[\\]|\\\\:;\"\\'<>,.?\\/]{8,}$/', \n            ]\n        ];\n    }\n\n    /**\n     * Get the validation messages that apply to the request.\n     *\n     * @return array<string, string>\n     */\n    public function messages()\n    {\n        return [\n            'email.required' => 'L\\'adresse e-mail est obligatoire.',\n            'email.string' => 'L\\'adresse e-mail doit être une chaîne de caractères.',\n            'email.email' => 'L\\'adresse e-mail doit être une adresse valide.',\n            'email.max' => 'L\\'adresse e-mail ne doit pas dépasser 255 caractères.',\n            'email.regex'=>'Mettez un adresse email valide !',\n            'password.required' => 'Le mot de passe est obligatoire.',\n            'password.string' => 'Le mot de passe doit être une chaîne de caractères.',\n            'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',\n            'password.regex' => 'Le mot de passe doit contenir au moins une lettre majuscule, un chiffre, et peut inclure des caractères spéciaux.',\n            'telephone.unique' => 'Le numéro de téléphone exist déjat',\n            'telephone.regex' => 'Le numéro de téléphone doit être sous le format 77/76/75/78 ou 33 XXX XX XX.',\n            'prenoms.regex' => 'Mettez un prénom valide.',\n            'nom.regex' => 'Mettez un nom valide.',\n            'adresse.regex' => 'Mettez une adresse valide.',\n        ];\n    }\n}\n"
+        }
+    ]
+}

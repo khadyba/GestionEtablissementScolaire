@@ -1,0 +1,18 @@
+{
+    "sourceFile": "database/migrations/2024_07_03_143531_create_administrateurs_table.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1727022290641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1727022290641,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse Illuminate\\Database\\Migrations\\Migration;\nuse Illuminate\\Database\\Schema\\Blueprint;\nuse Illuminate\\Support\\Facades\\Schema;\n\nreturn new class extends Migration\n{\n    /**\n     * Run the migrations.\n     *\n     * @return void\n     */\n    public function up()\n    {\n        Schema::create('administrateurs', function (Blueprint $table) {\n            $table->id();\n            $table->string('nom');\n            $table->string('prenoms');\n            $table->string('adresse');\n            $table->string('telephone');\n            $table->string('email')->unique();\n            $table->string('password');\n            $table->timestamps();\n        });\n    }\n\n    /**\n     * Reverse the migrations.\n     *\n     * @return void\n     */\n    public function down()\n    {\n        Schema::dropIfExists('administrateurs');\n    }\n};\n"
+        }
+    ]
+}
