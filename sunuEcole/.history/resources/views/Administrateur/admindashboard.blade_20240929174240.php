@@ -88,7 +88,7 @@
                 @foreach($emploisDuTemps as $emploiDuTemps)
                 <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
                     <td>{{ $emploiDuTemps->nom_original }}</td>
-                    <td>{{ $emploiDuTemps->classe->nom }}</td>
+                    <td>{{ $emploiDuTemps->classe-> }}</td>
 
                     <td>
                         <a href="{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}" class="btn btn-primary btn-sm">Télécharger</a>

@@ -1,0 +1,62 @@
+{
+    "sourceFile": "app/Http/Controllers/EmploisDuTempsController.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1727624188665,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1727624194787,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::();\n+        $emploisDuTemps = EmploisDuTemps::where();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624206827,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where();\n+        $emploisDuTemps = EmploisDuTemps::where('');\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624231406,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('');\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id');\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624248959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id');\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->;\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624266313,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->;\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->whi;\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624274463,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->whi;\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with;\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624281616,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with;\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom');\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624287485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom');\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get;\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624292555,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get;\n+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n \n"
+                },
+                {
+                    "date": 1727624299255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,8 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n+        \n         $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n"
+                },
+                {
+                    "date": 1727624313803,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        \n+        // recupérations des emplois du t\n         $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n"
+                }
+            ],
+            "date": 1727624188665,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Controllers;\nuse App\\Models\\Classe;\nuse App\\Models\\Payment;\nuse Illuminate\\Http\\Request;\nuse App\\Models\\EmploisDuTemps;\n\nclass EmploisDuTempsController extends Controller\n{\n    /**\n     * Display a listing of the resource.\n     *\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function index()\n    {\n        // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n        $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n        $emploisDuTemps = EmploisDuTemps::();\n        return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n    }\n    \n\n    /**\n     * Show the form for creating a new resource.\n     *\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function create($classeId)\n{\n    $classe = Classe::findOrFail($classeId);\n    return view('Administrateur.uploadEmploiDuTemps', compact('classe'));\n}\n    \n\n    /**\n     * Store a newly created resource in storage.\n     *\n     * @param  \\Illuminate\\Http\\Request  $request\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function store(Request $request,$classeId)\n    {\n        $request->validate([\n            'emplois_du_temps' => 'required|file|mimes:pdf,doc,docx,xlsx',\n        ]);\n\n        $file = $request->file('emplois_du_temps');\n       $filePath = $file->store('schedules', 'public');\n       $originalFileName = $file->getClientOriginalName();\n\n        EmploisDuTemps::create([\n            'emplois_du_temps' => $filePath,\n            'nom_original' => $originalFileName,\n            'administrateur_id' => auth('admin')->id(),\n            'classe_id' => $classeId,\n        ]);\n\n        return redirect()->route('emplois_du_temps.index')->with('success', 'Emploi du temps importer avec succès.');\n    }\n    \n\n    /**\n     * Display the specified resource.\n     *\n     * @param  \\App\\Models\\EmploisDuTemps  $emploisDuTemps\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function show(EmploisDuTemps $emploisDuTemps)\n    {\n        //\n    }\n\n    /**\n     * Show the form for editing the specified resource.\n     *\n     * @param  \\App\\Models\\EmploisDuTemps  $emploisDuTemps\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function edit(EmploisDuTemps $emploisDuTemps)\n    {\n        //\n    }\n\n    /**\n     * Update the specified resource in storage.\n     *\n     * @param  \\Illuminate\\Http\\Request  $request\n     * @param  \\App\\Models\\EmploisDuTemps  $emploisDuTemps\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function update(Request $request, EmploisDuTemps $emploisDuTemps)\n    {\n        //\n    }\n    public function download($id)\n    {\n        $emploiDuTemps = EmploisDuTemps::findOrFail($id);\n    \n        // Récupérez le chemin du fichier\n        $filePath = storage_path('app/public/' . $emploiDuTemps->emplois_du_temps);\n    \n        // Récupérez le nom du fichier sans le chemin\n        $fileName = basename($emploiDuTemps->emplois_du_temps);\n    \n        // Vérifiez si le fichier existe\n        if (file_exists($filePath)) {\n            // Téléchargez le fichier\n            return response()->download($filePath, $fileName);\n        } else {\n            // Gérez l'erreur si le fichier n'existe pas\n            abort(404, \"Le fichier d'emploi du temps n'existe pas.\");\n        }\n    }\n    \n\n    /**\n     * Remove the specified resource from storage.\n     *\n     * @param  \\App\\Models\\EmploisDuTemps  $emploisDuTemps\n     * @return \\Illuminate\\Http\\Response\n     */\n    public function destroy(EmploisDuTemps $emploisDuTemps)\n    {\n        //\n    }\n}\n"
+        }
+    ]
+}

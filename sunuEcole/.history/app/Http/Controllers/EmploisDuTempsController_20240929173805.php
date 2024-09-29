@@ -17,8 +17,7 @@ class EmploisDuTempsController extends Controller
     {
         // Récupérer tous les fichiers d'emploi du temps depuis la base de données
         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();
-        // recupérations des emplois du temps 
-        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();
+        $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->;
         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));
     }
     

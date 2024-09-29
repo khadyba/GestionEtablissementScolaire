@@ -23,7 +23,7 @@
                 <thead>
                     <tr class="table-primary">
                         <th>Nom</th>
-                        <th>Spécialiter</th>
+                        <th></th>
                         <th>Action</th>
                     </tr>
                 </thead>

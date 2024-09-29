@@ -79,7 +79,6 @@
             <thead class="table-primary">
                 <tr>
                     <th>Nom du Fichier</th>
-                    <th>Classe</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -88,7 +87,7 @@
                 @foreach($emploisDuTemps as $emploiDuTemps)
                 <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
                     <td>{{ $emploiDuTemps->nom_original }}</td>
-                    <td>{{ $emploiDuTemps->classe->nom }}</td>
+                    <td>{{ $emploiDuTemps->classe_id }}</td>
 
                     <td>
                         <a href="{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}" class="btn btn-primary btn-sm">Télécharger</a>
