@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1727204546940,
@@ -12,6 +12,10 @@
                 {
                     "date": 1727204703187,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,18 +14,18 @@\n         'adresse',\n         'non_de_votre_tuteur',\n         'email_tuteur',\n         'dateDeNaissance',\n-        'classes_id',\n+        'classe_id',\n         'parent_id',\n         'is_completed'\n     ];\n \n     public function classe()\n     {\n         return $this->belongsTo(Classe::class);\n     }\n-    \n+\n     public function cours()\n     {\n         return $this->belongsToMany(Cours::class, 'eleves_cours')->withTimestamps();\n     }\n"
+                },
+                {
+                    "date": 1728980736521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n     public function etablissement()\n     {\n         return $this->belongsTo(Etablissement::class, 'etablissement_id');\n     }\n+    \n     public function user()\n     {\n         return $this->belongsTo(User::class, 'user_id');\n     }\n"
                 }
             ],
             "date": 1727204546940,

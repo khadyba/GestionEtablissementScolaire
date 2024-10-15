@@ -1,0 +1,22 @@
+{
+    "sourceFile": "database/migrations/2024_07_01_215654_create_eleves_table.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1728981195724,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1728981202706,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n             $table->unsignedBigInteger('user_id');\n             $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');\n             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');\n             $table->foreignId('parent_id')->nullable()->constrained('parents');\n-            $table->unsignedBigInteger('etablissement_id')->nullable(); // Ajoute la colonne etablissement_id\n+            $table->unsignedBigInteger('etablissement_id')->nullable(); \n             $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('set null'); // Assure la relation\n             $table->timestamps();\n         });\n     }\n"
+                }
+            ],
+            "date": 1728981195724,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse Illuminate\\Database\\Migrations\\Migration;\nuse Illuminate\\Database\\Schema\\Blueprint;\nuse Illuminate\\Support\\Facades\\Schema;\n\nreturn new class extends Migration\n{\n    /**\n     * Run the migrations.\n     *\n     * @return void\n     */\n    public function up()\n    {\n        Schema::create('eleves', function (Blueprint $table) {\n            $table->id();\n            $table->string('nom');\n            $table->string('prenoms');\n            $table->string('adresse');\n            $table->string('non_de_votre_tuteur');\n            $table->string('email_tuteur');\n            $table->date('dateDeNaissance');\n            $table->unsignedBigInteger('classe_id')->nullable();\n            $table->boolean('is_completed')->default(false); \n            $table->unsignedBigInteger('user_id');\n            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');\n            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');\n            $table->foreignId('parent_id')->nullable()->constrained('parents');\n            $table->unsignedBigInteger('etablissement_id')->nullable(); // Ajoute la colonne etablissement_id\n            $table->foreign('etablissement_id')->references('id')->on('etablissements')->onDelete('set null'); // Assure la relation\n            $table->timestamps();\n        });\n    }\n\n    /**\n     * Reverse the migrations.\n     *\n     * @return void\n     */\n    public function down()\n    {\n        Schema::dropIfExists('eleves');\n    }\n};\n"
+        }
+    ]
+}
