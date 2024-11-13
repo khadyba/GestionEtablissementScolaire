@@ -1,0 +1,30 @@
+{
+    "sourceFile": "database/migrations/2024_07_02_190903_create_notes_table.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1731402031263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731402044079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,12 +22,13 @@\n             $table->boolean('is_deleted')->default(false);\n             $table->unsignedBigInteger('evaluation_id');\n             $table->unsignedBigInteger('eleve_id');\n             $table->unsignedBigInteger('professeur_id');\n+            $table->unsignedBigInteger('classe_id'); // Ajoutez cette ligne pour la colonne `classe_id`\n             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');\n             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');\n             $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');\n-            \n+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade'); // Définir la clé étrangère\n             $table->timestamps();\n         });\n     }\n \n"
+                },
+                {
+                    "date": 1731402054845,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,9 +22,9 @@\n             $table->boolean('is_deleted')->default(false);\n             $table->unsignedBigInteger('evaluation_id');\n             $table->unsignedBigInteger('eleve_id');\n             $table->unsignedBigInteger('professeur_id');\n-            $table->unsignedBigInteger('classe_id'); // Ajoutez cette ligne pour la colonne `classe_id`\n+            $table->unsignedBigInteger('classe_id');\n             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');\n             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');\n             $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');\n             $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade'); // Définir la clé étrangère\n"
+                },
+                {
+                    "date": 1731402060430,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n             $table->unsignedBigInteger('classe_id');\n             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');\n             $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');\n             $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');\n-            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade'); // Définir la clé étrangère\n+            $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');\n             $table->timestamps();\n         });\n     }\n \n"
+                }
+            ],
+            "date": 1731402031263,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse Illuminate\\Database\\Migrations\\Migration;\nuse Illuminate\\Database\\Schema\\Blueprint;\nuse Illuminate\\Support\\Facades\\Schema;\n\nreturn new class extends Migration\n{\n    /**\n     * Run the migrations.\n     *\n     * @return void\n     */\n    public function up()\n    {\n        Schema::create('notes', function (Blueprint $table) {\n            $table->id();\n            $table->integer('valeur');\n            $table->text('appreciations');\n            $table->string('semestre')->nullable();\n            $table->integer('coefficient');\n            $table->boolean('is_deleted')->default(false);\n            $table->unsignedBigInteger('evaluation_id');\n            $table->unsignedBigInteger('eleve_id');\n            $table->unsignedBigInteger('professeur_id');\n            $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade');\n            $table->foreign('eleve_id')->references('id')->on('eleves')->onDelete('cascade');\n            $table->foreign('professeur_id')->references('id')->on('professeurs')->onDelete('cascade');\n            \n            $table->timestamps();\n        });\n    }\n\n    /**\n     * Reverse the migrations.\n     *\n     * @return void\n     */\n    public function down()\n    {\n        Schema::dropIfExists('notes');\n    }\n};\n"
+        }
+    ]
+}

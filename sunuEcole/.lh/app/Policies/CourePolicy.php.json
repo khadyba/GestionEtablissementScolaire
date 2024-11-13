@@ -1,0 +1,90 @@
+{
+    "sourceFile": "app/Policies/CourePolicy.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 18,
+            "patches": [
+                {
+                    "date": 1731318456053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731318671812,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,13 +31,13 @@\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n     public function view(User $user, Cours $cours)\n     {\n+        \n         return true;\n     }\n \n     \n-\n     /**\n      * Determine whether the user can create models.\n      *\n      * @param  \\App\\Models\\User  $user\n"
+                },
+                {
+                    "date": 1731318686455,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,15 @@\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n     public function view(User $user, Cours $cours)\n     {\n-        \n+        // Logique de vérification d'autorisation\n+    if () {\n+        return Response::allow();\n+    }\n+\n+    // Message personnalisé en cas de refus\n+    return Response::deny('Vous n\\'êtes pas autorisé à voir ce cours');\n         return true;\n     }\n \n     \n"
+                },
+                {
+                    "date": 1731318692499,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n      */\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n-    if () {\n+    if (Auth) {\n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318699081,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,9 @@\n      */\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n-    if (Auth) {\n+    if (Auth::chec) {\n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318707615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,9 +32,10 @@\n      */\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n-    if (Auth::chec) {\n+    if (Auth::check()) {\n+        \n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318719983,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n     if (Auth::check()) {\n-        \n+        ù\n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318728215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n     if (Auth::check()) {\n-        ù\n+        \n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318754091,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n     public function view(User $user, Cours $cours)\n     {\n         // Logique de vérification d'autorisation\n     if (Auth::check()) {\n-        \n+        $roleIds = $user->roles->pluck('id')->toArray();\n         return Response::allow();\n     }\n \n     // Message personnalisé en cas de refus\n"
+                },
+                {
+                    "date": 1731318763454,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,9 +34,12 @@\n     {\n         // Logique de vérification d'autorisation\n     if (Auth::check()) {\n         $roleIds = $user->roles->pluck('id')->toArray();\n-        return Response::allow();\n+\n+        return Response::allow(); if (in_array(1, $roleIds)) {\n+                return Response::allow();\n+            }\n     }\n \n     // Message personnalisé en cas de refus\n     return Response::deny('Vous n\\'êtes pas autorisé à voir ce cours');\n"
+                },
+                {
+                    "date": 1731318784175,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,14 +34,12 @@\n     {\n         // Logique de vérification d'autorisation\n     if (Auth::check()) {\n         $roleIds = $user->roles->pluck('id')->toArray();\n-\n         return Response::allow(); if (in_array(1, $roleIds)) {\n                 return Response::allow();\n             }\n     }\n-\n     // Message personnalisé en cas de refus\n     return Response::deny('Vous n\\'êtes pas autorisé à voir ce cours');\n         return true;\n     }\n"
+                },
+                {
+                    "date": 1731318810250,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,11 +38,11 @@\n         return Response::allow(); if (in_array(1, $roleIds)) {\n                 return Response::allow();\n             }\n     }\n-    // Message personnalisé en cas de refus\n-    return Response::deny('Vous n\\'êtes pas autorisé à voir ce cours');\n-        return true;\n+        // Message personnalisé en cas de refus\n+        return Response::deny('Vous n\\'êtes pas autorisé à voir ce cours');\n+            return true;\n     }\n \n     \n     /**\n"
+                },
+                {
+                    "date": 1731325405765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,8 +74,9 @@\n      */\n     public function update(User $user, Cours $cours)\n     {\n         \n+        \n         return $user->role_id === 1 && $cours->user_id === $user->id;\n     }\n \n     /**\n"
+                },
+                {
+                    "date": 1731325411116,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,10 +73,12 @@\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n     public function update(User $user, Cours $cours)\n     {\n+        if (condition) {\n+            # code...\n+        }\n         \n-        \n         return $user->role_id === 1 && $cours->user_id === $user->id;\n     }\n \n     /**\n"
+                },
+                {
+                    "date": 1731325418880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,11 +73,9 @@\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n     public function update(User $user, Cours $cours)\n     {\n-        if (condition) {\n-            # code...\n-        }\n+       \n         \n         return $user->role_id === 1 && $cours->user_id === $user->id;\n     }\n \n"
+                },
+                {
+                    "date": 1731325527816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -71,14 +71,13 @@\n      * @param  \\App\\Models\\User  $user\n      * @param  \\App\\Models\\Cours  $cours\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n-    public function update(User $user, Cours $cours)\n-    {\n+    // public function update(User $user, Cours $cours)\n+    // {\n        \n-        \n-        return $user->role_id === 1 && $cours->user_id === $user->id;\n-    }\n+    //     return $user->role_id === 1 && $cours->user_id === $user->id;\n+    // }\n \n     /**\n      * Determine whether the user can delete the model.\n      *\n"
+                },
+                {
+                    "date": 1731325670002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -77,8 +77,20 @@\n        \n     //     return $user->role_id === 1 && $cours->user_id === $user->id;\n     // }\n \n+\n+    public function update(User $user, Cours $cours)\n+{\n+    // Vérifier si l'utilisateur a le bon rôle et si le cours appartient à cet utilisateur\n+    if ($user->role_id !== 1 || $cours->user_id !== $user->id) {\n+        // Retourner une réponse avec un message d'erreur personnalisé\n+        return redirect()->route('professeurs.cours.list')->with('error', 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.');\n+    }\n+\n+   \n+}\n+\n     /**\n      * Determine whether the user can delete the model.\n      *\n      * @param  \\App\\Models\\User  $user\n"
+                },
+                {
+                    "date": 1731325679622,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -86,9 +86,9 @@\n         // Retourner une réponse avec un message d'erreur personnalisé\n         return redirect()->route('professeurs.cours.list')->with('error', 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.');\n     }\n \n-     retu\n+     return\n }\n \n     /**\n      * Determine whether the user can delete the model.\n"
+                },
+                {
+                    "date": 1731329884527,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -67,9 +67,9 @@\n    \n public function update(User $user, Cours $cours)\n {\n     // Vérifier si l'utilisateur a le rôle 1 et si le cours appartient à cet utilisateur\n-    if ($user->role_id === 1 && $cours->user_id === $user->id;) {\n+    if ($user->role_id === 1 && $cours->user_id === $user->id) {\n         return true;\n     }\n     return Response::deny(__('auth.authorization'));  // Message d'erreur personnalisé\n \n"
+                }
+            ],
+            "date": 1731318456053,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Policies;\n\nuse App\\Models\\User;\nuse App\\Models\\Cours;\nuse Illuminate\\Auth\\Access\\Response;\nuse Illuminate\\Support\\Facades\\Auth;\nuse Illuminate\\Auth\\Access\\HandlesAuthorization;\n\nclass CourePolicy\n{\n    use HandlesAuthorization;\n\n    /**\n     * Determine whether the user can view any models.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function viewAny(User $user)\n    {\n        return true;\n    }\n\n    /**\n     * Determine whether the user can view the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Cours  $cours\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function view(User $user, Cours $cours)\n    {\n        return true;\n    }\n\n    \n\n    /**\n     * Determine whether the user can create models.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function create(User $user)\n    {\n       \n        if (Auth::check()) {\n            $roleIds = $user->roles->pluck('id')->toArray();\n            if (in_array(1, $roleIds)) {\n                return Response::allow();\n            }\n        }\n\n        return Response::deny('Vous n\\'êtes pas autorisé à accéder à cette route');\n    }\n\n\n    /**\n     * Determine whether the user can update the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Cours  $cours\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function update(User $user, Cours $cours)\n    {\n        \n        return $user->role_id === 1 && $cours->user_id === $user->id;\n    }\n\n    /**\n     * Determine whether the user can delete the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Cours  $cours\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function delete(User $user, Cours $cours)\n    {\n        return $user->role_id === 1 && $cours->user_id === $user->id;\n    }\n\n    /**\n     * Determine whether the user can restore the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Cours  $cours\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function restore(User $user, Cours $cours)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can permanently delete the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Cours  $cours\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function forceDelete(User $user, Cours $cours)\n    {\n        //\n    }\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "app/Http/Controllers/AdminLoginController.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1731248991284,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731322022707,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,40 @@\n+<?php\n+\n+namespace App\\Http\\Controllers;\n+\n+use App\\Http\\Requests\\AdminLoginRequest;\n+use Illuminate\\Http\\Request;\n+use Illuminate\\Support\\Facades\\Auth;\n+\n+class AdminLoginController extends Controller\n+{\n+    public function showLoginForm()\n+    {\n+        return view('Administrateur.login');\n+    }\n+\n+    public function login(AdminLoginRequest $request)\n+    {\n+        $credentials = $request->only('email', 'password');\n+\n+\n+        Auth::guard('admin')->attempt($credentials);\n+        if (Auth::guard('admin')->attempt($credentials)) {\n+            return redirect()->route('admin.dashboard'); \n+        }\n+        return back()->withErrors([\n+            'credentials' => 'Les informations d\\'identification fournies sont incorrectes.',\n+        ])->onlyInput('email');\n+    }\n+    public function logout(Request $request)\n+    {\n+        if (!Auth::guard('admin')->check()) {\n+            return redirect('/admin/login')->withErrors(['message' => 'Vous êtes déjà déconnecté.']);\n+        }\n+        Auth::guard('admin')->logout();\n+        $request->session()->invalidate();\n+        $request->session()->regenerateToken();        \n+        return redirect('/admin/login')->with('success', 'Déconnexion réussie.');\n+    }\n+    \n+}\n"
+                }
+            ],
+            "date": 1731248991284,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse App\\Http\\Requests\\AdminLoginRequest;\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Auth;\n\nclass AdminLoginController extends Controller\n{\n    public function showLoginForm()\n    {\n        return view('Administrateur.login');\n    }\n\n    public function login(AdminLoginRequest $request)\n    {\n        $credentials = $request->only('email', 'password');\n\n\n        Auth::guard('admin')->attempt($credentials);\n\n        if (Auth::guard('admin')->attempt($credentials)) {\n            return redirect()->route('admin.dashboard'); \n        }\n        return back()->withErrors([\n            'credentials' => 'Les informations d\\'identification fournies sont incorrectes.',\n        ])->onlyInput('email');\n    }\n\n\n\n    // public function logout(Request $request)\n    // {\n    //     Auth::guard('admin')->logout();\n    //     $request->session()->invalidate();\n    //     $request->session()->regenerateToken();\n    //     return redirect('/admin/login');\n    // }\n    public function logout(Request $request)\n    {\n        if (!Auth::guard('admin')->check()) {\n            return redirect('/admin/login')->withErrors(['message' => 'Vous êtes déjà déconnecté.']);\n        }\n        Auth::guard('admin')->logout();\n        $request->session()->invalidate();\n        $request->session()->regenerateToken();        \n        return redirect('/admin/login')->with('success', 'Déconnexion réussie.');\n    }\n    \n}\n"
+        }
+    ]
+}

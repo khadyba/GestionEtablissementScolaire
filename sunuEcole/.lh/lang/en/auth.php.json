@@ -1,0 +1,30 @@
+{
+    "sourceFile": "lang/en/auth.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1731328568655,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731328588580,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,6 +21,6 @@\n \n return [\n     'failed' => 'Les informations d\\'identification ne correspondent pas à nos enregistrements.',\n     'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',\n-    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', // Message personnalisé\n+    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', \n ];\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731328688282,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,12 @@\n     | these language lines according to your application's requirements.\n     |\n     */\n \n-    'failed' => 'These credentials do not match our records.',\n-    'password' => 'The provided password is incorrect.',\n-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',\n+    'failed' => 'Ces identifiants ne correspondent pas à nos enregistrements.',\n+    'password' => 'Le mot de passe fourni est incorrect.',\n+    'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',\n+    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', // Message personnalisé\n \n ];\n \n return [\n"
+                },
+                {
+                    "date": 1731328696440,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,13 +15,8 @@\n \n     'failed' => 'Ces identifiants ne correspondent pas à nos enregistrements.',\n     'password' => 'Le mot de passe fourni est incorrect.',\n     'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',\n-    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', // Message personnalisé\n+    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', \n \n ];\n \n-return [\n-    'failed' => 'Les informations d\\'identification ne correspondent pas à nos enregistrements.',\n-    'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',\n-    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', \n\\ No newline at end of file\n-];\n"
+                }
+            ],
+            "date": 1731328568655,
+            "name": "Commit-0",
+            "content": "<?php\n\nreturn [\n\n    /*\n    |--------------------------------------------------------------------------\n    | Authentication Language Lines\n    |--------------------------------------------------------------------------\n    |\n    | The following language lines are used during authentication for various\n    | messages that we need to display to the user. You are free to modify\n    | these language lines according to your application's requirements.\n    |\n    */\n\n    'failed' => 'These credentials do not match our records.',\n    'password' => 'The provided password is incorrect.',\n    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',\n\n];\n\nreturn [\n    'failed' => 'Les informations d\\'identification ne correspondent pas à nos enregistrements.',\n    'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',\n    'authorization' => 'Vous n\\'avez pas l\\'autorisation de modifier ce cours.', // Message personnalisé\n];"
+        }
+    ]
+}

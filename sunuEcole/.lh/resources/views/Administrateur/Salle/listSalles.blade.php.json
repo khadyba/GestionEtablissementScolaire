@@ -1,0 +1,18 @@
+{
+    "sourceFile": "resources/views/Administrateur/Salle/listSalles.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731406440714,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731406440714,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Salles Disponibles pour la Classe {{ $classe->nom }}</title>\n    <link rel=\"icon\" type=\"image/png\" href=\"{{ asset('assets/img/canvas.png') }}\">\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\n</head>\n@include('layouts.nav')\n<body>\n<div class=\"container mt-5\">\n    <h1 class=\"text-secondary\">Salles Disponibles pour la Classe {{ $classe->nom }}</h1>\n\n    @if ($salles->isEmpty())\n        <p>Aucune salle disponible pour le moment.</p>\n    @else\n        <table class=\"table mt-3\">\n            <thead>\n                <tr class=\"table-primary\">\n                    <th>Numéro</th>\n                    <th>Capacité</th>\n                    <th>Action</th>\n                </tr>\n            </thead>\n            <tbody>\n                @foreach($salles as $salle)\n                    <tr>\n                        <td>{{ $salle->numéro }}</td>\n                        <td>{{ $salle->capaciter }}</td>\n                        <td>\n                            <form action=\"{{ route('professeurs.cours.assignSalle', ['coursId' => $cours->id, 'salleId' => $salle->id]) }}\" method=\"POST\">\n                                @csrf\n                                <button type=\"submit\" class=\"btn btn-primary btn-sm\">Choisir cette salle</button>\n                            </form>\n                        </td>\n                    </tr>\n                @endforeach\n            </tbody>\n        </table>\n    @endif\n\n    <a href=\"{{ route('professeurs.cours.detail', $cours->id) }}\" class=\"btn btn-secondary mt-3\">Retourner au détail du cours</a>\n</div>\n</body>\n</html>\n"
+        }
+    ]
+}

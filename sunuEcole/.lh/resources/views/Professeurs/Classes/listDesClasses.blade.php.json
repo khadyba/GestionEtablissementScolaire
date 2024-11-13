@@ -1,0 +1,50 @@
+{
+    "sourceFile": "resources/views/Professeurs/Classes/listDesClasses.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1731333306138,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731333339052,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,17 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n-\n+@if ($errors->any())\n+            <div class=\"alert alert-danger\">\n+                <ul>\n+                    @foreach ($errors->all() as $error)\n+                        <li>{{ $error }}</li>\n+                    @endforeach\n+                </ul>\n+            </div>\n+        @endif\n <table>\n     <thead>\n         <tr>\n             <th>Nom</th>\n"
+                },
+                {
+                    "date": 1731333371958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,17 +9,9 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n-@if ($errors->any())\n-            <div class=\"alert alert-danger\">\n-                <ul>\n-                    @foreach ($errors->all() as $error)\n-                        <li>{{ $error }}</li>\n-                    @endforeach\n-                </ul>\n-            </div>\n-        @endif\n+\n <table>\n     <thead>\n         <tr>\n             <th>Nom</th>\n"
+                },
+                {
+                    "date": 1731333381453,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,13 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n-\n+@if (session('error'))\n+    <div class=\"alert alert-success\">\n+        {{ session('success') }}\n+    </div>\n+@endif\n <table>\n     <thead>\n         <tr>\n             <th>Nom</th>\n"
+                },
+                {
+                    "date": 1731333392590,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,11 +9,11 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n-@if (session('error'))\n+@if (session('errors'))\n     <div class=\"alert alert-success\">\n-        {{ session('success') }}\n+        {{ session('errors') }}\n     </div>\n @endif\n <table>\n     <thead>\n"
+                },
+                {
+                    "date": 1731333412923,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     </div>\n @endif\n \n @if (session('errors'))\n-    <div class=\"alert alert-success\">\n+    <div class=\"alert alert-dangeralert-danger\">\n         {{ session('errors') }}\n     </div>\n @endif\n <table>\n"
+                },
+                {
+                    "date": 1731333419649,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n     </div>\n @endif\n \n @if (session('errors'))\n-    <div class=\"alert alert-dangeralert-danger\">\n+    <div class=\"alert alert-danger\">\n         {{ session('errors') }}\n     </div>\n @endif\n <table>\n"
+                },
+                {
+                    "date": 1731339216318,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,9 @@\n     <div class=\"alert alert-danger\">\n         {{ session('errors') }}\n     </div>\n @endif\n+\n <table>\n     <thead>\n         <tr>\n             <th>Nom</th>\n"
+                },
+                {
+                    "date": 1731339444567,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,11 +9,11 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n-@if (session('errors'))\n+@if (session('error')) <!-- Changer 'errors' en 'error' -->\n     <div class=\"alert alert-danger\">\n-        {{ session('errors') }}\n+        {{ session('error') }}\n     </div>\n @endif\n \n <table>\n"
+                }
+            ],
+            "date": 1731333306138,
+            "name": "Commit-0",
+            "content": "<form action=\"{{ route('users.logout') }}\" method=\"POST\" style=\"display:inline\">\n    @csrf\n    <button type=\"submit\" class=\"btn btn-danger\">Déconnexion</button>\n</form>\n<h1>Liste des classes</h1>\n\n@if (session('success'))\n    <div class=\"alert alert-success\">\n        {{ session('success') }}\n    </div>\n@endif\n\n\n<table>\n    <thead>\n        <tr>\n            <th>Nom</th>\n            <th>Niveau</th>\n            <th>Établissement</th>\n        </tr>\n    </thead>\n    <tbody>\n        @foreach($classes as $classe)\n            <tr>\n                <td>{{ $classe->nom }}</td>\n                <td>{{ $classe->niveau }}</td>\n                <td>{{ $classe->etablissement->nom }}</td>\n                <td>\n                    <a href=\"{{ route('classes.show', $classe->id) }}\">Voir Details </a>\n                    <a href=\"{{ route('professeurs.cours.list.prof', $classe->id) }}\">Voir Cours</a>\n                </td>\n            </tr>\n            \n        @endforeach\n    </tbody>\n</table>\n"
+        }
+    ]
+}

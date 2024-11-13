@@ -1,0 +1,18 @@
+{
+    "sourceFile": "app/Models/Evaluations.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1731419063952,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1731419063952,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Evaluations extends Model\n{\n    use HasFactory;\n\n    protected $fillable = [\n        '',\n        'type' ,\n        'jours',\n        'heure_debut',\n        'heure_fin',\n        'professeur_id',\n    ];\n\n    public function notes()\n    {\n        return $this->hasMany(Notes::class);\n    }\n\n    public function professeur()\n    {\n        return $this->belongsTo(Professeur::class);\n    }\n\n}\n"
+        }
+    ]
+}

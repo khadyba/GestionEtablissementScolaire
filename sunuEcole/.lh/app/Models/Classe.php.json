@@ -1,0 +1,26 @@
+{
+    "sourceFile": "app/Models/Classe.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731332814352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731332827235,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,12 @@\n         return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n     }\n \n \n+    public function cours()\n+    {\n+        return $this->hasMany(Cours::class);\n+    }\n     public function eleve()\n     {\n         return $this->hasMany(Eleves::class, 'classe_id');\n     }\n@@ -37,9 +41,5 @@\n     public function emploisDuTemps()\n     {\n         return $this->hasMany(EmploisDuTemps::class);\n     }\n-    public function cours()\n-    {\n-        return $this->hasMany(Cours::class);\n-    }\n }\n"
+                },
+                {
+                    "date": 1731332854297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,18 +18,18 @@\n     public function etablissement()\n     {\n         return $this->belongsTo(Etablissement::class);\n     }\n-    public function professeurs()\n-    {\n-        return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n-    }\n+    // public function professeurs()\n+    // {\n+    //     return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n+    // }\n \n-\n     public function cours()\n     {\n         return $this->hasMany(Cours::class);\n     }\n+\n     public function eleve()\n     {\n         return $this->hasMany(Eleves::class, 'classe_id');\n     }\n"
+                }
+            ],
+            "date": 1731332814352,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Classe extends Model\n{\n    use HasFactory;\n    protected $fillable = [\n        'nom',\n        'niveau',\n        'etablissement_id',\n        'administrateur_id',\n    ];\n\n    public function etablissement()\n    {\n        return $this->belongsTo(Etablissement::class);\n    }\n    public function professeurs()\n    {\n        return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n    }\n\n\n    public function eleve()\n    {\n        return $this->hasMany(Eleves::class, 'classe_id');\n    }\n    \n    public function administrateur()\n    {\n        return $this->belongsTo(Administrateur::class);\n    }\n    public function emploisDuTemps()\n    {\n        return $this->hasMany(EmploisDuTemps::class);\n    }\n    public function cours()\n    {\n        return $this->hasMany(Cours::class);\n    }\n}\n"
+        }
+    ]
+}

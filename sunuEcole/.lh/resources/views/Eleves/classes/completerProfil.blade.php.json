@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1727120464547,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731407383463,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,9 +57,9 @@\n             <label for=\"classe_id\">Classe (facultatif)</label>\n             <select name=\"classe_id\" id=\"classe_id\" class=\"form-control\">\n                 <option value=\"\">-- Sélectionner une classe --</option>\n                 @foreach($classes as $classe)\n-                    <option value=\"{{ $classe->id }}\">{{ $classe->nom }}</option>\n+                    <option value=\"{{ $classe->id }}\">{{ $classe->nom }} {{ $classe->nom }}</option>\n                 @endforeach\n             </select>\n         </div>\n     \n"
+                },
+                {
+                    "date": 1731409361971,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -52,14 +52,15 @@\n         <div class=\"mb-3\">\n             <label for=\"dateDeNaissance\">Date de Naissance</label>\n             <input type=\"date\" name=\"dateDeNaissance\" id=\"dateDeNaissance\" class=\"form-control\" required>\n         </div>\n+        \n         <div class=\"mb-3\">\n             <label for=\"classe_id\">Classe (facultatif)</label>\n             <select name=\"classe_id\" id=\"classe_id\" class=\"form-control\">\n                 <option value=\"\">-- Sélectionner une classe --</option>\n                 @foreach($classes as $classe)\n-                    <option value=\"{{ $classe->id }}\">{{ $classe->nom }} {{ $classe->nom }}</option>\n+                    <option value=\"{{ $classe->id }}\">{{ $classe->nom }} {{ $classe->niveau }}</option>\n                 @endforeach\n             </select>\n         </div>\n     \n"
                 }
             ],
             "date": 1727120464547,

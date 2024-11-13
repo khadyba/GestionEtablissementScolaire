@@ -1,0 +1,42 @@
+{
+    "sourceFile": "app/Models/Notes.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1731341886653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731342184325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,14 +22,19 @@\n     public function professeur()\n     {\n         return $this->belongsTo(Professeur::class);\n     }\n+\n     public function evaluation()\n     {\n         return $this->belongsTo(Evaluations::class);\n     }\n+public function classe()\n+{\n+    return $this->belongsTo(Classe::class);\n+}\n \n-    \n+\n     public function eleve()\n     {\n         return $this->belongsTo(Eleves::class);\n     }\n"
+                },
+                {
+                    "date": 1731342190068,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,14 +27,12 @@\n     public function evaluation()\n     {\n         return $this->belongsTo(Evaluations::class);\n     }\n-public function classe()\n-{\n-    return $this->belongsTo(Classe::class);\n-}\n-\n-\n+    public function classe()\n+    {\n+        return $this->belongsTo(Classe::class);\n+    }\n     public function eleve()\n     {\n         return $this->belongsTo(Eleves::class);\n     }\n"
+                },
+                {
+                    "date": 1731402156305,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,11 +27,12 @@\n     public function evaluation()\n     {\n         return $this->belongsTo(Evaluations::class);\n     }\n+    // Définir la relation avec la classe\n     public function classe()\n     {\n-        return $this->belongsTo(Classe::class);\n+        return $this->belongsTo(Classe::class); // La note appartient à une classe\n     }\n     public function eleve()\n     {\n         return $this->belongsTo(Eleves::class);\n"
+                },
+                {
+                    "date": 1731402176838,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     }\n     // Définir la relation avec la classe\n     public function classe()\n     {\n-        return $this->belongsTo(Classe::class); // La note appartient à une classe\n+        return $this->belongsTo(Classe::class); \n     }\n     public function eleve()\n     {\n         return $this->belongsTo(Eleves::class);\n"
+                },
+                {
+                    "date": 1731418319570,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,10 @@\n         'appreciations' ,\n         'evaluation_id' ,\n         'eleve_id',\n         'professeur_id',\n+        'professeur_id',\n+\n         'coefficient',\n         'is_deleted',\n     ];\n \n"
+                },
+                {
+                    "date": 1731418325574,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n         'appreciations' ,\n         'evaluation_id' ,\n         'eleve_id',\n         'professeur_id',\n-        'professeur_id',\n+        'classe_id',\n \n         'coefficient',\n         'is_deleted',\n     ];\n"
+                }
+            ],
+            "date": 1731341886653,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Notes extends Model\n{\n    use HasFactory;\n\n    protected $fillable = [\n        'valeur',\n        'appreciations' ,\n        'evaluation_id' ,\n        'eleve_id',\n        'professeur_id',\n        'coefficient',\n        'is_deleted',\n    ];\n\n    public function professeur()\n    {\n        return $this->belongsTo(Professeur::class);\n    }\n    public function evaluation()\n    {\n        return $this->belongsTo(Evaluations::class);\n    }\n\n    \n    public function eleve()\n    {\n        return $this->belongsTo(Eleves::class);\n    }\n}\n"
+        }
+    ]
+}

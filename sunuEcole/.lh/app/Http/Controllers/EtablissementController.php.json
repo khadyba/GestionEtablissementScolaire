@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1727022424051,
@@ -12,6 +12,70 @@
                 {
                     "date": 1728984788350,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n     public function create()\n {\n     $administrateur = auth()->user();\n     $etablissementExist = $administrateur->etablissement;\n-    if (!$etablissementExist) {\n+    if ($etablissementExist) {\n         return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n     return view('Administrateur.etablissementFormulaire');\n }\n"
+                },
+                {
+                    "date": 1731316646335,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,17 +26,17 @@\n     // public function create()\n     // {\n     //     return view('Administrateur.etablissementFormulaire');\n     // }\n-    public function create()\n-{\n-    $administrateur = auth()->user();\n-    $etablissementExist = $administrateur->etablissement;\n-    if ($etablissementExist) {\n-        return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');\n-    }\n-    return view('Administrateur.etablissementFormulaire');\n-}\n+//     public function create()\n+// {\n+//     $administrateur = auth()->user();\n+//     $etablissementExist = $administrateur->etablissement;\n+//     if ($etablissementExist) {\n+//         return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');\n+//     }\n+//     return view('Administrateur.etablissementFormulaire');\n+// }\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731330166628,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,8 +35,20 @@\n //         return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');\n //     }\n //     return view('Administrateur.etablissementFormulaire');\n // }\n+public function create()\n+{\n+    $administrateur = auth()->user();\n+    if ($administrateur->etablissement) {\n+        return redirect()->route('admin.dashboard')\n+            ->with('error', 'Vous avez déjà ajouté un établissement.');\n+    }\n+    \n+    // Afficher le formulaire de création si aucun établissement n'est associé\n+    return view('Administrateur.etablissementFormulaire');\n+}\n+\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731330680286,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,13 +38,13 @@\n // }\n public function create()\n {\n     $administrateur = auth()->user();\n+    dd($administrateur->etablissement); \n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n-    \n     // Afficher le formulaire de création si aucun établissement n'est associé\n     return view('Administrateur.etablissementFormulaire');\n }\n \n"
+                },
+                {
+                    "date": 1731330933583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,18 +37,22 @@\n //     return view('Administrateur.etablissementFormulaire');\n // }\n public function create()\n {\n-    $administrateur = auth()->user();\n-    dd($administrateur->etablissement); \n+    $administrateur = auth()->user();  // Cela devrait récupérer l'admin actuellement connecté\n+\n+    // Vérifier si l'administrateur a déjà un établissement associé\n     if ($administrateur->etablissement) {\n+        // Si l'administrateur a un établissement, redirigez-le avec un message d'erreur\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n-    // Afficher le formulaire de création si aucun établissement n'est associé\n+\n+    // Si l'administrateur n'a pas d'établissement, afficher le formulaire de création\n     return view('Administrateur.etablissementFormulaire');\n }\n \n+\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731330969735,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,22 +37,28 @@\n //     return view('Administrateur.etablissementFormulaire');\n // }\n public function create()\n {\n-    $administrateur = auth()->user();  // Cela devrait récupérer l'admin actuellement connecté\n+    $administrateur = auth()->user();\n \n-    // Vérifier si l'administrateur a déjà un établissement associé\n+    // Vérifier si l'utilisateur est un administrateur (role_id = 1)\n+    if ($administrateur->role_id !== 1) {\n+        return redirect()->route('admin.dashboard')\n+            ->with('error', 'Vous n\\'êtes pas autorisé à créer un établissement.');\n+    }\n+\n+    // Vérifier si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n-        // Si l'administrateur a un établissement, redirigez-le avec un message d'erreur\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n \n-    // Si l'administrateur n'a pas d'établissement, afficher le formulaire de création\n+    // Si aucun établissement n'est associé, afficher le formulaire\n     return view('Administrateur.etablissementFormulaire');\n }\n \n \n+\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731330996024,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n //     return view('Administrateur.etablissementFormulaire');\n // }\n public function create()\n {\n-    $administrateur = auth()->user();\n+    $administrateur = Auth;\n \n     // Vérifier si l'utilisateur est un administrateur (role_id = 1)\n     if ($administrateur->role_id !== 1) {\n         return redirect()->route('admin.dashboard')\n"
+                },
+                {
+                    "date": 1731331001466,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n //     return view('Administrateur.etablissementFormulaire');\n // }\n public function create()\n {\n-    $administrateur = Auth;\n+    $administrateur = Auth::admin();\n \n     // Vérifier si l'utilisateur est un administrateur (role_id = 1)\n     if ($administrateur->role_id !== 1) {\n         return redirect()->route('admin.dashboard')\n"
+                },
+                {
+                    "date": 1731331042950,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,12 +39,12 @@\n public function create()\n {\n     $administrateur = Auth::admin();\n \n-    // Vérifier si l'utilisateur est un administrateur (role_id = 1)\n-    if ($administrateur->role_id !== 1) {\n+    if ($administrateur->etablissement) {\n+        // Si l'administrateur a un établissement, redirigez-le avec un message d'erreur\n         return redirect()->route('admin.dashboard')\n-            ->with('error', 'Vous n\\'êtes pas autorisé à créer un établissement.');\n+            ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n \n     // Vérifier si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n"
+                },
+                {
+                    "date": 1731331222002,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,22 +37,17 @@\n //     return view('Administrateur.etablissementFormulaire');\n // }\n public function create()\n {\n-    $administrateur = Auth::admin();\n+    // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n+    $administrateur = Auth::guard('admin')->user();\n \n+    // Vérifiez si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n-        // Si l'administrateur a un établissement, redirigez-le avec un message d'erreur\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n \n-    // Vérifier si l'administrateur a déjà un établissement\n-    if ($administrateur->etablissement) {\n-        return redirect()->route('admin.dashboard')\n-            ->with('error', 'Vous avez déjà ajouté un établissement.');\n-    }\n-\n     // Si aucun établissement n'est associé, afficher le formulaire\n     return view('Administrateur.etablissementFormulaire');\n }\n \n"
+                },
+                {
+                    "date": 1731331245684,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,9 +41,9 @@\n     // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n \n     // Vérifiez si l'administrateur a déjà un établissement\n-    if ($administrateur->etablissement) {\n+    if (!$administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n \n"
+                },
+                {
+                    "date": 1731331273267,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,9 +41,9 @@\n     // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n \n     // Vérifiez si l'administrateur a déjà un établissement\n-    if (!$administrateur->etablissement) {\n+    if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n \n"
+                },
+                {
+                    "date": 1731331513752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,8 +40,11 @@\n {\n     // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n \n+    // Débogage : Vérifiez si l'administrateur a un établissement associé\n+    dd($administrateur->etablissement); // Affiche l'établissement associé\n+\n     // Vérifiez si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n@@ -52,8 +55,9 @@\n }\n \n \n \n+\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731331543764,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -41,9 +41,9 @@\n     // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n \n     // Débogage : Vérifiez si l'administrateur a un établissement associé\n-    dd($administrateur->etablissement); // Affiche l'établissement associé\n+    // dd($administrateur->etablissement); // Affiche l'établissement associé\n \n     // Vérifiez si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n"
+                },
+                {
+                    "date": 1731332337322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,21 +22,9 @@\n      * Show the form for creating a new resource.\n      *\n      * @return \\Illuminate\\Http\\Response\n      */\n-    // public function create()\n-    // {\n-    //     return view('Administrateur.etablissementFormulaire');\n-    // }\n-//     public function create()\n-// {\n-//     $administrateur = auth()->user();\n-//     $etablissementExist = $administrateur->etablissement;\n-//     if ($etablissementExist) {\n-//         return redirect()->route('admin.dashboard')->with('error', 'Vous avez déjà ajouté un établissement.');\n-//     }\n-//     return view('Administrateur.etablissementFormulaire');\n-// }\n+\n public function create()\n {\n     // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n"
+                },
+                {
+                    "date": 1731332344789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,15 +25,9 @@\n      */\n \n public function create()\n {\n-    // Utilisez le guard 'admin' pour obtenir l'administrateur connecté\n     $administrateur = Auth::guard('admin')->user();\n-\n-    // Débogage : Vérifiez si l'administrateur a un établissement associé\n-    // dd($administrateur->etablissement); // Affiche l'établissement associé\n-\n-    // Vérifiez si l'administrateur a déjà un établissement\n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n"
+                },
+                {
+                    "date": 1731332350702,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,16 +30,11 @@\n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n-\n-    // Si aucun établissement n'est associé, afficher le formulaire\n     return view('Administrateur.etablissementFormulaire');\n }\n \n-\n-\n-\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
                 }
             ],
             "date": 1727022424051,

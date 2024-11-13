@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 12,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1728140094485,
@@ -56,6 +56,10 @@
                 {
                     "date": 1728985733431,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,13 +37,9 @@\n         $classeId = $classeId ? $classeId->id : null;\n         return view('Administrateur.admindashboard',compact('elevesInscrits','emploisDuTemps','classeId'));\n     }\n \n-    // public function listeElevesInscrits()\n-    // {\n-    //     $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-    //     return view('Administrateur.admindashboard', compact('elevesInscrits'));\n-    // }\n+ \n     public function listeElevesInscrits()\n     {\n         // Charge les paiements et les élèves (via la relation avec User et Etablissement)\n         $elevesInscrits = Payment::where('statut', 1)\n"
+                },
+                {
+                    "date": 1731405045962,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -210,9 +210,9 @@\n {\n     $professeur = auth()->user()->professeur;\n     $classe = Classe::findOrFail($id);\n     $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();\n-    return view('Administrateur.Classe.courList', compact('classe', 'cours'));\n+    return view('Administrateur.Classe.CourList', compact('classe', 'cours'));\n }\n \n public function destroyProfessor($id)\n {\n"
                 }
             ],
             "date": 1728140094485,

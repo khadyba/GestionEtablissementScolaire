@@ -1,0 +1,26 @@
+{
+    "sourceFile": "app/Models/Administrateur.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1731330423670,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731331422225,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,17 +12,19 @@\n class Administrateur extends  Authenticatable\n {\n     use Notifiable;\n     use HasFactory;\n+\n+    \n     protected $fillable = [\n         'nom',\n         'prenoms',\n         'adresse',\n         'telephone',\n         'email',\n         'password',\n     ];\n-    \n+\n     public function etablissement()\n     {\n         return $this->hasMany(Classe::class);\n     }\n"
+                },
+                {
+                    "date": 1731331457790,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n {\n     use Notifiable;\n     use HasFactory;\n \n-    \n+    protected $guard = 'admin';\n+\n     protected $fillable = [\n         'nom',\n         'prenoms',\n         'adresse',\n@@ -25,9 +26,9 @@\n     ];\n \n     public function etablissement()\n     {\n-        return $this->hasMany(Classe::class);\n+        return $this->hasOne(Etablissement::class);\n     }\n \n     protected $hidden = [\n         'password', 'remember_token',\n"
+                }
+            ],
+            "date": 1731330423670,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\n\nuse Illuminate\\Foundation\\Auth\\User as Authenticatable;\nuse Illuminate\\Notifications\\Notifiable;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Administrateur extends  Authenticatable\n{\n    use Notifiable;\n    use HasFactory;\n    protected $fillable = [\n        'nom',\n        'prenoms',\n        'adresse',\n        'telephone',\n        'email',\n        'password',\n    ];\n    \n    public function etablissement()\n    {\n        return $this->hasMany(Classe::class);\n    }\n\n    protected $hidden = [\n        'password', 'remember_token',\n    ];\n    public function classes()\n    {\n        return $this->hasMany(Classe::class);\n    }\n\n    public function emploisDuTemps()\n    {\n        return $this->hasMany(EmploisDuTemps::class);\n    }\n\n}\n"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "sourceFile": "app/Policies/ClassePolicy.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1731319537890,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1731320312889,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,11 @@\n \n use App\\Models\\Classe;\n use App\\Models\\User;\n use Illuminate\\Auth\\Access\\HandlesAuthorization;\n+use Illuminate\\Auth\\Access\\Response;\n \n+\n class ClassePolicy\n {\n     use HandlesAuthorization;\n \n"
+                },
+                {
+                    "date": 1731321911182,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,16 +31,22 @@\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n     public function view(User $user, Classe $classe)\n     {\n+        // Vérifie si l'utilisateur est administrateur\n+        if ($user->hasRole('admin')) {\n+            return Response::allow();\n+        }\n+    \n         // Vérifie si le professeur est assigné à la classe\n         if ($classe->professeurs->contains($user)) {\n             return Response::allow();\n         }\n     \n         // Message d'erreur personnalisé\n         return Response::deny('Vous n\\'êtes pas autorisé à voir les détails de cette classe.');\n     }\n+    \n \n     /**\n      * Determine whether the user can create models.\n      *\n"
+                },
+                {
+                    "date": 1731322294825,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,24 +29,25 @@\n      * @param  \\App\\Models\\User  $user\n      * @param  \\App\\Models\\Classe  $classe\n      * @return \\Illuminate\\Auth\\Access\\Response|bool\n      */\n-    public function view(User $user, Classe $classe)\n+    public function view($user, Classe $classe)\n     {\n-        // Vérifie si l'utilisateur est administrateur\n-        if ($user->hasRole('admin')) {\n+        // Si l'utilisateur est un administrateur\n+        if ($user instanceof \\App\\Models\\Administrateur) {\n             return Response::allow();\n         }\n     \n-        // Vérifie si le professeur est assigné à la classe\n-        if ($classe->professeurs->contains($user)) {\n+        // Si l'utilisateur est un professeur et est assigné à la classe\n+        if ($user instanceof \\App\\Models\\User && $classe->professeurs->contains($user)) {\n             return Response::allow();\n         }\n     \n-        // Message d'erreur personnalisé\n+        // Message d'erreur personnalisé si l'accès est refusé\n         return Response::deny('Vous n\\'êtes pas autorisé à voir les détails de cette classe.');\n     }\n     \n+    \n \n     /**\n      * Determine whether the user can create models.\n      *\n"
+                }
+            ],
+            "date": 1731319537890,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Policies;\n\nuse App\\Models\\Classe;\nuse App\\Models\\User;\nuse Illuminate\\Auth\\Access\\HandlesAuthorization;\n\nclass ClassePolicy\n{\n    use HandlesAuthorization;\n\n    /**\n     * Determine whether the user can view any models.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function viewAny(User $user)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can view the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Classe  $classe\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function view(User $user, Classe $classe)\n    {\n        // Vérifie si le professeur est assigné à la classe\n        if ($classe->professeurs->contains($user)) {\n            return Response::allow();\n        }\n    \n        // Message d'erreur personnalisé\n        return Response::deny('Vous n\\'êtes pas autorisé à voir les détails de cette classe.');\n    }\n\n    /**\n     * Determine whether the user can create models.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function create(User $user)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can update the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Classe  $classe\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function update(User $user, Classe $classe)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can delete the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Classe  $classe\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function delete(User $user, Classe $classe)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can restore the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Classe  $classe\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function restore(User $user, Classe $classe)\n    {\n        //\n    }\n\n    /**\n     * Determine whether the user can permanently delete the model.\n     *\n     * @param  \\App\\Models\\User  $user\n     * @param  \\App\\Models\\Classe  $classe\n     * @return \\Illuminate\\Auth\\Access\\Response|bool\n     */\n    public function forceDelete(User $user, Classe $classe)\n    {\n        //\n    }\n}\n"
+        }
+    ]
+}
