@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 36,
+            "activePatchIndex": 47,
             "patches": [
                 {
                     "date": 1731323719238,
@@ -152,6 +152,50 @@
                 {
                     "date": 1731423389378,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -135,9 +135,11 @@\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n \n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n+\n         \n+\n     });\n \n     // Routes pour les élèves\n     Route::middleware('student')->prefix('eleves')->name('eleves.')->group(function () {\n"
+                },
+                {
+                    "date": 1731490097692,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,13 +133,13 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-\n+        \n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n-        \n \n+\n     });\n \n     // Routes pour les élèves\n     Route::middleware('student')->prefix('eleves')->name('eleves.')->group(function () {\n"
+                },
+                {
+                    "date": 1731490103511,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        \n+        Route::get\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490114313,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get\n+        Route::get('/fomulaire')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490120144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire')\n+        Route::get('/fomulaire/modifications')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490126177,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications')\n+        Route::get('/fomulaire/modifications/password')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490131862,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password')\n+        Route::get('/fomulaire/modifications/password', [])\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490138485,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [])\n+        Route::get('/fomulaire/modifications/password', [UsersController::])\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490145861,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [UsersController::])\n+        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490152518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])\n+        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name()\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490157602,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name()\n+        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name('formu')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1731490163040,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name('formulaire.')\n+        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name('formulaire.modif')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
                 }
             ],
             "date": 1731323719238,

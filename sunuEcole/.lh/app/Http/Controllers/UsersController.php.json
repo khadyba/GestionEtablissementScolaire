@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 30,
+            "activePatchIndex": 47,
             "patches": [
                 {
                     "date": 1727022833826,
@@ -128,6 +128,74 @@
                 {
                     "date": 1731419809724,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -129,9 +129,9 @@\n        \n     }\n \n \n-                    public function updatePassword\n+                    public function updatePassword(){*}\n \n \n \n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731489856683,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -129,9 +129,13 @@\n        \n     }\n \n \n-                    public function updatePassword(){*}\n+                       public function \n \n+                    public function updatePassword(){\n \n+                    }\n \n+\n+\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1731489864643,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -129,9 +129,9 @@\n        \n     }\n \n \n-                       public function \n+                       public function editpassword\n \n                     public function updatePassword(){\n \n                     }\n"
+                },
+                {
+                    "date": 1731489871137,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -129,9 +129,12 @@\n        \n     }\n \n \n-                       public function editpassword\n+                       public function editpassword()\n+                       {\n+                               \n+                       }\n \n                     public function updatePassword(){\n \n                     }\n"
+                },
+                {
+                    "date": 1731489877053,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -134,9 +134,10 @@\n                        {\n                                \n                        }\n \n-                    public function updatePassword(){\n+                    public function updatePassword()\n+                    {\n \n                     }\n \n \n"
+                },
+                {
+                    "date": 1731489935510,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -136,8 +136,9 @@\n                        }\n \n                     public function updatePassword()\n                     {\n+                        \n \n                     }\n \n \n"
+                },
+                {
+                    "date": 1731489955634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -136,10 +136,30 @@\n                        }\n \n                     public function updatePassword()\n                     {\n-                        \n+                        public function updatePassword(Request $request)\n+{\n+    // Valider les données du formulaire\n+    $validated = $request->validate([\n+        'current_password' => 'required|string',\n+        'new_password' => 'required|string|min:8|confirmed', // Minimum 8 caractères et confirmation\n+    ]);\n \n+    // Vérifier si le mot de passe actuel correspond à celui de l'utilisateur\n+    if (!Hash::check($validated['current_password'], Auth::user()->password)) {\n+        return back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);\n+    }\n+\n+    // Mettre à jour le mot de passe\n+    $user = Auth::user();\n+    $user->password = Hash::make($validated['new_password']);\n+    $user->save();\n+\n+    // Rediriger avec un message de succès\n+    return redirect()->route('professeurs.dashboard')->with('success', 'Votre mot de passe a été modifié avec succès.');\n+}\n+\n                     }\n \n \n \n"
+                },
+                {
+                    "date": 1731489965391,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -136,9 +136,9 @@\n                        }\n \n                     public function updatePassword()\n                     {\n-                        public function updatePassword(Request $request)\n+                        public function updatePassword()\n {\n     // Valider les données du formulaire\n     $validated = $request->validate([\n         'current_password' => 'required|string',\n"
+                },
+                {
+                    "date": 1731489972032,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -134,12 +134,11 @@\n                        {\n                                \n                        }\n \n-                    public function updatePassword()\n+                    public function updatePassword(Request $request)\n                     {\n-                        public function updatePassword()\n-{\n+ \n     // Valider les données du formulaire\n     $validated = $request->validate([\n         'current_password' => 'required|string',\n         'new_password' => 'required|string|min:8|confirmed', // Minimum 8 caractères et confirmation\n"
+                },
+                {
+                    "date": 1731489983262,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -137,27 +137,26 @@\n \n                     public function updatePassword(Request $request)\n                     {\n  \n-    // Valider les données du formulaire\n-    $validated = $request->validate([\n-        'current_password' => 'required|string',\n-        'new_password' => 'required|string|min:8|confirmed', // Minimum 8 caractères et confirmation\n-    ]);\n+                    // Valider les données du formulaire\n+                    $validated = $request->validate([\n+                        'current_password' => 'required|string',\n+                        'new_password' => 'required|string|min:8|confirmed', // Minimum 8 caractères et confirmation\n+                    ]);\n \n-    // Vérifier si le mot de passe actuel correspond à celui de l'utilisateur\n-    if (!Hash::check($validated['current_password'], Auth::user()->password)) {\n-        return back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);\n-    }\n+                    // Vérifier si le mot de passe actuel correspond à celui de l'utilisateur\n+                    if (!Hash::check($validated['current_password'], Auth::user()->password)) {\n+                        return back()->withErrors(['current_password' => 'Le mot de passe actuel est incorrect.']);\n+                    }\n \n-    // Mettre à jour le mot de passe\n-    $user = Auth::user();\n-    $user->password = Hash::make($validated['new_password']);\n-    $user->save();\n+                    // Mettre à jour le mot de passe\n+                    $user = Auth::user();\n+                    $user->password = Hash::make($validated['new_password']);\n+                    $user->save();\n \n-    // Rediriger avec un message de succès\n-    return redirect()->route('professeurs.dashboard')->with('success', 'Votre mot de passe a été modifié avec succès.');\n-}\n+                    // Rediriger avec un message de succès\n+                    return redirect()->route('professeurs.dashboard')->with('success', 'Votre mot de passe a été modifié avec succès.');\n \n                     }\n \n \n"
+                },
+                {
+                    "date": 1731490024095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               \n+                               return view\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490033302,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view\n+                               return view('');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490038753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view('');\n+                               return view('professeur');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490058381,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view('professeur');\n+                               return view('Professeur.');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490074901,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view('Professeur.');\n+                               return view('Professeur.updat');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490081060,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view('Professeur.updat');\n+                               return view('Professeur.updatePassword');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731490409978,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -131,9 +131,9 @@\n \n \n                        public function editpassword()\n                        {\n-                               return view('Professeur.updatePassword');\n+                               return view('Professeurs.updatePassword');\n                        }\n \n                     public function updatePassword(Request $request)\n                     {\n"
+                },
+                {
+                    "date": 1731493039724,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -140,9 +140,9 @@\n  \n                     // Valider les données du formulaire\n                     $validated = $request->validate([\n                         'current_password' => 'required|string',\n-                        'new_password' => 'required|string|min:8|confirmed', // Minimum 8 caractères et confirmation\n+                        'new_password' => 'required|string|min:8|confirmed', \n                     ]);\n \n                     // Vérifier si le mot de passe actuel correspond à celui de l'utilisateur\n                     if (!Hash::check($validated['current_password'], Auth::user()->password)) {\n"
                 }
             ],
             "date": 1727022833826,
