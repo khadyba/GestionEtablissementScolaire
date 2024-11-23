@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 12,
             "patches": [
                 {
                     "date": 1727624188665,
@@ -52,6 +52,10 @@
                 {
                     "date": 1727624313803,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        \n+        // recupérations des emplois du t\n         $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n"
+                },
+                {
+                    "date": 1732368749747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n     public function index()\n     {\n         // Récupérer tous les fichiers d'emploi du temps depuis la base de données\n         $elevesInscrits = Payment::where('statut', 1)->with('eleve')->get();\n-        // recupérations des emplois du t\n+        // recupérations des emplois du temps \n         $emploisDuTemps = EmploisDuTemps::where('classe_id')->with('nom')->get();\n         return view('Administrateur.admindashboard', compact('emploisDuTemps','elevesInscrits'));\n     }\n     \n@@ -94,8 +94,9 @@\n     public function update(Request $request, EmploisDuTemps $emploisDuTemps)\n     {\n         //\n     }\n+    \n     public function download($id)\n     {\n         $emploiDuTemps = EmploisDuTemps::findOrFail($id);\n     \n"
                 }
             ],
             "date": 1727624188665,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 65,
+            "activePatchIndex": 67,
             "patches": [
                 {
                     "date": 1727024262865,
@@ -268,6 +268,14 @@
                 {
                     "date": 1731406803823,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -223,9 +223,9 @@\n \n         $cours = Cours::find($id);\n \n         if (!$cours) {\n-            return redirect()->route('professeurs.cours.list.prof')->with('error', 'Le cours demandé n\\'existe pas.');\n+            return redirect()->route('professeurs.cours.list')->with('error', 'Le cours demandé n\\'existe pas.');\n         }\n \n         $cours->is_deleted = true;\n         $cours->save();\n"
+                },
+                {
+                    "date": 1732370348742,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -265,5 +265,7 @@\n         $professeur = $user->professeur;\n        $professeur->update($data);\n        return redirect()->route('professeurs.profile.edit')->with('success', 'Profil mis à jour avec succès');\n     }\n+\n+    \n }\n"
+                },
+                {
+                    "date": 1732370384845,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -266,6 +266,25 @@\n        $professeur->update($data);\n        return redirect()->route('professeurs.profile.edit')->with('success', 'Profil mis à jour avec succès');\n     }\n \n-    \n+    public function download($id)\n+{\n+    $cours = Cours::findOrFail($id);\n+\n+    // Récupérez le chemin du fichier\n+    $filePath = storage_path('app/public/' . $cours->fichier_cours);\n+\n+    // Récupérez le nom du fichier sans le chemin\n+    $fileName = basename($cours->fichier_cours);\n+\n+    // Vérifiez si le fichier existe\n+    if (file_exists($filePath)) {\n+        // Téléchargez le fichier\n+        return response()->download($filePath, $fileName);\n+    } else {\n+        // Gérez l'erreur si le fichier n'existe pas\n+        abort(404, \"Le fichier du cours n'existe pas.\");\n+    }\n }\n+\n+}\n"
                 }
             ],
             "date": 1727024262865,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 17,
+            "activePatchIndex": 19,
             "patches": [
                 {
                     "date": 1727022424051,
@@ -76,6 +76,14 @@
                 {
                     "date": 1731332350702,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,16 +30,11 @@\n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n-\n-    // Si aucun établissement n'est associé, afficher le formulaire\n     return view('Administrateur.etablissementFormulaire');\n }\n \n-\n-\n-\n     /**\n      * Store a newly created resource in storage.\n      *\n      * @param  \\Illuminate\\Http\\Request  $request\n"
+                },
+                {
+                    "date": 1731588559741,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,8 +26,9 @@\n \n public function create()\n {\n     $administrateur = Auth::guard('admin')->user();\n+    \n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n"
+                },
+                {
+                    "date": 1731588592730,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,8 @@\n \n public function create()\n {\n     $administrateur = Auth::guard('admin')->user();\n-    \n     if ($administrateur->etablissement) {\n         return redirect()->route('admin.dashboard')\n             ->with('error', 'Vous avez déjà ajouté un établissement.');\n     }\n"
                 }
             ],
             "date": 1727022424051,
