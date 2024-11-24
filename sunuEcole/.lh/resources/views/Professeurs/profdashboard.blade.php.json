@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 11,
+            "activePatchIndex": 17,
             "patches": [
                 {
                     "date": 1731318272859,
@@ -52,6 +52,30 @@
                 {
                     "date": 1731406295813,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,9 +42,9 @@\n                         <td>\n                             <a href=\"{{ route('professeurs.cours.create', $classe->id) }}\" class=\"btn btn-primary btn-sm\">Ajouter Cours</a>\n                             <a href=\"{{ route('professeurs.classes.show', $classe->id) }}\" class=\"btn btn-info btn-sm\">Voir Detail</a>\n                             <a href=\"{{ route('professeurs.evaluations.list', $classe->id) }}\" class=\"btn btn-warning btn-sm\">Voir Évaluations</a>\n-                            <a href=\"{{ route('professeurs.notes.list,'  ['classeId' => $classe->id]') }}\" class=\"btn btn-success btn-sm\">Liste des Notes</a>\n+                            <a href=\"{{ route('professeurs.notes.list'  ['classeId' => $classe->id]) }}\" class=\"btn btn-success btn-sm\">Liste des Notes</a>\n                         </td>\n                     </tr>\n                 @endforeach\n             </tbody>\n"
+                },
+                {
+                    "date": 1732469866049,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,11 +40,12 @@\n                         <td>{{ $classe->niveau }}</td>\n                         <td>{{ $classe->etablissement->nom }}</td>\n                         <td>\n                             <a href=\"{{ route('professeurs.cours.create', $classe->id) }}\" class=\"btn btn-primary btn-sm\">Ajouter Cours</a>\n+                            \n                             <a href=\"{{ route('professeurs.classes.show', $classe->id) }}\" class=\"btn btn-info btn-sm\">Voir Detail</a>\n                             <a href=\"{{ route('professeurs.evaluations.list', $classe->id) }}\" class=\"btn btn-warning btn-sm\">Voir Évaluations</a>\n-                            <a href=\"{{ route('professeurs.notes.list'  ['classeId' => $classe->id]) }}\" class=\"btn btn-success btn-sm\">Liste des Notes</a>\n+                            <a href=\"{{ route('professeurs.notes.list',  ['classeId' => $classe->id]) }}\" class=\"btn btn-success btn-sm\">Liste des Notes</a>\n                         </td>\n                     </tr>\n                 @endforeach\n             </tbody>\n"
+                },
+                {
+                    "date": 1732470725994,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -21,8 +21,10 @@\n             <div class=\"alert alert-danger\">\n                 {{ session('error') }}\n             </div>\n         @endif\n+\n+        \n     <div class=\"container mt-5\">\n         <h1 class=\"mt-4 text-secondary\">Liste des classes</h1>\n         <table class=\"table table-striped mt-3\">\n             <thead>\n@@ -40,9 +42,9 @@\n                         <td>{{ $classe->niveau }}</td>\n                         <td>{{ $classe->etablissement->nom }}</td>\n                         <td>\n                             <a href=\"{{ route('professeurs.cours.create', $classe->id) }}\" class=\"btn btn-primary btn-sm\">Ajouter Cours</a>\n-                            \n+\n                             <a href=\"{{ route('professeurs.classes.show', $classe->id) }}\" class=\"btn btn-info btn-sm\">Voir Detail</a>\n                             <a href=\"{{ route('professeurs.evaluations.list', $classe->id) }}\" class=\"btn btn-warning btn-sm\">Voir Évaluations</a>\n                             <a href=\"{{ route('professeurs.notes.list',  ['classeId' => $classe->id]) }}\" class=\"btn btn-success btn-sm\">Liste des Notes</a>\n                         </td>\n"
+                },
+                {
+                    "date": 1732470733508,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,15 +16,16 @@\n                     {{ session('success') }}\n                 </div>\n             @endif\n \n-            @if (session('error'))\n-            <div class=\"alert alert-danger\">\n-                {{ session('error') }}\n-            </div>\n-        @endif\n+          \n \n-        \n+        @if ($errors->has('error'))\n+    <div class=\"alert alert-danger\">\n+        {{ $errors->first('error') }}\n+    </div>\n+@endif\n+\n     <div class=\"container mt-5\">\n         <h1 class=\"mt-4 text-secondary\">Liste des classes</h1>\n         <table class=\"table table-striped mt-3\">\n             <thead>\n"
+                },
+                {
+                    "date": 1732470739929,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,10 +22,9 @@\n         @if ($errors->has('error'))\n     <div class=\"alert alert-danger\">\n         {{ $errors->first('error') }}\n     </div>\n-@endif\n-\n+      @endif\n     <div class=\"container mt-5\">\n         <h1 class=\"mt-4 text-secondary\">Liste des classes</h1>\n         <table class=\"table table-striped mt-3\">\n             <thead>\n"
+                },
+                {
+                    "date": 1732470780653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,15 +16,13 @@\n                     {{ session('success') }}\n                 </div>\n             @endif\n \n-          \n-\n-        @if ($errors->has('error'))\n-    <div class=\"alert alert-danger\">\n-        {{ $errors->first('error') }}\n-    </div>\n-      @endif\n+                @if ($errors->has('error'))\n+            <div class=\"alert alert-danger\">\n+                {{ $errors->first('error') }}\n+            </div>\n+            @endif\n     <div class=\"container mt-5\">\n         <h1 class=\"mt-4 text-secondary\">Liste des classes</h1>\n         <table class=\"table table-striped mt-3\">\n             <thead>\n"
+                },
+                {
+                    "date": 1732470786925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,13 +16,20 @@\n                     {{ session('success') }}\n                 </div>\n             @endif\n \n-                @if ($errors->has('error'))\n+            @if (session('error'))\n             <div class=\"alert alert-danger\">\n-                {{ $errors->first('error') }}\n+                {{ session('error') }}\n             </div>\n-            @endif\n+        @endif\n+\n+        @if ($errors->has('error'))\n+    <div class=\"alert alert-danger\">\n+        {{ $errors->first('error') }}\n+    </div>\n+@endif\n+\n     <div class=\"container mt-5\">\n         <h1 class=\"mt-4 text-secondary\">Liste des classes</h1>\n         <table class=\"table table-striped mt-3\">\n             <thead>\n"
                 }
             ],
             "date": 1731318272859,

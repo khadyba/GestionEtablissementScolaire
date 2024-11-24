@@ -1,0 +1,18 @@
+{
+    "sourceFile": "app/Models/classe_professeur.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1732472957809,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1732472957809,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass classe_professeur extends Model\n{\n    use HasFactory;\n\n    protected $fillable = [\n        'professeur_id',\n        'classe_id',\n    ];\n    protected $table = 'classe_professeur';\n\n\n}\n"
+        }
+    ]
+}

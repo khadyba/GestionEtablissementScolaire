@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1731332814352,
@@ -16,6 +16,10 @@
                 {
                     "date": 1731332854297,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,18 +18,18 @@\n     public function etablissement()\n     {\n         return $this->belongsTo(Etablissement::class);\n     }\n-    public function professeurs()\n-    {\n-        return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n-    }\n+    // public function professeurs()\n+    // {\n+    //     return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n+    // }\n \n-\n     public function cours()\n     {\n         return $this->hasMany(Cours::class);\n     }\n+\n     public function eleve()\n     {\n         return $this->hasMany(Eleves::class, 'classe_id');\n     }\n"
+                },
+                {
+                    "date": 1732472840304,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,13 @@\n     // public function professeurs()\n     // {\n     //     return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n     // }\n+    \n+    public function professeurs()\n+    {\n+        return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n+    }\n \n     public function cours()\n     {\n         return $this->hasMany(Cours::class);\n"
                 }
             ],
             "date": 1731332814352,

@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 67,
+            "activePatchIndex": 72,
             "patches": [
                 {
                     "date": 1727024262865,
@@ -276,6 +276,26 @@
                 {
                     "date": 1732370384845,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -266,6 +266,25 @@\n        $professeur->update($data);\n        return redirect()->route('professeurs.profile.edit')->with('success', 'Profil mis à jour avec succès');\n     }\n \n-    \n+    public function download($id)\n+{\n+    $cours = Cours::findOrFail($id);\n+\n+    // Récupérez le chemin du fichier\n+    $filePath = storage_path('app/public/' . $cours->fichier_cours);\n+\n+    // Récupérez le nom du fichier sans le chemin\n+    $fileName = basename($cours->fichier_cours);\n+\n+    // Vérifiez si le fichier existe\n+    if (file_exists($filePath)) {\n+        // Téléchargez le fichier\n+        return response()->download($filePath, $fileName);\n+    } else {\n+        // Gérez l'erreur si le fichier n'existe pas\n+        abort(404, \"Le fichier du cours n'existe pas.\");\n+    }\n }\n+\n+}\n"
+                },
+                {
+                    "date": 1732469934192,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -85,8 +85,9 @@\n      * @param  \\Illuminate\\Http\\Request  $request\n      * @return \\Illuminate\\Http\\Response\n      */\n \n+     \n     public function store(Request $request)\n     {\n         $validatedData = $request->validate([\n             'titre' => 'required|string|max:255',\n"
+                },
+                {
+                    "date": 1732470636902,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -74,8 +74,10 @@\n         if (!$classe) {\n             return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);\n         }\n         $professeur = auth()->user()->professeur;\n+\n+        \n         $sallesDeClasses = SalleDeClasse::all(); \n \n         return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));\n     }\n@@ -85,9 +87,9 @@\n      * @param  \\Illuminate\\Http\\Request  $request\n      * @return \\Illuminate\\Http\\Response\n      */\n \n-     \n+\n     public function store(Request $request)\n     {\n         $validatedData = $request->validate([\n             'titre' => 'required|string|max:255',\n@@ -130,8 +132,10 @@\n     \n             return back()->withErrors(['error' => 'Une erreur est survenue lors de la création du cours.']);\n         }\n     }\n+\n+\n     /**\n      * Display the specified resource.\n      *\n      * @param  \\App\\Models\\Professeur  $professeur\n"
+                },
+                {
+                    "date": 1732470665839,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -75,9 +75,12 @@\n             return redirect()->route('route.vers.une.page.d.erreur')->withErrors(['error' => 'Classe non trouvée']);\n         }\n         $professeur = auth()->user()->professeur;\n \n-        \n+         // Vérifiez si le professeur est affecté à la classe\n+    if (!$professeur->classes->contains($classe)) {\n+        return back()->withErrors(['error' => 'Vous n\\'êtes pas autorisé à ajouter un cours à cette classe.']);\n+    }\n         $sallesDeClasses = SalleDeClasse::all(); \n \n         return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));\n     }\n"
+                },
+                {
+                    "date": 1732470673325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -76,11 +76,11 @@\n         }\n         $professeur = auth()->user()->professeur;\n \n          // Vérifiez si le professeur est affecté à la classe\n-    if (!$professeur->classes->contains($classe)) {\n-        return back()->withErrors(['error' => 'Vous n\\'êtes pas autorisé à ajouter un cours à cette classe.']);\n-    }\n+        if (!$professeur->classes->contains($classe)) {\n+            return back()->withErrors(['error' => 'Vous n\\'êtes pas autorisé à ajouter un cours à cette classe.']);\n+        }\n         $sallesDeClasses = SalleDeClasse::all(); \n \n         return view('Professeurs.Cours.coursCreate', compact('classe', 'sallesDeClasses'));\n     }\n"
+                },
+                {
+                    "date": 1732473022530,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -148,9 +148,10 @@\n     {\n         // Récupérer la classe avec ses relations\n         $classe = Classe::with(['eleve', 'professeurs', 'emploisDuTemps'])->findOrFail($id);\n         // Vérifier si l'utilisateur connecté est un professeur affecté à cette classe\n-        $professeur = auth()->user();\n+        $professeur = auth()->user()->professeur;\n+\n         // Vérifiez que le professeur est bien associé à la classe\n         if (!$classe->professeurs->contains($professeur->id)) {\n             return redirect()->route('professeurs.classes.index')\n                 ->with('error', 'Vous n\\'êtes pas affecté à cette classe.');\n"
                 }
             ],
             "date": 1727024262865,
