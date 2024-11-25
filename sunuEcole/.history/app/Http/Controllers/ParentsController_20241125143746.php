@@ -78,39 +78,13 @@ class ParentsController extends Controller
        
         
     }
+    public function redirectToPayment()
+    {
+        $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
+    
+    // Récupérer l'établissement associé à l'élève
+    $etablissement = $eleve->user->etablissement; 
 
-
-   public function redirectToPayment()
-{
-    // Vérifiez que l'utilisateur est bien un parent connecté
-    $parent = auth()->user();
-
-    if (!$parent) {
-        return redirect()->back()->with('error', 'Utilisateur non connecté ou non autorisé.');
-    }
-
-    // Récupérer l'élève associé au parent
-    $eleve = Eleves::where('email_tuteur', $parent->email)->first();
-
-    if (!$eleve) {
-        return redirect()->back()->with('error', 'Aucun élève trouvé pour ce parent.');
-    }
-
-    // Vérifier si l'inscription est déjà payée
-    $paiementEffectue = Payment::where('eleve_id', $eleve->id)->where('statut', 1)->exists();
-    if ($paiementEffectue) {
-        return redirect()->back()->with('error', 'L\'inscription de cet élève a déjà été effectuée.');
-    }
-
-    // Récupérer l'établissement de l'élève
-    $etablissement = $eleve->etablissement;
-
-    // Vérifier si l'établissement est public
-    if ($etablissement->type === 'public') {
-        return redirect()->back()->with('info', 'Aucun paiement requis pour les établissements publics.');
-    }
-
-    // Si l'établissement est privé, préparer la redirection vers PayDunya
     $co = new CheckoutInvoice();
     
     // Ajouter les détails de l'article à l'invoice
@@ -119,32 +93,28 @@ class ParentsController extends Controller
         "Frais de scolarité pour l'établissement " . $etablissement->nom,
         1,
         30000, 
-        30000
+        30000 
     );
 
-    $co->setTotalAmount(30000);
+    $co->setTotalAmount(30000); 
 
     // Créer la facture via PayDunya
     if ($co->create()) {
-        // Enregistrer le paiement
         Payment::create([
-            'montant' => 30000,
-            'statut' => 1,
+            'montant' => 30000, 
+            'statut' => 1, 
             'date' => now(),
-            'eleve_id' => $eleve->id,
+            'eleve_id' => $eleve->id
         ]);
 
-        // Envoyer un email au tuteur
-        Mail::to($parent->email)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
-
-        // Rediriger vers la page de paiement
+        if (!empty($eleve->email_tuteur)) {
+            Mail::to($eleve->email_tuteur)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
+        }
         return redirect($co->getInvoiceUrl());
     } else {
-        // Gestion des erreurs de création de facture
         return response()->json(['error' => $co->response_text], 500);
     }
-}
-
+    }
 
 
 
@@ -155,12 +125,39 @@ class ParentsController extends Controller
 
         return view('Parents.emploi_du_temps', compact('eleve', 'emploiDuTemps'));
     }
+
+    // public function showNotes(Request $request)
+    // {
+    //     $user = auth()->user()->parent;
+    //     if (!$user) {
+    //         return redirect()->back()->with('error', 'Utilisateur non connecté.');
+    //     }
     
+    //     $parentEmail = $user->email;
+    //     $nomEleve = $request->input('non_de_votre_éléve');
+    
+    //     $eleve = Eleves::where('nom', $nomEleve)
+    //         ->where('email_tuteur', $parentEmail)
+    //         ->first();
+    //         dd($eleve);
+    
+    //     if (!$eleve) {
+    //         return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
+    //     }
+    
+    //     $notes = Notes::where('eleve_id', $eleve->id)->get();
+    //     $classe = $eleve->classe;
+    //     $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
+    
+    //     return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
+    // }
+    
+
                 public function showNotes(Request $request)
             {
                 // Vérifiez que l'utilisateur est bien un parent connecté
-                $user = auth()->user();
-                // dd( $user);
+                $user = auth()->user()->parent;
+                dd( $user)
 
                 if (!$user) {
                     return redirect()->back()->with('error', 'Utilisateur non connecté.');
@@ -169,7 +166,7 @@ class ParentsController extends Controller
                 // Nettoyez les données saisies
                 $parentEmail = trim($user->email);
                 $nomEleve = trim($request->input('non_de_votre_éléve'));
-                // dd($nomEleve, $parentEmail);
+                dd($nomEleve, $parentEmail);
                 // Recherche insensible à la casse
                 $eleve = Eleves::whereRaw('LOWER(nom) = ?', [strtolower($nomEleve)])
                     ->whereRaw('LOWER(email_tuteur) = ?', [strtolower($parentEmail)])

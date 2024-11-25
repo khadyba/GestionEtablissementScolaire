@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 20,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1728979066760,
@@ -88,6 +88,10 @@
                 {
                     "date": 1732469793256,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -58,13 +58,13 @@\n                               ->first();\n     \n              if ($payment) {\n                                 // Si l'élève a déjà payé\n-                                return back()->with('success', 'Inscription déjà payée.');\n-                            } else {\n+                         return back()->with('success', 'Inscription déjà payée.');\n+              } else {\n                                 // Si l'élève n'a pas payé, on redirige pour le paiement\n                                 return $this->processPayment($eleve, $etablissement);\n-                            }\n+                     }\n                             \n         }\n     \n         // Si l'établissement est privé, on laisse l'élève passer à l'étape de paiement\n"
+                },
+                {
+                    "date": 1732542082698,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -57,13 +57,13 @@\n                               ->where('statut', 1) \n                               ->first();\n     \n              if ($payment) {\n-                                // Si l'élève a déjà payé\n+                      // Si l'élève a déjà payé\n                          return back()->with('success', 'Inscription déjà payée.');\n               } else {\n                                 // Si l'élève n'a pas payé, on redirige pour le paiement\n-                                return $this->processPayment($eleve, $etablissement);\n+                      return $this->processPayment($eleve, $etablissement);\n                      }\n                             \n         }\n     \n@@ -109,8 +109,9 @@\n             // Si la facture n'a pas pu être créée, retourne une erreur\n             return response()->json(['error' => $co->response_text], 500);\n         }\n     }\n+    \n     public function success()\n     {\n         return view('payment.success');\n     }\n"
                 }
             ],
             "date": 1728979066760,

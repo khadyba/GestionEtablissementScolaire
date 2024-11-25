@@ -76,6 +76,12 @@ class ElevesController extends Controller
         $eleve->dateDeNaissance = $validated['dateDeNaissance'];
         $eleve->user_id = $user->id;
         $eleve->is_completed = true;
+    
+        // Ne pas affecter la classe sélectionnée par l'élève
+        // if (isset($validated['classe_id']) && !empty($validated['classe_id'])) {
+        //     $eleve->classe_id = $validated['classe_id']; // Supprimé pour laisser l'assignation à l'admin
+        // }
+    
         $eleve->save();
     
         return redirect()->route('eleves.dashboard')->with('success', 'Profil complété avec succès.');

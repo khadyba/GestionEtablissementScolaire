@@ -58,12 +58,10 @@
             @endif
         </div>
 
-        <div class="col-md-4 ">
-            <img src="{{ asset('assets/img/courlist.jpg')}}" alt="Liste des Cours" class="img-fluid" >
+        <div class="col-md-4">
+            <img src="{{ asset('assets/img/courlist.jpg') }}" alt="Liste des Cours" class="img-fluid">
         </div>
-
-
-
+        
     </div>
 </div>
 </body>

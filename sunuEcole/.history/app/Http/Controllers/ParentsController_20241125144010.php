@@ -78,39 +78,13 @@ class ParentsController extends Controller
        
         
     }
+    public function redirectToPayment()
+    {
+        $eleve = Eleves::where('user_id', auth()->id())->firstOrFail();
+    
+    // Récupérer l'établissement associé à l'élève
+    $etablissement = $eleve->user->etablissement; 
 
-
-   public function redirectToPayment()
-{
-    // Vérifiez que l'utilisateur est bien un parent connecté
-    $parent = auth()->user();
-
-    if (!$parent) {
-        return redirect()->back()->with('error', 'Utilisateur non connecté ou non autorisé.');
-    }
-
-    // Récupérer l'élève associé au parent
-    $eleve = Eleves::where('email_tuteur', $parent->email)->first();
-
-    if (!$eleve) {
-        return redirect()->back()->with('error', 'Aucun élève trouvé pour ce parent.');
-    }
-
-    // Vérifier si l'inscription est déjà payée
-    $paiementEffectue = Payment::where('eleve_id', $eleve->id)->where('statut', 1)->exists();
-    if ($paiementEffectue) {
-        return redirect()->back()->with('error', 'L\'inscription de cet élève a déjà été effectuée.');
-    }
-
-    // Récupérer l'établissement de l'élève
-    $etablissement = $eleve->etablissement;
-
-    // Vérifier si l'établissement est public
-    if ($etablissement->type === 'public') {
-        return redirect()->back()->with('info', 'Aucun paiement requis pour les établissements publics.');
-    }
-
-    // Si l'établissement est privé, préparer la redirection vers PayDunya
     $co = new CheckoutInvoice();
     
     // Ajouter les détails de l'article à l'invoice
@@ -119,32 +93,28 @@ class ParentsController extends Controller
         "Frais de scolarité pour l'établissement " . $etablissement->nom,
         1,
         30000, 
-        30000
+        30000 
     );
 
-    $co->setTotalAmount(30000);
+    $co->setTotalAmount(30000); 
 
     // Créer la facture via PayDunya
     if ($co->create()) {
-        // Enregistrer le paiement
         Payment::create([
-            'montant' => 30000,
-            'statut' => 1,
+            'montant' => 30000, 
+            'statut' => 1, 
             'date' => now(),
-            'eleve_id' => $eleve->id,
+            'eleve_id' => $eleve->id
         ]);
 
-        // Envoyer un email au tuteur
-        Mail::to($parent->email)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
-
-        // Rediriger vers la page de paiement
+        if (!empty($eleve->email_tuteur)) {
+            Mail::to($eleve->email_tuteur)->send(new \App\Mail\PaymentReceived($eleve, 30000, $etablissement));
+        }
         return redirect($co->getInvoiceUrl());
     } else {
-        // Gestion des erreurs de création de facture
         return response()->json(['error' => $co->response_text], 500);
     }
-}
-
+    }
 
 
 

@@ -83,7 +83,7 @@ class ParentsController extends Controller
    public function redirectToPayment()
 {
     // Vérifiez que l'utilisateur est bien un parent connecté
-    $parent = auth()->user();
+    $parent = auth()->user()->parent;
 
     if (!$parent) {
         return redirect()->back()->with('error', 'Utilisateur non connecté ou non autorisé.');
