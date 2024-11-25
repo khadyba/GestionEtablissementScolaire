@@ -150,7 +150,7 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
         Route::get('/cours/{id}', [ElevesController::class, 'show'])->name('cours.show');
 
         Route::get('/download/{id}', [ElevesCoursController::class, 'download'])->name('download');
-        Route::get('/telechargement/{id}', [ElevesCoursController::class,'Emploisdownload'])->name('telechargement');
+        Route::get
 
         Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
         Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');

@@ -8,7 +8,6 @@ use App\Models\ElevesCours;
 use App\Models\Evaluations;
 use App\Models\Notes;
 use Illuminate\Http\Request;
-use App\Models\EmploisDuTemps;
 
 class ElevesCoursController extends Controller
 {
@@ -206,7 +205,6 @@ class ElevesCoursController extends Controller
         } else {
             // Gérez l'erreur si le fichier n'existe pas
             abort(404, "Le fichier d'emploi du temps n'existe pas.");
-    }
-
+        }
     }
 }

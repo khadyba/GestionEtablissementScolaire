@@ -41,9 +41,7 @@
                     <ul class="list-group">
                         @foreach ($classe->emploisDuTemps as $emploiDuTemps)
                             <li class="list-group-item">
-    
-
-                            <a href="{{ route('eleves.telechargement', $emploiDuTemps->id) }}" target="_blank">{{ $emploiDuTemps->nom_original }}</a>
+                            <a href="{{ route('eleves.download', $emploiDuTemps->id) }}" target="_blank">{{ $emploiDuTemps->nom_original }}</a>
 
                               
                             </li>

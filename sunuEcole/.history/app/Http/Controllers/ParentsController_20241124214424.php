@@ -164,7 +164,7 @@ class ParentsController extends Controller
     // Nettoyez les données saisies
     $parentEmail = trim($user->email);
     $nomEleve = trim($request->input('non_de_votre_éléve'));
-    dd($nomEleve, $parentEmail);
+
     // Recherche insensible à la casse
     $eleve = Eleves::whereRaw('LOWER(nom) = ?', [strtolower($nomEleve)])
         ->whereRaw('LOWER(email_tuteur) = ?', [strtolower($parentEmail)])

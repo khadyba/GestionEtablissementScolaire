@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 26,
+            "activePatchIndex": 33,
             "patches": [
                 {
                     "date": 1731407594830,
@@ -112,6 +112,34 @@
                 {
                     "date": 1732373552302,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -170,23 +170,21 @@\n     }\n     public function download($id)\n     {\n         $cours = Cours::findOrFail($id);\n-        // dd(\"Méthode appelée avec l'ID : \" . $id);\n     \n-        // Récupérez le chemin du fichier\n+        // Récupérez le chemin complet du fichier\n         $filePath = storage_path('app/public/' . $cours->fichier_cours);\n     \n-        dd(\"Chemin du fichier : \" . $filePath, file_exists($filePath));\n-        // Récupérez le nom du fichier sans le chemin\n+        // Récupérez le nom du fichier\n         $fileName = basename($cours->fichier_cours);\n-        \n+    \n         // Vérifiez si le fichier existe\n-        if (file_exists($filePath)) {\n-            // Téléchargez le fichier\n-            return response()->download($filePath, $fileName);\n-        } else {\n-            // Gérez l'erreur si le fichier n'existe pas\n+        if (!file_exists($filePath)) {\n             abort(404, \"Le fichier du cours n'existe pas.\");\n         }\n+    \n+        // Téléchargez le fichier\n+        return response()->download($filePath, $fileName);\n     }\n+    \n }\n"
+                },
+                {
+                    "date": 1732540272851,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -185,6 +185,8 @@\n     \n         // Téléchargez le fichier\n         return response()->download($filePath, $fileName);\n     }\n+\n     \n+    \n }\n"
+                },
+                {
+                    "date": 1732540313357,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -187,6 +187,24 @@\n         return response()->download($filePath, $fileName);\n     }\n \n     \n+    public function download($id)\n+    {\n+        $emploiDuTemps = EmploisDuTemps::findOrFail($id);\n     \n+        // Récupérez le chemin du fichier\n+        $filePath = storage_path('app/public/' . $emploiDuTemps->emplois_du_temps);\n+    \n+        // Récupérez le nom du fichier sans le chemin\n+        $fileName = basename($emploiDuTemps->emplois_du_temps);\n+    \n+        // Vérifiez si le fichier existe\n+        if (file_exists($filePath)) {\n+            // Téléchargez le fichier\n+            return response()->download($filePath, $fileName);\n+        } else {\n+            // Gérez l'erreur si le fichier n'existe pas\n+            abort(404, \"Le fichier d'emploi du temps n'existe pas.\");\n+        }\n+    }\n }\n"
+                },
+                {
+                    "date": 1732540338213,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -187,9 +187,9 @@\n         return response()->download($filePath, $fileName);\n     }\n \n     \n-    public function download($id)\n+    public function Edownload($id)\n     {\n         $emploiDuTemps = EmploisDuTemps::findOrFail($id);\n     \n         // Récupérez le chemin du fichier\n"
+                },
+                {
+                    "date": 1732540344432,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -187,9 +187,9 @@\n         return response()->download($filePath, $fileName);\n     }\n \n     \n-    public function Edownload($id)\n+    public function Emploisdownload($id)\n     {\n         $emploiDuTemps = EmploisDuTemps::findOrFail($id);\n     \n         // Récupérez le chemin du fichier\n"
+                },
+                {
+                    "date": 1732540633309,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -205,6 +205,7 @@\n         } else {\n             // Gérez l'erreur si le fichier n'existe pas\n             abort(404, \"Le fichier d'emploi du temps n'existe pas.\");\n         }\n+        \n     }\n }\n"
+                },
+                {
+                    "date": 1732540639933,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -204,8 +204,8 @@\n             return response()->download($filePath, $fileName);\n         } else {\n             // Gérez l'erreur si le fichier n'existe pas\n             abort(404, \"Le fichier d'emploi du temps n'existe pas.\");\n-        }\n-        \n     }\n+\n+    }\n }\n"
+                },
+                {
+                    "date": 1732540678215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,8 +7,9 @@\n use App\\Models\\ElevesCours;\n use App\\Models\\Evaluations;\n use App\\Models\\Notes;\n use Illuminate\\Http\\Request;\n+use App\\Models\\EmploisDuTemps;\n \n class ElevesCoursController extends Controller\n {\n     /**\n"
                 }
             ],
             "date": 1731407594830,

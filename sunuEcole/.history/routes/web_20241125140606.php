@@ -91,7 +91,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/emplois_du_temps/store/{classe}', [EmploisDuTempsController::class, 'store'])->name('emplois_du_temps.store');
 
     Route::get('/emplois-du-temps/{id}/download', [EmploisDuTempsController::class, 'download'])->name('emplois_du_temps.download');
-
     // route pour l'ajout des professeur 
     Route::get('/listProfAjouter',[AdministrateurController::class,'index'])->name('list.index');
     Route::get('/formulairAjout',[AdministrateurController::class,'formulaire'])->name('affiche.formulaire');
@@ -150,8 +149,7 @@ Route::middleware(['auth', 'checkProfileCompletion'])->group(function () {
         Route::get('/cours/{id}', [ElevesController::class, 'show'])->name('cours.show');
 
         Route::get('/download/{id}', [ElevesCoursController::class, 'download'])->name('download');
-        Route::get('/telechargement/{id}', [ElevesCoursController::class,'Emploisdownload'])->name('telechargement');
-
+        
         Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');
         Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');
         Route::get('/classe/{id}/cours', [ElevesCoursController::class, 'listCours'])->name('cours.list');

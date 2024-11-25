@@ -53,7 +53,7 @@ class ParentsController extends Controller
         $parent->user_id = Auth::id(); 
         $parent->is_completed = true;
         $parent->save();
-        return redirect()->route('parents.dashboard')->with('success', 'Profil complété avec succès.');
+        return redirect()->route('parents.parent.dashboard')->with('success', 'Profil complété avec succès.');
     }
 
 
@@ -125,65 +125,31 @@ class ParentsController extends Controller
 
         return view('Parents.emploi_du_temps', compact('eleve', 'emploiDuTemps'));
     }
-
-    // public function showNotes(Request $request)
-    // {
-    //     $user = auth()->user()->parent;
-    //     if (!$user) {
-    //         return redirect()->back()->with('error', 'Utilisateur non connecté.');
-    //     }
-    
-    //     $parentEmail = $user->email;
-    //     $nomEleve = $request->input('non_de_votre_éléve');
-    
-    //     $eleve = Eleves::where('nom', $nomEleve)
-    //         ->where('email_tuteur', $parentEmail)
-    //         ->first();
-    //         dd($eleve);
-    
-    //     if (!$eleve) {
-    //         return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
-    //     }
-    
-    //     $notes = Notes::where('eleve_id', $eleve->id)->get();
-    //     $classe = $eleve->classe;
-    //     $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
-    
-    //     return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
-    // }
-    
-
     public function showNotes(Request $request)
-{
-    // Vérifiez que l'utilisateur est bien un parent connecté
-    $user = auth()->user()->parent;
-    if (!$user) {
-        return redirect()->back()->with('error', 'Utilisateur non connecté.');
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Utilisateur non connecté.');
+        }
+    
+        $parentEmail = $user->email;
+        $nomEleve = $request->input('non_de_votre_éléve');
+    
+        $eleve = Eleves::where('nom', $nomEleve)
+            ->where('email_tuteur', $parentEmail)
+            ->first();
+    
+        if (!$eleve) {
+            return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
+        }
+    
+        $notes = Notes::where('eleve_id', $eleve->id)->get();
+        $classe = $eleve->classe;
+        $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
+    
+        return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve','classe'));
     }
-
-    // Nettoyez les données saisies
-    $parentEmail = trim($user->email);
-    $nomEleve = trim($request->input('non_de_votre_éléve'));
-    dd($nomEleve, $parentEmail);
-    // Recherche insensible à la casse
-    $eleve = Eleves::whereRaw('LOWER(nom) = ?', [strtolower($nomEleve)])
-        ->whereRaw('LOWER(email_tuteur) = ?', [strtolower($parentEmail)])
-        ->first();
-
-    // Vérifiez si l'élève existe
-    if (!$eleve) {
-        return redirect()->back()->with('error', 'Aucun élève trouvé avec ce nom pour ce parent.');
-    }
-
-    // Récupérez les données nécessaires
-    $notes = Notes::where('eleve_id', $eleve->id)->get();
-    $classe = $eleve->classe;
-    $emploiDuTemps = EmploisDuTemps::where('classe_id', $eleve->classe_id)->latest()->first();
-
-    // Retournez la vue avec les données
-    return view('Parents.notes', compact('notes', 'emploiDuTemps', 'eleve', 'classe'));
-}
-
+    
     public function showBulletin($classeId, $eleveId)
     {
         $eleve = Eleves::with('notes.evaluation')->findOrFail($eleveId);
@@ -213,7 +179,6 @@ class ParentsController extends Controller
         $parent = Auth::user()->parent;
         return view('Parents.profileEdit', compact('parent'));
     }
-
     public function updateProfile(UpdateParentProfileRequest $request,Parents $parent)
     {
 

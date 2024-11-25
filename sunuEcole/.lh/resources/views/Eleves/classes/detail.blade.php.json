@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 4,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1732369364394,
@@ -24,6 +24,18 @@
                 {
                     "date": 1732369898583,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,10 @@\n                 @if ($classe->emploisDuTemps->isNotEmpty())\n                     <ul class=\"list-group\">\n                         @foreach ($classe->emploisDuTemps as $emploiDuTemps)\n                             <li class=\"list-group-item\">\n-                                <a href=\"  {{ dd(Storage::url($emploiDuTemps->emplois_du_temps)) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n+                            <a href=\"{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n+\n                               \n                             </li>\n                         @endforeach\n                     </ul>\n"
+                },
+                {
+                    "date": 1732540533445,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n                 @if ($classe->emploisDuTemps->isNotEmpty())\n                     <ul class=\"list-group\">\n                         @foreach ($classe->emploisDuTemps as $emploiDuTemps)\n                             <li class=\"list-group-item\">\n-                            <a href=\"{{ route('emplois_du_temps.download', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n+                            <a href=\"{{ route('eleves.download', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n \n                               \n                             </li>\n                         @endforeach\n"
+                },
+                {
+                    "date": 1732540540263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,8 +40,9 @@\n                 @if ($classe->emploisDuTemps->isNotEmpty())\n                     <ul class=\"list-group\">\n                         @foreach ($classe->emploisDuTemps as $emploiDuTemps)\n                             <li class=\"list-group-item\">\n+                                \n                             <a href=\"{{ route('eleves.download', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n \n                               \n                             </li>\n"
+                },
+                {
+                    "date": 1732540579261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,11 +40,12 @@\n                 @if ($classe->emploisDuTemps->isNotEmpty())\n                     <ul class=\"list-group\">\n                         @foreach ($classe->emploisDuTemps as $emploiDuTemps)\n                             <li class=\"list-group-item\">\n-                                \n-                            <a href=\"{{ route('eleves.download', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n+    \n \n+                            <a href=\"{{ route('eleves.telechargement', $emploiDuTemps->id) }}\" target=\"_blank\">{{ $emploiDuTemps->nom_original }}</a>\n+\n                               \n                             </li>\n                         @endforeach\n                     </ul>\n"
                 }
             ],
             "date": 1732369364394,

@@ -8,7 +8,6 @@ use App\Models\ElevesCours;
 use App\Models\Evaluations;
 use App\Models\Notes;
 use Illuminate\Http\Request;
-use App\Models\EmploisDuTemps;
 
 class ElevesCoursController extends Controller
 {
@@ -189,24 +188,5 @@ class ElevesCoursController extends Controller
     }
 
     
-    public function Emploisdownload($id)
-    {
-        $emploiDuTemps = EmploisDuTemps::findOrFail($id);
     
-        // Récupérez le chemin du fichier
-        $filePath = storage_path('app/public/' . $emploiDuTemps->emplois_du_temps);
-    
-        // Récupérez le nom du fichier sans le chemin
-        $fileName = basename($emploiDuTemps->emplois_du_temps);
-    
-        // Vérifiez si le fichier existe
-        if (file_exists($filePath)) {
-            // Téléchargez le fichier
-            return response()->download($filePath, $fileName);
-        } else {
-            // Gérez l'erreur si le fichier n'existe pas
-            abort(404, "Le fichier d'emploi du temps n'existe pas.");
-    }
-
-    }
 }

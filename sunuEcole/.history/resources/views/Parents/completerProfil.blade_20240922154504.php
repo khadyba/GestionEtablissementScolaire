@@ -26,23 +26,23 @@
                 </ul>
             </div>
         @endif
-    <form action="{{ route('parents.completeProfile') }}" method="POST">
+    <form action="{{ route('parents.parent.completeProfile') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nom">Nom</label>
-            <input type="text" name="nom" id="nom" class="form-control" placeholder=" Exemple : Doh"  required>
+            <input type="text" name="nom" id="nom" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="prenoms">Prénoms</label>
-            <input type="text" name="prenoms" id="prenoms" class="form-control" placeholder=" Exemple : Joe" required>
+            <input type="text" name="prenoms" id="prenoms" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="non_de_votre_éléve">Nom De Votre Eléve</label>
-            <input type="text" name="non_de_votre_éléve" id="non_de_votre_éléve" class="form-control"  placeholder=" Exemple : joe doh" required>
+            <input type="text" name="non_de_votre_éléve" id="non_de_votre_éléve" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="telephone">telephone</label>
-            <input type="text" name="telephone" id="telephone" class="form-control" placeholder=" Exemple : 77 000 00 00 " required>
+            <input type="text" name="telephone" id="telephone" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Completer</button>
     </form>

@@ -8,7 +8,6 @@ use App\Models\ElevesCours;
 use App\Models\Evaluations;
 use App\Models\Notes;
 use Illuminate\Http\Request;
-use App\Models\EmploisDuTemps;
 
 class ElevesCoursController extends Controller
 {

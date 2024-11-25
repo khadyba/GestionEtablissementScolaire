@@ -38,7 +38,7 @@
         </div>
         <div class="mb-3">
             <label for="non_de_votre_éléve">Nom De Votre Eléve</label>
-            <input type="text" name="non_de_votre_éléve" id="non_de_votre_éléve" class="form-control"  placeholder=" Exemple : joe doh" required>
+            <input type="text" name="non_de_votre_éléve" id="non_de_votre_éléve" class="form-control"  placeholder=" Exemple : joe" required>
         </div>
         <div class="mb-3">
             <label for="telephone">telephone</label>
