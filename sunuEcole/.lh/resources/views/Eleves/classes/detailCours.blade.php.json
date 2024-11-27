@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 19,
+            "activePatchIndex": 21,
             "patches": [
                 {
                     "date": 1732370054839,
@@ -84,6 +84,14 @@
                 {
                     "date": 1732373791248,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n                     @else\n                         Aucune salle de classe attribuée\n                     @endif\n                 </p>\n-                <p><strong>Fichier du cours :</strong> <a href=\"{{ route('eleves.download',{{ dd ($cours->id ) }}\" target=\"_blank\">Télécharger le cours</a>\n+                <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" target=\"_blank\">Télécharger le cours</a>\n                 </p>\n                 \n             </div>\n \n"
+                },
+                {
+                    "date": 1732550469096,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n                     @else\n                         Aucune salle de classe attribuée\n                     @endif\n                 </p>\n-                <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" target=\"_blank\">Télécharger le cours</a>\n+                <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" >Télécharger le cours</a>\n                 </p>\n                 \n             </div>\n \n"
+                },
+                {
+                    "date": 1732550616404,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,9 @@\n                     @else\n                         Aucune salle de classe attribuée\n                     @endif\n                 </p>\n-                <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\"target >Télécharger le cours</a>\n+                <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\"targe >Télécharger le cours</a>\n                 </p>\n                 \n             </div>\n \n"
                 }
             ],
             "date": 1732370054839,

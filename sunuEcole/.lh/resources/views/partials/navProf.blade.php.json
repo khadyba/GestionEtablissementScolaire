@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 6,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1731419473332,
@@ -32,6 +32,10 @@
                 {
                     "date": 1731490207818,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n           <a class=\"nav-link\" href=\"{{ route('professeurs.profile.edit') }}\">Modifier Profile</a>\n         </li>\n \n         <li class=\"nav-item\">\n-          <a class=\"nav-link\" href=\"{{ route('professeurs.update.password') }}\"> Modifier mon mots de passe </a>\n+          <a class=\"nav-link\" href=\"{{ route('professeurs.formulaire.modifications') }}\"> Modifier mon mots de passe </a>\n         </li>\n \n       </ul>\n       <form class=\"d-flex\" action=\"{{ route('users.logout') }}\" method=\"POST\">\n"
+                },
+                {
+                    "date": 1732714010305,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n           </a>\n         </li>\n \n         <li class=\"nav-item\">\n-          <a class=\"nav-link\" href=\"{{ route('professeurs.dashboard') }}\">Espace Personnel</a>\n+          <a class=\"nav-link text-white\" href=\"{{ route('professeurs.dashboard') }}\">Espace Personnel</a>\n         </li>\n \n         <li class=\"nav-item\">\n           <a class=\"nav-link\" href=\"{{ route('professeurs.profile.edit') }}\">Modifier Profile</a>\n"
                 }
             ],
             "date": 1731419473332,

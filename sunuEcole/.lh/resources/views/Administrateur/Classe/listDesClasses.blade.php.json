@@ -1,0 +1,42 @@
+{
+    "sourceFile": "resources/views/Administrateur/Classe/listDesClasses.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1732638658524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1732638668478,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,9 +9,13 @@\n </head>\n @include('layouts.nav')\n <body>\n <div class=\"container\">\n-    \n+@if(session('success'))\n+    <div class=\"alert alert-success\">\n+        {{ session('success') }}\n+    </div>\n+@endif\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                },
+                {
+                    "date": 1732638845114,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,8 +14,13 @@\n     <div class=\"alert alert-success\">\n         {{ session('success') }}\n     </div>\n @endif\n+@if(session('success'))\n+    <div class=\"alert alert-success\">\n+        {{ session('success') }}\n+    </div>\n+@endif\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                },
+                {
+                    "date": 1732638874199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,13 +14,9 @@\n     <div class=\"alert alert-success\">\n         {{ session('success') }}\n     </div>\n @endif\n-@if(session('success'))\n-    <div class=\"alert alert-success\">\n-        {{ session('success') }}\n-    </div>\n-@endif\n+\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                },
+                {
+                    "date": 1732639337352,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,15 @@\n         {{ session('success') }}\n     </div>\n @endif\n \n+@if(session('error'))\n+    <div class=\"alert alert-danger\">\n+        {{ session('error') }}\n+    </div>\n+@endif\n+\n+\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                },
+                {
+                    "date": 1732699246473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,19 +11,20 @@\n <body>\n <div class=\"container\">\n @if(session('success'))\n     <div class=\"alert alert-success\">\n-        {{ session('success') }}\n+        {!! session('success') !!}\n     </div>\n @endif\n \n @if(session('error'))\n     <div class=\"alert alert-danger\">\n-        {{ session('error') }}\n+        {!! session('error') !!}\n     </div>\n @endif\n \n \n+\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                },
+                {
+                    "date": 1732699253984,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,22 +9,20 @@\n </head>\n @include('layouts.nav')\n <body>\n <div class=\"container\">\n-@if(session('success'))\n-    <div class=\"alert alert-success\">\n-        {!! session('success') !!}\n-    </div>\n-@endif\n+            @if(session('success'))\n+                <div class=\"alert alert-success\">\n+                    {!! session('success') !!}\n+                </div>\n+            @endif\n \n-@if(session('error'))\n-    <div class=\"alert alert-danger\">\n-        {!! session('error') !!}\n-    </div>\n-@endif\n+            @if(session('error'))\n+                <div class=\"alert alert-danger\">\n+                    {!! session('error') !!}\n+                </div>\n+            @endif\n \n-\n-\n     <div class=\"row mt-5\">\n        <div class=\"mb-3\">\n          <h1 class=\"text-secondary\">Liste des classes</h1>\n        </div>\n"
+                }
+            ],
+            "date": 1732638658524,
+            "name": "Commit-0",
+            "content": "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Liste Des Classes</title>\n<link rel=\"icon\" type=\"image/png\" href=\"{{ asset('assets/img/canvas.png') }}\">\n<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">\n</head>\n@include('layouts.nav')\n<body>\n<div class=\"container\">\n    \n    <div class=\"row mt-5\">\n       <div class=\"mb-3\">\n         <h1 class=\"text-secondary\">Liste des classes</h1>\n       </div>\n       <table class=\"table\">\n           <thead>\n               <tr class=\"table-primary\">\n                   <th>Nom</th>\n                   <th>Niveau</th>\n                   <th>Établissement</th>\n                   <th>Actions</th>\n               </tr>\n           </thead>\n           <tbody>\n               @foreach($classes as $classe)\n                   <tr class=\"{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}\">\n                       <td>{{ $classe->nom }}</td>\n                       <td>{{ $classe->niveau }}</td>\n                       <td>{{ $classe->etablissement->nom }}</td>\n                       <td>\n                           <div class=\"d-flex justify-content-between\">\n                           <a href=\"{{ route('classes.edit', $classe->id) }}\" class=\"btn btn-primary btn-sm me-2\">Modifier</a>\n                           <form action=\"{{ route('classes.destroy', $classe->id) }}\" method=\"POST\" style=\"display:inline\">\n                               @csrf\n                               @method('DELETE')\n                               <button type=\"submit\" class=\"btn btn-danger btn-sm me-2\">Supprimer</button>\n                           </form>\n                           <a href=\"{{ route('classes.assign.students', $classe->id) }}\" class=\"btn btn-info btn-sm me-2\">Affecter Élèves</a>\n                           <a href=\"{{ route('classes.assign.teachers', $classe->id) }}\" class=\"btn btn-info btn-sm me-2\">Affecter Professeurs</a>\n                           <a href=\"{{ route('emplois_du_temps.create', ['classe' => $classe->id]) }}\" class=\"btn btn-secondary btn-sm me-2\">Importer un emploi du Temps</a>\n                           <a href=\"{{ route('classes.show', $classe->id) }}\" class=\"btn btn-primary btn-sm me-2\">Voir Détails</a>\n                           <a href=\"{{ route('classes.professeurs.manage', $classe->id) }}\" class=\"btn btn-secondary btn-sm me-2\">Gérer les Professeurs</a>\n                           <a href=\"{{ route('classes.eleves.manage', $classe->id) }}\" class=\"btn btn-secondary btn-sm\">Gérer les Élèves</a>\n                        </div>\n                       </td>\n                   </tr>\n               @endforeach\n           </tbody>\n       </table>\n    </div>\n</div>\n</body>\n</html>\n"
+        }
+    ]
+}

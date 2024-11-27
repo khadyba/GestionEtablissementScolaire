@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 13,
             "patches": [
                 {
                     "date": 1728141477553,
@@ -16,6 +16,50 @@
                 {
                     "date": 1728976405315,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n             'host' => env('MAIL_HOST', 'bak92147@gmail.com'),\n             'port' => env('MAIL_PORT', 587),\n             'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n             'username' => env('MAIL_USERNAME','bak92147@gmail.com'),\n-            'password' => env('MAIL_PASSWORD','fclt aclf vsql jptk'),\n+            'password' => env('MAIL_PASSWORD','fcltaclfvsqljptk'),\n             'timeout' => null,\n             'local_domain' => env('MAIL_EHLO_DOMAIN'),\n         ],\n \n"
+                },
+                {
+                    "date": 1732701119989,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,9 +91,9 @@\n     |\n     */\n \n     'from' => [\n-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),\n+        'address' => env('MAIL_FROM_ADDRESS', 'bak.com'),\n         'name' => env('MAIL_FROM_NAME', 'Example'),\n     ],\n \n     /*\n"
+                },
+                {
+                    "date": 1732701125990,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -91,9 +91,9 @@\n     |\n     */\n \n     'from' => [\n-        'address' => env('MAIL_FROM_ADDRESS', 'bak.com'),\n+        'address' => env('MAIL_FROM_ADDRESS', 'bak92147@.com'),\n         'name' => env('MAIL_FROM_NAME', 'Example'),\n     ],\n \n     /*\n"
+                },
+                {
+                    "date": 1732701421682,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     'mailers' => [\n         'smtp' => [\n             'transport' => 'smtp',\n             'host' => env('MAIL_HOST', 'bak92147@gmail.com'),\n-            'port' => env('MAIL_PORT', 587),\n+            'port' => env('MAIL_PORT', 8025),\n             'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n             'username' => env('MAIL_USERNAME','bak92147@gmail.com'),\n             'password' => env('MAIL_PASSWORD','fcltaclfvsqljptk'),\n             'timeout' => null,\n@@ -91,9 +91,9 @@\n     |\n     */\n \n     'from' => [\n-        'address' => env('MAIL_FROM_ADDRESS', 'bak92147@.com'),\n+        'address' => env('MAIL_FROM_ADDRESS', 'bak92147@gmail.com'),\n         'name' => env('MAIL_FROM_NAME', 'Example'),\n     ],\n \n     /*\n"
+                },
+                {
+                    "date": 1732701479402,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -35,9 +35,9 @@\n \n     'mailers' => [\n         'smtp' => [\n             'transport' => 'smtp',\n-            'host' => env('MAIL_HOST', 'bak92147@gmail.com'),\n+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n             'port' => env('MAIL_PORT', 8025),\n             'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n             'username' => env('MAIL_USERNAME','bak92147@gmail.com'),\n             'password' => env('MAIL_PASSWORD','fcltaclfvsqljptk'),\n"
+                },
+                {
+                    "date": 1732701658954,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,19 +33,18 @@\n     |\n     */\n \n     'mailers' => [\n-        'smtp' => [\n-            'transport' => 'smtp',\n-            'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-            'port' => env('MAIL_PORT', 8025),\n-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n-            'username' => env('MAIL_USERNAME','bak92147@gmail.com'),\n-            'password' => env('MAIL_PASSWORD','fcltaclfvsqljptk'),\n-            'timeout' => null,\n-            'local_domain' => env('MAIL_EHLO_DOMAIN'),\n-        ],\n-\n+       'smtp' => [\n+        'transport' => 'smtp',\n+        'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n+        'port' => env('MAIL_PORT', 587), // Assurez-vous que c'est bien 587\n+        'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n+        'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n+        'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n+        'timeout' => null,\n+        'local_domain' => env('MAIL_EHLO_DOMAIN'),\n+    ],\n         'ses' => [\n             'transport' => 'ses',\n         ],\n \n"
+                },
+                {
+                    "date": 1732701887833,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     'mailers' => [\n        'smtp' => [\n         'transport' => 'smtp',\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-        'port' => env('MAIL_PORT', 587), // Assurez-vous que c'est bien 587\n+        'port' => env('MAIL_PORT', ), // Assurez-vous que c'est bien 587\n         'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n         'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n         'timeout' => null,\n"
+                },
+                {
+                    "date": 1732701915260,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,10 +36,10 @@\n     'mailers' => [\n        'smtp' => [\n         'transport' => 'smtp',\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-        'port' => env('MAIL_PORT', ), // Assurez-vous que c'est bien 587\n-        'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n+        'port' => env('MAIL_PORT', 465), // Assurez-vous que c'est bien 587\n+        'encryption' => env('MAIL_ENCRYPTION', 'ssl'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n         'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n         'timeout' => null,\n         'local_domain' => env('MAIL_EHLO_DOMAIN'),\n"
+                },
+                {
+                    "date": 1732701925231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     'mailers' => [\n        'smtp' => [\n         'transport' => 'smtp',\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-        'port' => env('MAIL_PORT', 465), // Assurez-vous que c'est bien 587\n+        'port' => env('MAIL_PORT', 465),\n         'encryption' => env('MAIL_ENCRYPTION', 'ssl'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n         'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n         'timeout' => null,\n"
+                },
+                {
+                    "date": 1732702446278,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n     'mailers' => [\n        'smtp' => [\n         'transport' => 'smtp',\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-        'port' => env('MAIL_PORT', 465),\n+        'port' => env('MAIL_PORT', ),\n         'encryption' => env('MAIL_ENCRYPTION', 'ssl'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n         'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n         'timeout' => null,\n"
+                },
+                {
+                    "date": 1732702466880,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,10 +36,10 @@\n     'mailers' => [\n        'smtp' => [\n         'transport' => 'smtp',\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n-        'port' => env('MAIL_PORT', ),\n-        'encryption' => env('MAIL_ENCRYPTION', 'ssl'),\n+        'port' => env('MAIL_PORT', 587),\n+        'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n         'password' => env('MAIL_PASSWORD', 'kxtnalkavutrhvfp'),\n         'timeout' => null,\n         'local_domain' => env('MAIL_EHLO_DOMAIN'),\n"
+                },
+                {
+                    "date": 1732702573031,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n         'host' => env('MAIL_HOST', 'smtp.gmail.com'),\n         'port' => env('MAIL_PORT', 587),\n         'encryption' => env('MAIL_ENCRYPTION', 'tls'),\n         'username' => env('MAIL_USERNAME', 'bak92147@gmail.com'),\n-        'password' => env('MAIL_PASSWORD', ''),\n+        'password' => env('MAIL_PASSWORD', 'ttxr jnrp lmwy hdqq'),\n         'timeout' => null,\n         'local_domain' => env('MAIL_EHLO_DOMAIN'),\n     ],\n         'ses' => [\n"
                 }
             ],
             "date": 1728141477553,

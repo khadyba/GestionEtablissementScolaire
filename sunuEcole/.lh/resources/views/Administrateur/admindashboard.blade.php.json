@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 65,
+            "activePatchIndex": 68,
             "patches": [
                 {
                     "date": 1727624107134,
@@ -268,6 +268,18 @@
                 {
                     "date": 1731593100012,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -47,8 +47,9 @@\n \n         @if ($elevesInscrits->isNotEmpty())\n             @foreach($elevesInscrits->groupBy('eleve_id') as $eleveId => $paiementsGroupes)\n                 @php\n+                \n                     $eleve = $paiementsGroupes->first()->eleve;\n                     $etablissement = $eleve->user->etablissement;\n                     $etablissementType = $etablissement ? $etablissement->type : 'Inconnu';\n                     $isPrivate = $etablissementType === 'privé';\n"
+                },
+                {
+                    "date": 1732638203153,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,13 +17,14 @@\n         {{ session('error') }}\n     </div>\n @endif\n \n-    @if(session('success'))\n+@if(session('success'))\n     <div class=\"alert alert-success\">\n         {{ session('success') }}\n     </div>\n-    @endif\n+@endif\n+\n     <div class=\"container  text-secondary\">\n         <h1 class=\"my-4\">Liste des Élèves Inscrits</h1>\n \n         @if (session('identifiants'))\n"
+                },
+                {
+                    "date": 1732638468067,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,14 +17,15 @@\n         {{ session('error') }}\n     </div>\n @endif\n \n-@if(session('success'))\n-    <div class=\"alert alert-success\">\n-        {{ session('success') }}\n+@if(session('debug'))\n+    <div class=\"alert alert-info\">\n+        {{ session('debug') }}\n     </div>\n @endif\n \n+\n     <div class=\"container  text-secondary\">\n         <h1 class=\"my-4\">Liste des Élèves Inscrits</h1>\n \n         @if (session('identifiants'))\n"
+                },
+                {
+                    "date": 1732638523095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,15 +17,14 @@\n         {{ session('error') }}\n     </div>\n @endif\n \n-@if(session('debug'))\n-    <div class=\"alert alert-info\">\n-        {{ session('debug') }}\n+@if(session('success'))\n+    <div class=\"alert alert-success\">\n+        {{ session('success') }}\n     </div>\n @endif\n \n-\n     <div class=\"container  text-secondary\">\n         <h1 class=\"my-4\">Liste des Élèves Inscrits</h1>\n \n         @if (session('identifiants'))\n"
                 }
             ],
             "date": 1727624107134,

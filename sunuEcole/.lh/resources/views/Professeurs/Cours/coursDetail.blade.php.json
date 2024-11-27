@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1731324552577,
@@ -12,6 +12,14 @@
                 {
                     "date": 1731406946323,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,9 +25,9 @@\n                     @if ($cours->salleDeClasse)\n                         {{ $cours->salleDeClasse->numéro }}\n                     @else\n                         Aucune salle de classe attribuée\n-                    @endif\n+                    @endifcourlis\n                     </p>\n                     <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" target=\"_blank\">Télécharger le cours</a></p>\n                 </div>\n             @else\n"
+                },
+                {
+                    "date": 1732550649638,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,11 +25,11 @@\n                     @if ($cours->salleDeClasse)\n                         {{ $cours->salleDeClasse->numéro }}\n                     @else\n                         Aucune salle de classe attribuée\n-                    @endifcourlis\n+                    @endif\n                     </p>\n-                    <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" target=\"_blank\">Télécharger le cours</a></p>\n+                    <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" >Télécharger le cours</a></p>\n                 </div>\n             @else\n                 <p>Le cours demandé n'existe pas ou a été supprimé.</p>\n             @endif\n"
+                },
+                {
+                    "date": 1732550689495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -27,9 +27,9 @@\n                     @else\n                         Aucune salle de classe attribuée\n                     @endif\n                     </p>\n-                    <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" >Télécharger le cours</a></p>\n+                    <p><strong>Fichier du cours :</strong> <a href=\"{{ Storage::url($cours->fichier_cours) }}\" target=\"_blank\">Télécharger le cours</a></p>\n                 </div>\n             @else\n                 <p>Le cours demandé n'existe pas ou a été supprimé.</p>\n             @endif\n"
                 }
             ],
             "date": 1731324552577,

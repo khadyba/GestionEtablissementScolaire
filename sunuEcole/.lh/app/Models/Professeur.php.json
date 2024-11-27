@@ -3,11 +3,19 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1731332880719,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1732700870742,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,13 +16,15 @@\n         'telephone',\n         'user_id',\n         'is_completed'\n     ];\n-    // public function classes()\n-    // {\n-    //     return $this->belongsToMany(Classe::class, 'classe_professeur', 'professeur_id', 'classe_id');\n-    // }\n+   \n     \n+    public function classes()\n+    {\n+        return $this->belongsToMany(Classe::class, 'classe_professeur', 'professeur_id', 'classe_id');\n+    }\n+    \n     public function evaluations()\n     {\n         return $this->hasMany(Evaluations::class);\n     }\n"
+                },
+                {
+                    "date": 1732700877859,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,7 +30,7 @@\n     }\n \n     public function user()\n     {\n-        return $this->belongsTo(User::class, 'user_id','id');\n+        return $this->belongsTo(User::class, 'user_id');\n     }\n }\n"
                 }
             ],
             "date": 1731332880719,

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "resources/views/partials/navElv.blade.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1732713991723,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1732713991723,
+            "name": "Commit-0",
+            "content": "<nav class=\"navbar navbar-expand-lg bg-primary\" data-bs-theme=\"dark\">\n  <div class=\"container-fluid\">\n    <a class=\"navbar-brand\" href=\"#\">Sunu Lycee</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarColor01\" aria-controls=\"navbarColor01\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarColor01\">\n      <ul class=\"navbar-nav me-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link active\" href=\"{{ route('home') }}\">Acceuil\n            <span class=\"visually-hidden\">(current)</span>\n          </a>\n        </li>\n\n        <li class=\"nav-item\">\n          <a class=\"nav-link \" href=\"{{ route('eleves.dashboard') }}\">Espace Personnel</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"{{ route('eleves.profile.edit') }}\">Modifier Profile</a>\n        </li>\n       \n      </ul>\n      <form class=\"d-flex\" action=\"{{ route('users.logout') }}\" method=\"POST\">\n      @csrf\n        <button class=\"btn btn-secondary  my-2 my-sm-0\" type=\"submit\">Deconnection</button>\n      </form>\n    </div>\n  </div>\n</nav>"
+        }
+    ]
+}
