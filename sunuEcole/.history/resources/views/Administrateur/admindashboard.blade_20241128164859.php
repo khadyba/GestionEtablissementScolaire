@@ -44,7 +44,6 @@
             <th>Type d'Établissement</th>
         </tr>
     </thead>
-    
 <tbody>
     @if ($elevesInscrits->isNotEmpty())
         @foreach($elevesInscrits->groupBy('eleve_id') as $eleveId => $paiementsGroupes)

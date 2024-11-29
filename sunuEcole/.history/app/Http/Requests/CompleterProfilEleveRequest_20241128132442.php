@@ -53,7 +53,7 @@ class CompleterProfilEleveRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:eleves',
+                // 'unique:eleves',
                 'regex:/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/', 
             ],
             'dateDeNaissance' => [
@@ -63,7 +63,7 @@ class CompleterProfilEleveRequest extends FormRequest
                 'regex:/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',
             ],
             'classe_id' => 'nullable|integer|exists:classes,id',
-J
+
         ];
     }
     public function messages()

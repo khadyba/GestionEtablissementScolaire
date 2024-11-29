@@ -44,7 +44,6 @@
             <th>Type d'Établissement</th>
         </tr>
     </thead>
-    
 <tbody>
     @if ($elevesInscrits->isNotEmpty())
         @foreach($elevesInscrits->groupBy('eleve_id') as $eleveId => $paiementsGroupes)
@@ -83,7 +82,6 @@
         </tr>
     @endif
 </tbody>
-
 </table>
         <div class="mt-4 ">
             <a href="{{ route('etablissement.formulaire') }}" class="btn btn-primary me-2">Ajouter un Etablissement</a>

@@ -44,47 +44,63 @@
             <th>Type d'Établissement</th>
         </tr>
     </thead>
-    
-<tbody>
-    @if ($elevesInscrits->isNotEmpty())
-        @foreach($elevesInscrits->groupBy('eleve_id') as $eleveId => $paiementsGroupes)
-            @php
-                $eleve = $paiementsGroupes->first()->eleve;
-                $etablissement = $eleve->user->etablissement ?? null;
-                $etablissementType = $etablissement ? $etablissement->type : 'Inconnu';
-                $isPrivate = $etablissementType === 'privé';
-            @endphp
 
-            @if ($isPrivate)
-                <!-- Si l'établissement est privé, afficher toutes les inscriptions -->
-                @foreach($paiementsGroupes as $paiement)
+    <tbody>
+
+        @if ($elevesInscrits->isNotEmpty())
+            @foreach($elevesInscrits->groupBy('eleve_id') as $eleveId => $paiementsGroupes)
+                @php
+                
+                    $eleve = $paiementsGroupes->first()->eleve;
+                    $etablissement = $eleve->user->etablissement;
+                    $etablissementType = $etablissement ? $etablissement->type : 'Inconnu';
+                    $isPrivate = $etablissementType === 'privé';
+                @endphp
+                @if ($isPrivate)
+                   <!-- Si l'établissement est privé, afficher toutes les inscriptions -->
+                    @foreach($paiementsGroupes as $paiement)
+                        <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
+                            <td>{{ $paiement->eleve ? $paiement->eleve->nom : 'null' }}</td>
+                            <td>{{ $paiement->eleve ? $paiement->eleve->prenoms : 'null' }}</td>
+                            <td>{{ $paiement->montant }}</td>
+                            <td>{{ $paiement->created_at->format('d/m/Y H:i') }}</td>
+                            <td>{{ $etablissementType }}</td>
+                        </tr>
+                    @endforeach
+
+                @else
+              
+
+
+                    <!-- Si l'établissement est public, afficher une seule inscription -->
                     <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
-                        <td>{{ $paiement->eleve->nom ?? 'Inconnu' }}</td>
-                        <td>{{ $paiement->eleve->prenoms ?? 'Inconnu' }}</td>
-                        <td>{{ $paiement->montant }}</td>
-                        <td>{{ $paiement->created_at->format('d/m/Y H:i') }}</td>
+                    <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
+                        <td>{{ optional($paiementsGroupes->first()->eleve)->nom ?? 'null' }}</td>
+                        <td>{{ optional($paiementsGroupes->first()->eleve)->prenoms ?? 'null' }}</td>
+                        <td>{{ $paiementsGroupes->first()->montant ?? 'null' }}</td>
+                        <td>{{ $paiementsGroupes->first()->created_at ? $paiementsGroupes->first()->created_at->format('d/m/Y H:i') : 'N/A' }}</td>
                         <td>{{ $etablissementType }}</td>
                     </tr>
-                @endforeach
-            @else
-                <!-- Si l'établissement est public, afficher une seule inscription -->
-                <tr class="{{ $loop->index % 2 == 0 ? 'table-light' : 'table-dark' }}">
-                    <td>{{ $eleve->nom ?? 'Inconnu' }}</td>
-                    <td>{{ $eleve->prenoms ?? 'Inconnu' }}</td>
-                    <td>{{ $paiementsGroupes->first()->montant }}</td>
-                    <td>{{ $paiementsGroupes->first()->created_at->format('d/m/Y H:i') }}</td>
-                    <td>{{ $etablissementType }}</td>
-                </tr>
-            @endif
-        @endforeach
-    @else
-        <tr>
-            <td colspan="5">Aucun élève inscrit</td>
-        </tr>
-    @endif
-</tbody>
-
+                        <td>{{ $etablissementType }}</td>
+                    </tr>
+                    @break <!-- Sortir de la boucle car on affiche une seule inscription -->
+                @endif
+            @endforeach
+        @else
+            <tr>
+                <td colspan="5">Aucun élève inscrit</td>
+            </tr>
+        @endif
+    </tbody>
+    
 </table>
+
+
+
+
+  
+
+
         <div class="mt-4 ">
             <a href="{{ route('etablissement.formulaire') }}" class="btn btn-primary me-2">Ajouter un Etablissement</a>
             <a href="{{ route('classes.create') }}" class="btn btn-primary me-2">Ajouter une classe</a>

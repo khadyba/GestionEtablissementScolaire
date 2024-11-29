@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 47,
+            "activePatchIndex": 48,
             "patches": [
                 {
                     "date": 1731323719238,
@@ -196,6 +196,10 @@
                 {
                     "date": 1731490163040,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -133,9 +133,9 @@\n         Route::get('/notes/{classeId}', [NotesController::class, 'index'])->name('notes.list');\n         Route::get('/notes/{note}/edit', [NotesController::class, 'edit'])->name('notes.edit');\n         Route::post('/notes/{note}', [NotesController::class, 'update'])->name('notes.update');\n         Route::delete('/notes/{note}', [NotesController::class, 'destroy'])->name('notes.delete');\n-        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name('formulaire.')\n+        Route::get('/fomulaire/modifications/password', [UsersController::class,'editpassword'])->name('formulaire.modif')\n         Route::put('/modifer/password', [UsersController::class, 'updatePassword'])->name('update.password');\n \n \n \n"
+                },
+                {
+                    "date": 1732807053428,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -155,9 +155,9 @@\n         Route::get('/classes', [ElevesCoursController::class, 'index'])->name('classes.index');\n         Route::get('/classes/{id}', [ElevesCoursController::class, 'show'])->name('classes.detail');\n         Route::get('/classe/{id}/cours', [ElevesCoursController::class, 'listCours'])->name('cours.list');\n         Route::get('/cours/{id}', [ElevesCoursController::class, 'detailCours'])->name('cours.detail');\n-        Route::get('/complete-profile', [ElevesController::class, 'completerProfil'])->name('completeProfileForm');\n+        Route::get('/complete-profile', [P::class, 'completerProfil'])->name('completeProfileForm');\n         Route::post('/complete-profile', [ElevesController::class, 'store'])->name('completeProfile');\n         Route::get('/profile/edit', [ElevesController::class, 'editProfile'])->name('profile.edit');\n         Route::put('/profile/update', [ElevesController::class, 'updateProfile'])->name('profile.update');\n \n"
                 }
             ],
             "date": 1731323719238,

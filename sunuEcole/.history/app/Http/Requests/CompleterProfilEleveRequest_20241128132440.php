@@ -53,7 +53,6 @@ class CompleterProfilEleveRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:eleves',
                 'regex:/^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$/', 
             ],
             'dateDeNaissance' => [
@@ -63,7 +62,6 @@ class CompleterProfilEleveRequest extends FormRequest
                 'regex:/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/',
             ],
             'classe_id' => 'nullable|integer|exists:classes,id',
-            'parent_id' => 'nullable|integer|exists:cl'
 
         ];
     }
@@ -75,7 +73,7 @@ class CompleterProfilEleveRequest extends FormRequest
             'adresse.regex' => 'Mettez une adresse valide.',
             'non_de_votre_tuteur.regex' => 'Mettez un nom de tuteur  valide.',
             'email.required' => 'L\'adresse e-mail est obligatoire.',
-            'email.unique' => 'L\'adresse e-mail existe déjà.',
+         
             'email_tuteur.regex' => 'L\'adresse email du tuteur fournie est invalide.',
             'dateDeNaissance.regex' => 'La Date doit être sous le format jj/mm/aaaa.',
         ];
