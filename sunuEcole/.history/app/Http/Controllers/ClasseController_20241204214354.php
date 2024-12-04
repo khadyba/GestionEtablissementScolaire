@@ -42,9 +42,13 @@ class ClasseController extends Controller
      */
     public function create()
 {
+    // Obtenir les établissements liés à l'administrateur connecté
     $etablissements = Etablissement::where('administrateur_id', auth('admin')->id())->get();
+
     return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
 }
+
+
     /**
      * Store a newly created resource in storage.
      *

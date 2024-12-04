@@ -38,11 +38,16 @@ class AdministrateurController extends Controller
                 return view('Administrateur.admindashboard', compact('elevesInscrits', 'emploisDuTemps', 'classeId'));
             }
         
+            // Identifier les élèves inscrits dans l'établissement
             $elevesInscrits = Payment::where('statut', 1)
                 ->with(['eleve.user.etablissement'])
                 ->get()
                 ->groupBy('eleve_id');
+        
+            // Convertir en collection (si nécessaire)
             $elevesInscrits = collect($elevesInscrits);
+        
+            // Récupérer les emplois du temps associés à l'établissement
             $emploisDuTemps = EmploisDuTemps::whereHas('classe', function ($query) use ($etablissement) {
                 $query->where('etablissement_id', $etablissement->id);
             })->get();
@@ -160,7 +165,10 @@ class AdministrateurController extends Controller
     public function formulaire()
     {
         $admin = Auth::guard('admin')->user();
+        
+        // Récupérer uniquement les établissements créés par l'administrateur connecté
         $etablissements = Etablissement::where('administrateur_id', $admin->id)->get();
+    
         return view('Administrateur.formulaireAjouProf', compact('etablissements'));
     }
     
@@ -174,15 +182,20 @@ class AdministrateurController extends Controller
             return redirect()->back()->with('error', 'L\'établissement sélectionné ne vous appartient pas ou n\'existe pas.');
         }
         $validatedData = $request->validated();
+    
         if (empty($validatedData['password'])) {
             $validatedData['password'] = Str::random(8);
         }
         $hashedPassword = Hash::make($validatedData['password']);
+    
+        // Création d'un nouvel utilisateur avec les données validées
         $user = User::create([
             'email' => $validatedData['email'],
             'password' => $hashedPassword,
             'etablissement_id' => $validatedData['etablissement_id'],
         ]);
+    
+        // Assignation du rôle de l'utilisateur
         $roleId = null;
         switch ($request->typecompte) {
             case 'professeurs':
@@ -195,12 +208,15 @@ class AdministrateurController extends Controller
                 $roleId = 3;
                 break;
         }
+    
         if ($roleId) {
             DB::table('usersroles')->insert([
                 'user_id' => $user->id,
                 'role_id' => $roleId,
             ]);
         }
+    
+        // Envoi de l'email de notification
         $identifiants = [
             'email' => $validatedData['email'],
             'password' => $validatedData['password'],

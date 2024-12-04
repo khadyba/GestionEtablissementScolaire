@@ -55,8 +55,6 @@
                         <option value="parents">Parent</option>
                     </select>
                 </div>
-
-                
                 <div class="mb-3">
                     <label for="etablissement_id" class="form-label">Établissement :</label>
                     <select id="etablissement_id" name="etablissement_id" class="form-select" required>
@@ -66,7 +64,6 @@
                         @endforeach
                     </select>
                 </div>
-
                 <button type="submit" class="btn btn-primary mb-3">S'inscrire</button>
         </form>
       </div>

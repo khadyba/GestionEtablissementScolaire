@@ -38,11 +38,16 @@ class AdministrateurController extends Controller
                 return view('Administrateur.admindashboard', compact('elevesInscrits', 'emploisDuTemps', 'classeId'));
             }
         
+            // Identifier les élèves inscrits dans l'établissement
             $elevesInscrits = Payment::where('statut', 1)
                 ->with(['eleve.user.etablissement'])
                 ->get()
                 ->groupBy('eleve_id');
+        
+            // Convertir en collection (si nécessaire)
             $elevesInscrits = collect($elevesInscrits);
+        
+            // Récupérer les emplois du temps associés à l'établissement
             $emploisDuTemps = EmploisDuTemps::whereHas('classe', function ($query) use ($etablissement) {
                 $query->where('etablissement_id', $etablissement->id);
             })->get();
@@ -74,8 +79,9 @@ class AdministrateurController extends Controller
             $query->where('nom', 'professeurs');
         })
         ->where('is_completed', false)
-        ->where('etablissement_id', $etablissement->id) 
+        ->where('etablissement_id', $etablissement->id) // Filtrer par établissement
         ->get();
+    
         return view('Administrateur.Professeurs.list', compact('professeurs'));
     }
     
@@ -157,63 +163,69 @@ class AdministrateurController extends Controller
     {
         //
     }
-    public function formulaire()
-    {
-        $admin = Auth::guard('admin')->user();
-        $etablissements = Etablissement::where('administrateur_id', $admin->id)->get();
+      public function formulaire()
+      {
+        $etablissements = Etablissement::all(); 
         return view('Administrateur.formulaireAjouProf', compact('etablissements'));
-    }
-    
+      }
+// avant de créer un prof on doit v&rifier si l'admin a creer l'etablissemnent qu'il a choisi pour la créations si il la pas créer on luis envoi un message d'erreur pour lui dire vous léetablissement ne vo
+// ne vous appartien pas 
     public function ajouterProfesseur(AjoutProfRequest $request)
     {
-        $admin = Auth::guard('admin')->user();
-        $etablissement = Etablissement::where('id', $request->etablissement_id)
-                                      ->where('administrateur_id', $admin->id)
-                                      ->first();
-        if (!$etablissement) {
-            return redirect()->back()->with('error', 'L\'établissement sélectionné ne vous appartient pas ou n\'existe pas.');
-        }
         $validatedData = $request->validated();
-        if (empty($validatedData['password'])) {
-            $validatedData['password'] = Str::random(8);
-        }
-        $hashedPassword = Hash::make($validatedData['password']);
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => $hashedPassword,
-            'etablissement_id' => $validatedData['etablissement_id'],
-        ]);
-        $roleId = null;
-        switch ($request->typecompte) {
-            case 'professeurs':
-                $roleId = 1;
-                break;
-            case 'eleves':
-                $roleId = 2;
-                break;
-            case 'parents':
-                $roleId = 3;
-                break;
-        }
-        if ($roleId) {
-            DB::table('usersroles')->insert([
-                'user_id' => $user->id,
-                'role_id' => $roleId,
-            ]);
-        }
-        $identifiants = [
-            'email' => $validatedData['email'],
-            'password' => $validatedData['password'],
-        ];
-    
-        Mail::to($validatedData['email'])->send(new NouveauCompteMail($identifiants));
-    
-        return redirect()->route('list.index')->with([
-            'success' => 'Utilisateur créé avec succès.',
-            'identifiants' => $identifiants,
+
+    if (empty($validatedData['password'])) {
+        $validatedData['password'] = Str::random(8);
+    }
+    $hashedPassword = Hash::make($validatedData['password']);
+
+    // Création d'un nouvel utilisateur avec les données validées
+    $user = User::create([
+        'email' => $validatedData['email'],
+        'password' => $hashedPassword,
+        'etablissement_id' => $validatedData['etablissement_id'],
+    ]);
+    $roleId = null;
+    switch ($request->typecompte) {
+        case 'professeurs':
+            $roleId = 1;
+            break;
+        case 'eleves':
+            $roleId = 2;
+            break;
+        case 'parents':
+            $roleId = 3;
+            break;
+    }
+    if ($roleId) {
+        DB::table('usersroles')->insert([
+            'user_id' => $user->id,
+            'role_id' => $roleId,
         ]);
     }
-    
+
+   
+    $identifiants = [
+        'email' => $validatedData['email'],
+        'password' => $validatedData['password'],
+    ];
+
+    Mail::to($validatedData['email'])->send(new NouveauCompteMail($identifiants));
+    return redirect()->route('list.index')->with([
+        'success' => 'Utilisateur créé avec succès.',
+        'identifiants' => $identifiants,
+    ]);
+}
+
+
+public function listeCours($id) 
+{
+    $professeur = auth()->user()->professeur;
+    $classe = Classe::findOrFail($id);
+    $cours = Cours::where('classe_id', $id)->where('is_deleted', false)->get();
+    return view('Administrateur.Classe.CourList', compact('classe', 'cours'));
+}
+
 public function destroyProfessor($id)
 {
     $professeur = User::find($id);

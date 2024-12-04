@@ -38,11 +38,16 @@ class AdministrateurController extends Controller
                 return view('Administrateur.admindashboard', compact('elevesInscrits', 'emploisDuTemps', 'classeId'));
             }
         
+            // Identifier les élèves inscrits dans l'établissement
             $elevesInscrits = Payment::where('statut', 1)
                 ->with(['eleve.user.etablissement'])
                 ->get()
                 ->groupBy('eleve_id');
+        
+            // Convertir en collection (si nécessaire)
             $elevesInscrits = collect($elevesInscrits);
+        
+            // Récupérer les emplois du temps associés à l'établissement
             $emploisDuTemps = EmploisDuTemps::whereHas('classe', function ($query) use ($etablissement) {
                 $query->where('etablissement_id', $etablissement->id);
             })->get();
@@ -161,6 +166,7 @@ class AdministrateurController extends Controller
     {
         $admin = Auth::guard('admin')->user();
         $etablissements = Etablissement::where('administrateur_id', $admin->id)->get();
+    
         return view('Administrateur.formulaireAjouProf', compact('etablissements'));
     }
     

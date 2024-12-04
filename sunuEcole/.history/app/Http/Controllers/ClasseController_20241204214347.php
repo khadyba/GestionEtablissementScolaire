@@ -40,11 +40,21 @@ class ClasseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function create()
+    // {
+    //     $etablissements = Etablissement::all();
+
+    //     return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
+    // }
     public function create()
 {
+    // Obtenir les établissements liés à l'administrateur connecté
     $etablissements = Etablissement::where('administrateur_id', auth('admin')->id())->get();
+
     return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
 }
+
+
     /**
      * Store a newly created resource in storage.
      *

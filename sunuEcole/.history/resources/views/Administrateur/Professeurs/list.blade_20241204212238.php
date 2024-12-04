@@ -28,21 +28,26 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($professeurs as $professeur)
-                <tr>
-                    <td>{{ $professeur->id }}</td>
-                    <td>{{ $professeur->nom }}</td>
-                    <td>{{ $professeur->email }}</td>
-                    <td>
-                        <form action="{{ route('professeurs.destroy', $professeur->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Désactiver le compte</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
+    @forelse($professeurs as $professeur)
+        <tr>
+            <td>{{ $professeur->id }}</td>
+            <td>{{ $professeur->nom }}</td>
+            <td>{{ $professeur->email }}</td>
+            <td>
+                <form action="{{ route('professeurs.destroy', $professeur->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Désactiver le compte</button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="4">Aucun professeur trouvé dans v établissement.</td>
+        </tr>
+    @endforelse
+</tbody>
+
     </table>
 </div>
 </body>

@@ -45,6 +45,8 @@ class ClasseController extends Controller
     $etablissements = Etablissement::where('administrateur_id', auth('admin')->id())->get();
     return view('Administrateur.Classe.formulaireAjoutClasse', compact('etablissements'));
 }
+
+
     /**
      * Store a newly created resource in storage.
      *

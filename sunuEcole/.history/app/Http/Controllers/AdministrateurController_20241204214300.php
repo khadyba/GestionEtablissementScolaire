@@ -43,6 +43,8 @@ class AdministrateurController extends Controller
                 ->get()
                 ->groupBy('eleve_id');
             $elevesInscrits = collect($elevesInscrits);
+        
+            // Récupérer les emplois du temps associés à l'établissement
             $emploisDuTemps = EmploisDuTemps::whereHas('classe', function ($query) use ($etablissement) {
                 $query->where('etablissement_id', $etablissement->id);
             })->get();
