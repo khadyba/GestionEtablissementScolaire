@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 4,
             "patches": [
                 {
                     "date": 1731330423670,
@@ -16,6 +16,14 @@
                 {
                     "date": 1731331457790,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,10 @@\n {\n     use Notifiable;\n     use HasFactory;\n \n-    \n+    protected $guard = 'admin';\n+\n     protected $fillable = [\n         'nom',\n         'prenoms',\n         'adresse',\n@@ -25,9 +26,9 @@\n     ];\n \n     public function etablissement()\n     {\n-        return $this->hasMany(Classe::class);\n+        return $this->hasOne(Etablissement::class);\n     }\n \n     protected $hidden = [\n         'password', 'remember_token',\n"
+                },
+                {
+                    "date": 1733153598069,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,8 +28,9 @@\n     public function etablissement()\n     {\n         return $this->hasOne(Etablissement::class);\n     }\n+    \n \n     protected $hidden = [\n         'password', 'remember_token',\n     ];\n"
+                },
+                {
+                    "date": 1733225809704,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,8 +33,9 @@\n \n     protected $hidden = [\n         'password', 'remember_token',\n     ];\n+    \n     public function classes()\n     {\n         return $this->hasMany(Classe::class);\n     }\n"
                 }
             ],
             "date": 1731330423670,

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "app/Models/Role.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1733337637147,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1733337637147,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Role extends Model\n{\n    use HasFactory;\n\n    public function users()\n    {\n        return $this->belongsToMany(User::class);\n    }\n    \n    protected $fillable = [\n        'nom'\n    ];\n}\n"
+        }
+    ]
+}

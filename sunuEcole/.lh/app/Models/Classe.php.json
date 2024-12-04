@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 3,
+            "activePatchIndex": 7,
             "patches": [
                 {
                     "date": 1731332814352,
@@ -20,6 +20,22 @@
                 {
                     "date": 1732472840304,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -22,8 +22,13 @@\n     // public function professeurs()\n     // {\n     //     return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n     // }\n+    \n+    public function professeurs()\n+    {\n+        return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n+    }\n \n     public function cours()\n     {\n         return $this->hasMany(Cours::class);\n"
+                },
+                {
+                    "date": 1733225291376,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n     public function administrateur()\n     {\n         return $this->belongsTo(Administrateur::class);\n     }\n+    \n     public function emploisDuTemps()\n     {\n         return $this->hasMany(EmploisDuTemps::class);\n     }\n"
+                },
+                {
+                    "date": 1733225319837,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -42,8 +42,9 @@\n     public function administrateur()\n     {\n         return $this->belongsTo(Administrateur::class);\n     }\n+\n     \n     public function emploisDuTemps()\n     {\n         return $this->hasMany(EmploisDuTemps::class);\n"
+                },
+                {
+                    "date": 1733225326629,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -38,14 +38,15 @@\n     {\n         return $this->hasMany(Eleves::class, 'classe_id');\n     }\n     \n+    \n     public function administrateur()\n     {\n         return $this->belongsTo(Administrateur::class);\n     }\n \n-    \n+\n     public function emploisDuTemps()\n     {\n         return $this->hasMany(EmploisDuTemps::class);\n     }\n"
+                },
+                {
+                    "date": 1733225337026,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,13 +18,10 @@\n     public function etablissement()\n     {\n         return $this->belongsTo(Etablissement::class);\n     }\n-    // public function professeurs()\n-    // {\n-    //     return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n-    // }\n     \n+    \n     public function professeurs()\n     {\n         return $this->belongsToMany(Professeur::class, 'classe_professeur', 'classe_id', 'professeur_id');\n     }\n@@ -38,9 +35,9 @@\n     {\n         return $this->hasMany(Eleves::class, 'classe_id');\n     }\n     \n-    \n+\n     public function administrateur()\n     {\n         return $this->belongsTo(Administrateur::class);\n     }\n"
                 }
             ],
             "date": 1731332814352,

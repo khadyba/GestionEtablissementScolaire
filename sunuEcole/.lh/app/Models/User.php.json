@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1732472993935,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1733337653677,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,89 @@\n+<?php\n+\n+namespace App\\Models;\n+\n+\n+use Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\n+use Illuminate\\Foundation\\Auth\\User as Authenticatable;\n+use Illuminate\\Notifications\\Notifiable;\n+use Spatie\\Permission\\Traits\\HasRoles;\n+\n+\n+use Laravel\\Sanctum\\HasApiTokens;\n+\n+class User extends Authenticatable\n+{\n+    use HasRoles; \n+  \n+    use HasApiTokens, HasFactory,   Notifiable; \n+    /**\n+     * The attributes that are mass assignable.\n+     *\n+     * @var array<int, string>\n+     */\n+\n+\n+    \n+    protected $fillable = [\n+        'email',\n+        'password',\n+        'typecompte',\n+        'etablissement_id',\n+        'is_completed'\n+    ];\n+      \n+        \n+        public function roles()\n+        {\n+            return $this->belongsToMany(Role::class, 'usersroles', 'user_id', 'role_id');\n+        }\n+        \n+       \n+        public function etablissement()\n+        {\n+            return $this->belongsTo(Etablissement::class);\n+        }\n+       \n+        public function professeur()\n+        {\n+            return $this->hasOne(Professeur::class, 'user_id', 'id');\n+        }\n+\n+        \n+        public function eleve()\n+        {\n+            return $this->hasOne(Eleves::class, 'user_id');\n+        }\n+\n+        public function parent()\n+        {\n+            return $this->hasOne(Parents::class, 'user_id');\n+        }\n+\n+    /**\n+     * The attributes that should be hidden for serialization.\n+     *\n+     * @var array<int, string>\n+     */\n+    protected $hidden = [\n+        'password',\n+        'remember_token',\n+    ];\n+\n+    /**\n+     * The attributes that should be cast.\n+     *\n+     * @var array<string, string>\n+     */\n+    protected $casts = [\n+        'email_verified_at' => 'datetime',\n+    ];\n+\n+\n+   \n+\n+\n+\n+ \n+\n+}\n"
                 }
             ],
             "date": 1732472993935,

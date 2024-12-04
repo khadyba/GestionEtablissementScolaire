@@ -3,11 +3,75 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 16,
             "patches": [
                 {
                     "date": 1731406487122,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1733227812021,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,8 +15,9 @@\n      * @return \\Illuminate\\Http\\Response\n      */\n     public function index()\n     {\n+        \n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n"
+                },
+                {
+                    "date": 1733227828490,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,10 @@\n      * @return \\Illuminate\\Http\\Response\n      */\n     public function index()\n     {\n-        \n+        $admin = Auth::guard('admin')->user()->id;\n+\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n"
+                },
+                {
+                    "date": 1733227860109,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,10 +16,9 @@\n      */\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n-\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false;)->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n {\n"
+                },
+                {
+                    "date": 1733227870872,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,10 @@\n      */\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false;)->get();\n+        $admin = Auth::guard('admin')->user()->id;\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false, )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n {\n"
+                },
+                {
+                    "date": 1733227883753,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,10 +16,9 @@\n      */\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n-        $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false, )->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n {\n"
+                },
+                {
+                    "date": 1733227931461,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,8 +5,9 @@\n use App\\Models\\Cours;\n use App\\Models\\Classe;\n use Illuminate\\Http\\Request;\n use App\\Models\\SalleDeClasse;\n+use Illuminate\\Support\\Facades\\Auth;\n \n class SalleDeClasseController extends Controller\n {\n     /**\n@@ -16,9 +17,9 @@\n      */\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  )->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n public function afficherSallesDisponibles($id)\n {\n"
+                },
+                {
+                    "date": 1733227951520,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,8 +20,9 @@\n         $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n+    \n public function afficherSallesDisponibles($id)\n {\n     $classe=Classe::findOrFail($id);\n     $cours = Cours::findOrFail($id);\n"
+                },
+                {
+                    "date": 1733227958157,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,15 +14,16 @@\n      * Display a listing of the resource.\n      *\n      * @return \\Illuminate\\Http\\Response\n      */\n+    \n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n-    \n+\n public function afficherSallesDisponibles($id)\n {\n     $classe=Classe::findOrFail($id);\n     $cours = Cours::findOrFail($id);\n"
+                },
+                {
+                    "date": 1733227966687,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n      * Display a listing of the resource.\n      *\n      * @return \\Illuminate\\Http\\Response\n      */\n-    \n+    // afficher la lis\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n"
+                },
+                {
+                    "date": 1733227973789,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n      * Display a listing of the resource.\n      *\n      * @return \\Illuminate\\Http\\Response\n      */\n-    // afficher la lis\n+    // afficher la liste des salle que l'a\n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n"
+                },
+                {
+                    "date": 1733227979238,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n      * Display a listing of the resource.\n      *\n      * @return \\Illuminate\\Http\\Response\n      */\n-    // afficher la liste des salle que l'a\n+    // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n         $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n"
+                },
+                {
+                    "date": 1733228183074,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,9 +17,9 @@\n      */\n     // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n-        $admin = Auth::guard('admin')->user()->id;\n+        // $admin = Auth::guard('admin')->user()->id;\n         $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n \n"
+                },
+                {
+                    "date": 1733228216402,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n         // $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  $admin )->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  'administrateur_id', auth('admin')->id() )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n \n public function afficherSallesDisponibles($id)\n"
+                },
+                {
+                    "date": 1733228268120,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n         // $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  'administrateur_id', auth('admin')->id() )->get();\n+        $sallesDeClasse = SalleDeClasse::where(  'administrateur_id', auth('admin')->id() )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n \n public function afficherSallesDisponibles($id)\n"
+                },
+                {
+                    "date": 1733228293069,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n         // $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where(  'administrateur_id', auth('admin')->id() )->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  'administrateur_id', auth('admin')->id() )->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n \n public function afficherSallesDisponibles($id)\n"
+                },
+                {
+                    "date": 1733228308429,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n     // afficher la liste des salle que l'admin a créer \n     public function index()\n     {\n         // $admin = Auth::guard('admin')->user()->id;\n-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false,  'administrateur_id', auth('admin')->id() )->get();\n+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();\n         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));\n     }\n \n public function afficherSallesDisponibles($id)\n"
                 }
             ],
             "date": 1731406487122,
