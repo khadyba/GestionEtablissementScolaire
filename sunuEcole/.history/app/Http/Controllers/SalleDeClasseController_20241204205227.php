@@ -22,9 +22,12 @@ class SalleDeClasseController extends Controller
         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)
                                         ->where('admin_id', $admin->id) 
                                         ->get();
+        dd($sallesDeClasse); 
         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
     
+
+
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);
@@ -65,19 +68,20 @@ public function afficherSallesDisponibles($id)
    
      public function store(Request $request)
      {
-          // Étape 1 : Vérifiez si l'admin est récupéré
-          $admin = Auth::guard('admin')->user();
-           if (!$admin) {
-               dd('Admin non connecté.');
-           }
          $validatedData = $request->validate([
              'numéro' => 'required|integer',
              'capaciter' => 'required|integer',
          ]);
      
-       
+         // Étape 1 : Vérifiez si l'admin est récupéré
+         $admin = Auth::guard('admin')->user();
+         if (!$admin) {
+             dd('Admin non connecté.');
+         }
      
-        
+         // Étape 2 : Debug des données avant insertion
+         dd($validatedData, $admin->id);
+     
          // Étape 3 : Insérer la salle de classe
          SalleDeClasse::create([
              'numéro' => $validatedData['numéro'],

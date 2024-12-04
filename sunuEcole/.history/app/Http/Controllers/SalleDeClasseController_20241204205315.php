@@ -18,13 +18,10 @@ class SalleDeClasseController extends Controller
     // afficher la liste des salle que l'admin a créer 
     public function index()
     {
-        $admin = Auth::guard('admin')->user();
-        $sallesDeClasse = SalleDeClasse::where('is_deleted', false)
-                                        ->where('admin_id', $admin->id) 
-                                        ->get();
+        $sallesDeClasse = SalleDeClasse::where('is_deleted', false)->get();
         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
-    
+
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);
@@ -62,34 +59,21 @@ public function afficherSallesDisponibles($id)
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
-     public function store(Request $request)
-     {
-          // Étape 1 : Vérifiez si l'admin est récupéré
-          $admin = Auth::guard('admin')->user();
-           if (!$admin) {
-               dd('Admin non connecté.');
-           }
-         $validatedData = $request->validate([
-             'numéro' => 'required|integer',
-             'capaciter' => 'required|integer',
-         ]);
-     
-       
-     
-        
-         // Étape 3 : Insérer la salle de classe
-         SalleDeClasse::create([
-             'numéro' => $validatedData['numéro'],
-             'capaciter' => $validatedData['capaciter'],
-             'statut' => 'libre',
-             'admin_id' => $admin->id,
-         ]);
-     
-         return redirect()->route('admin.salles-de-classe.index')->with('success', 'Salle de classe ajoutée avec succès.');
-     }
-     
-
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'numéro' => 'required|integer',
+            'capaciter' => 'required|integer',
+        ]);
+    
+        SalleDeClasse::create([
+            'numéro' => $validatedData['numéro'],
+            'capaciter' => $validatedData['capaciter'],
+            'statut' => 'libre',
+        ]);
+    
+        return redirect()->route('admin.salles-de-classe.index')->with('success', 'Salle de classe ajoutée avec succès.');
+    }
 
     /**
      * Display the specified resource.

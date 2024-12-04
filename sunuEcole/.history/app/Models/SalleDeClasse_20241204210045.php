@@ -14,7 +14,7 @@ class SalleDeClasse extends Model
         'capaciter' ,
         'statut' ,
         'is_deleted',
-        'admin_id'
+        
     ];
     public function elevesCours()
     {

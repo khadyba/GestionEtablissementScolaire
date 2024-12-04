@@ -22,9 +22,14 @@ class SalleDeClasseController extends Controller
         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)
                                         ->where('admin_id', $admin->id) 
                                         ->get();
+    
+        dd($sallesDeClasse); 
+    
         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
     
+
+
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);
@@ -62,33 +67,41 @@ public function afficherSallesDisponibles($id)
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
-     public function store(Request $request)
-     {
-          // Étape 1 : Vérifiez si l'admin est récupéré
-          $admin = Auth::guard('admin')->user();
-           if (!$admin) {
-               dd('Admin non connecté.');
-           }
-         $validatedData = $request->validate([
-             'numéro' => 'required|integer',
-             'capaciter' => 'required|integer',
-         ]);
-     
-       
-     
-        
-         // Étape 3 : Insérer la salle de classe
-         SalleDeClasse::create([
-             'numéro' => $validatedData['numéro'],
-             'capaciter' => $validatedData['capaciter'],
-             'statut' => 'libre',
-             'admin_id' => $admin->id,
-         ]);
-     
-         return redirect()->route('admin.salles-de-classe.index')->with('success', 'Salle de classe ajoutée avec succès.');
-     }
-     
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'numéro' => 'required|integer',
+    //         'capaciter' => 'required|integer',
+    //     ]);
+    
+    //     SalleDeClasse::create([
+    //         'numéro' => $validatedData['numéro'],
+    //         'capaciter' => $validatedData['capaciter'],
+    //         'statut' => 'libre',
+    //     ]);
+    
+    //     return redirect()->route('admin.salles-de-classe.index')->with('success', 'Salle de classe ajoutée avec succès.');
+    // }
+    public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'numéro' => 'required|integer',
+        'capaciter' => 'required|integer',
+    ]);
+
+    // Récupérer l'administrateur connecté
+    $admin = Auth::guard('admin')->user();
+
+    // Créer la salle de classe en incluant l'ID de l'administrateur
+    SalleDeClasse::create([
+        'numéro' => $validatedData['numéro'],
+        'capaciter' => $validatedData['capaciter'],
+        'statut' => 'libre',
+        'admin_id' => $admin->id, // Assurez-vous que la colonne admin_id existe dans la table
+    ]);
+
+    return redirect()->route('admin.salles-de-classe.index')->with('success', 'Salle de classe ajoutée avec succès.');
+}
 
 
     /**

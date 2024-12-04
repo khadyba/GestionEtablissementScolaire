@@ -1,0 +1,22 @@
+{
+    "sourceFile": "app/Models/SalleDeClasse.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1733342445886,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1733342464662,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n         'numéro',\n         'capaciter' ,\n         'statut' ,\n         'is_deleted',\n-        \n+        ''\n     ];\n     public function elevesCours()\n     {\n         return $this->hasMany(ElevesCours::class);\n"
+                }
+            ],
+            "date": 1733342445886,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass SalleDeClasse extends Model\n{\n    use HasFactory;\n\n    protected $fillable = [\n        'numéro',\n        'capaciter' ,\n        'statut' ,\n        'is_deleted',\n        \n    ];\n    public function elevesCours()\n    {\n        return $this->hasMany(ElevesCours::class);\n    }\n\n    \n\n}\n"
+        }
+    ]
+}

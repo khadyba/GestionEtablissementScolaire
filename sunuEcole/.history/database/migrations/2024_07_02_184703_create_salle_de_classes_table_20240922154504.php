@@ -19,8 +19,6 @@ return new class extends Migration
             $table->integer('capaciter');
             $table->enum('statut', ['libre', 'occupée'])->default('libre');
             $table->boolean('is_deleted')->default(false); 
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "database/migrations/2024_07_02_184703_create_salle_de_classes_table.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1733342367690,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1733342367690,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse Illuminate\\Database\\Migrations\\Migration;\nuse Illuminate\\Database\\Schema\\Blueprint;\nuse Illuminate\\Support\\Facades\\Schema;\n\nreturn new class extends Migration\n{\n    /**\n     * Run the migrations.\n     *\n     * @return void\n     */\n    public function up()\n    {\n        Schema::create('salle_de_classes', function (Blueprint $table) {\n            $table->id();\n            $table->integer('numéro');\n            $table->integer('capaciter');\n            $table->enum('statut', ['libre', 'occupée'])->default('libre');\n            $table->boolean('is_deleted')->default(false); \n            $table->unsignedBigInteger('admin_id')->nullable();\n            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');\n            $table->timestamps();\n        });\n    }\n\n    /**\n     * Reverse the migrations.\n     *\n     * @return void\n     */\n    public function down()\n    {\n        Schema::dropIfExists('salle_de_classes');\n    }\n};\n"
+        }
+    ]
+}

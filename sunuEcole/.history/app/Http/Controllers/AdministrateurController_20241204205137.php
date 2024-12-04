@@ -26,11 +26,13 @@ class AdministrateurController extends Controller
      *
      * @return \Illuminate\Http\Response
      */   
+        
+
         public function index()
         {
             $admin = Auth::guard('admin')->user();
             $etablissement = Etablissement::where('administrateur_id', $admin->id)->first();
-            $elevesInscrits = collect();
+            $elevesInscrits = collect(); // Initialisation comme collection vide
             $emploisDuTemps = collect();
             $classeId = Classe::where('etablissement_id', $etablissement?->id)->first();
         
@@ -53,7 +55,22 @@ class AdministrateurController extends Controller
             })->get();
             $emploisDuTemps =  collect($emploisDuTemps);        
             return view('Administrateur.admindashboard', compact('elevesInscrits', 'emploisDuTemps', 'classeId'));
-        }   
+        }
+        
+
+
+ 
+        // public function listeElevesInscrits()
+        // {
+        //     $elevesInscrits = Payment::where('statut', 1)
+        //         ->with(['eleve.user.etablissement'])
+        //         ->get()
+        //         ->groupBy('eleve_id');
+        
+        //     dd($elevesInscrits->toArray()); // Vérifiez si les données sont correctement regroupées
+        //     return view('Administrateur.admindashboard', compact('elevesInscrits'));
+        // }
+        
     /**
      * Show the form for creating a new resource.
      *
@@ -74,7 +91,6 @@ class AdministrateurController extends Controller
 
         return view('Administrateur.Professeurs.list', compact('professeurs'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -200,6 +216,7 @@ class AdministrateurController extends Controller
     ];
 
     Mail::to($validatedData['email'])->send(new NouveauCompteMail($identifiants));
+    // Redirection avec un message de succès et les identifiants
     return redirect()->route('list.index')->with([
         'success' => 'Utilisateur créé avec succès.',
         'identifiants' => $identifiants,

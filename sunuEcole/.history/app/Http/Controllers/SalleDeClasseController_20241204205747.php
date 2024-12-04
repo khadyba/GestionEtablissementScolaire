@@ -22,9 +22,12 @@ class SalleDeClasseController extends Controller
         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)
                                         ->where('admin_id', $admin->id) 
                                         ->get();
+        dd($sallesDeClasse); 
         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
     
+
+
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);
@@ -77,7 +80,9 @@ public function afficherSallesDisponibles($id)
      
        
      
-        
+         // Étape 2 : Debug des données avant insertion
+         dd($validatedData, $admin->id);
+     
          // Étape 3 : Insérer la salle de classe
          SalleDeClasse::create([
              'numéro' => $validatedData['numéro'],

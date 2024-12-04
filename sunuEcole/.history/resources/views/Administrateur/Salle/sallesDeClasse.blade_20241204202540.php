@@ -28,29 +28,23 @@
             </tr>
         </thead>
         <tbody>
-    @if($sallesDeClasse->isEmpty())
-        <tr>
-            <td colspan="4" class="text-center">Aucune salle de classe trouvée</td>
-        </tr>
-    @else
-        @foreach ($sallesDeClasse as $salle)
-            <tr>
-                <td>{{ $salle->numéro }}</td>
-                <td>{{ $salle->capaciter }}</td>
-                <td>{{ $salle->statut }}</td>
-                <td>
-                    <a href="{{ route('admin.salles-de-classe.edit', $salle->id) }}" class="btn btn-primary btn-sm me-2">Modifier</a>
-                    <form action="{{ route('admin.salles-de-classe.destroy', $salle->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle de classe ?')">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    @endif
-</tbody>
-
+            @foreach ($sallesDeClasse as $salle)
+                <tr>
+                    <td>{{ $salle->numéro }}</td>
+                    <td>{{ $salle->capaciter }}</td>
+                    <td>{{ $salle->statut }}</td>
+                    <td>
+                        <a href="{{ route('admin.salles-de-classe.edit', $salle->id) }}" class="btn btn-primary btn-sm me-2">Modifier</a>
+                        <form action="{{ route('admin.salles-de-classe.destroy', $salle->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle de classe ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

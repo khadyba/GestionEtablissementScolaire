@@ -22,9 +22,12 @@ class SalleDeClasseController extends Controller
         $sallesDeClasse = SalleDeClasse::where('is_deleted', false)
                                         ->where('admin_id', $admin->id) 
                                         ->get();
+        dd($sallesDeClasse); 
         return view('Administrateur.Salle.sallesDeClasse', compact('sallesDeClasse'));
     }
     
+
+
 public function afficherSallesDisponibles($id)
 {
     $classe=Classe::findOrFail($id);

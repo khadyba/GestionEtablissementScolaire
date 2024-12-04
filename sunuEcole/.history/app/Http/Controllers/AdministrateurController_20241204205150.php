@@ -30,7 +30,7 @@ class AdministrateurController extends Controller
         {
             $admin = Auth::guard('admin')->user();
             $etablissement = Etablissement::where('administrateur_id', $admin->id)->first();
-            $elevesInscrits = collect();
+            $elevesInscrits = collect(); // Initialisation comme collection vide
             $emploisDuTemps = collect();
             $classeId = Classe::where('etablissement_id', $etablissement?->id)->first();
         
@@ -74,7 +74,6 @@ class AdministrateurController extends Controller
 
         return view('Administrateur.Professeurs.list', compact('professeurs'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -200,6 +199,7 @@ class AdministrateurController extends Controller
     ];
 
     Mail::to($validatedData['email'])->send(new NouveauCompteMail($identifiants));
+    // Redirection avec un message de succès et les identifiants
     return redirect()->route('list.index')->with([
         'success' => 'Utilisateur créé avec succès.',
         'identifiants' => $identifiants,

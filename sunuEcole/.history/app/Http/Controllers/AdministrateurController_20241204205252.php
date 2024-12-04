@@ -30,7 +30,7 @@ class AdministrateurController extends Controller
         {
             $admin = Auth::guard('admin')->user();
             $etablissement = Etablissement::where('administrateur_id', $admin->id)->first();
-            $elevesInscrits = collect();
+            $elevesInscrits = collect(); // Initialisation comme collection vide
             $emploisDuTemps = collect();
             $classeId = Classe::where('etablissement_id', $etablissement?->id)->first();
         
